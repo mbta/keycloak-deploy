@@ -1,0 +1,37 @@
+name: Deploy Keycloak Prod
+
+on:
+  workflow_dispatch:
+    inputs:
+      docker_tag:
+        description: 'Docker Tag'
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: Keycloak Prod
+      url: https://login.mbta.com/
+    concurrency: prod
+    env:
+      ECS_CLUSTER: keycloak
+      ECS_SERVICE: keycloak-prod
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: mbta/actions/deploy-ecs@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ecs-cluster: ${{ env.ECS_CLUSTER }}
+          ecs-service: ${{ env.ECS_SERVICE }}
+          # TODO once image is built locally, remove DOCKER_REPO and
+          # get this value from the build-push-ecr step
+          docker-tag: ${{ secrets.DOCKER_REPO }}:${{ github.event.inputs.docker_tag }}
+      - uses: mbta/actions/notify-slack-deploy@v1
+        if: ${{ !cancelled() }}
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          job-status: ${{ job.status }}
