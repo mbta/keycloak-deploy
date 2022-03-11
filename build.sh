@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build --no-cache -t integsoft/keycloak-mbta:1.0.6 .
+docker build --no-cache -t integsoft/keycloak-mbta:1.0.7 .
