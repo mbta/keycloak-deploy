@@ -1,0 +1,19 @@
+embed-server --server-config=standalone-ha.xml --std-out=echo
+
+batch
+
+/subsystem=keycloak-server/:list-add(name=providers,value="module:cz.integsoft.keycloak.browser.authenticator")
+
+/subsystem=logging/logger=cz.integsoft.keycloak:add()
+/subsystem=logging/logger=cz.integsoft.keycloak:write-attribute(name=level, value=DEBUG)
+
+# The cache is not available to SES SPI
+# /subsystem=infinispan/cache-container=keycloak/distributed-cache=codes:add()
+
+/subsystem=keycloak-server/spi=emailSender/:add(default-provider=aws-ses)
+/subsystem=keycloak-server/spi=emailSender/provider=aws-ses/:add(enabled=true)
+/subsystem=keycloak-server/spi=emailSender/provider=aws-ses/:write-attribute(name=properties,value={"region" => "us-east-2"})
+
+run-batch
+
+stop-embedded-server
