@@ -12,7 +12,6 @@ batch
 
 /subsystem=keycloak-server/spi=emailSender/:add(default-provider=aws-ses)
 /subsystem=keycloak-server/spi=emailSender/provider=aws-ses/:add(enabled=true)
-/subsystem=keycloak-server/spi=emailSender/provider=aws-ses/:write-attribute(name=properties,value={"region" => "us-east-2"})
 
 run-batch
 
