@@ -1,61 +1,28 @@
-# keycloak-deploy
+# Keycloak Deploy
 
-These scripts do the following:
+Assets, customizations and tooling to build and deploy Keycloak containers to ECS.
 
-- create a Docker image to run Keycloak (based on the `jboss/keycloak` image)
-- upload that image to AWS Elastic Container Service
-- deploy an environmment using that image to AWS Elastic Beanstalk
+## Building &amp; Deploying
 
-## Usage
+This repo contains GitHub Actions workflows for:
 
-```
-$ semaphore/build_push.sh dev
-$ semaphore/deploy.sh dev
-```
+- Building a Docker container image whenever a git tag is created
+- Deploying to Keycloak Dev whenever changes are merged to the main branch
+- Deploying pre-existing tags to Keycloak Prod
 
-## Requirements
+These workflows are designed to support the following code deployment process:
 
-- an RDS PostgreSQL database, configured with a user accessible with IAM access
+1. Propose changes in a pull request and have them reviwed.
+1. When the pull request is approved, merge it into the main branch. This will automatically trigger the [Deploy Keycloak Dev](https://github.com/mbta/keycloak-deploy/actions/workflows/deploy-dev.yml) workflow.
+1. Confirm that Keycloak Dev is in a good state after the deploy.
+1. [Create a new Release](https://github.com/mbta/keycloak-deploy/releases) in GitHub. In the release creation form:
+   - Create a new tag for the release. The tag should start with the letter `v` and use [semantic versioning](https://semver.org/), e.g. `v1.0.3`.
+   - Set the release title to match the tag
+   - In the release description, note the changes that are part of this release
+   When the release is created, the [Build Container Image](https://github.com/mbta/keycloak-deploy/actions/workflows/build-image.yml) workflow will run automatically to build an image with the corresponding tag and push it to ECR.
+1. Deploy to production by running the [Deploy Keycloak Prod](https://github.com/mbta/keycloak-deploy/actions/workflows/deploy-prod.yml) workflow, passing the newly created tag.
 
-### RDS configuration
+## Maintainers
 
-To create an IAM user, run the following in the database:
-
-```
-create user USER with login;
-grant rds_iam to USER;
-grant connect on database DATABASE_NAME to USER;
-grant usage on schema public to USER;
-alter default privileges in schema public grant all privileges on tables to USER;
-alter default privileges in schema public grant all privileges on sequences to USER;
-```
-
-## Configuration
-
-The following environment variables should be configured locally, in order to deploy to Elastic Beanstalk:
-
-- `APP` - the Elastic Beanstalk application
-- `DOCKER_REPO` - the Elastic Container Service Docker repository
-- `S3_BUCKET_NAME` - the S3 bucket to which Elastic Beanstalk versions are uploaded
-
-The following environment variables should be configured in the Elastic Beanstalk environment:
-
-- `DB_REGION` - the region the database server is running in
-- `DB_NAME` - the name of the database
-- `DB_ADDR` - the hostname of the database server
-- `DB_PORT` - the port of the database server
-- `DB_USER` - the username for the database
-- `KEYCLOAK_HOSTNAME` - the public hostname for Keycloak
-- `KEYCLOAK_ADMIN_USER_SECRET` - an AWS Secrets Manager secret with the
-  username/password for the default admin user
-
-## TODOs
-
-- [] have the load balancer connect to Nginx over TLS
-- [] test that multiple instances connect via the database appropriately
-
-## Kudos
-
-Thank you to
-[dasniko/keycloak-docker-aws](https://github.com/dasniko/keycloak-docker-aws)
-for help with the JDBC_PING adapter and getting data from AWS Secrets Manager.
+- [Integsoft](https://www.integsoft.com/home.html)
+- [MBTA Customer Technology](https://ctd.mbta.com/)
