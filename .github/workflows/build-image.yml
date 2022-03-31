@@ -1,0 +1,25 @@
+name: Build Container Image
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-image:
+    name: Build Container Image
+    runs-on: ubuntu-latest
+    concurrency: build-image
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get pushed tag name
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - uses: mbta/actions/build-push-ecr@v1
+        id: build-push
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          docker-repo: ${{ secrets.DOCKER_REPO }}
+          docker-additional-tags: ${{ steps.vars.outputs.tag }}
