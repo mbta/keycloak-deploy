@@ -4,7 +4,7 @@
         ${msg("emailForgotTitle")}
     <#elseif section = "form">
     	<div class="container">
-    		<h1>${kcSanitize(msg("emailForgotTitle"))?no_esc}</h1>
+    		<h1>${msg('emailForgotTitle')}</h1>
 			<#if message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>
 				<#if message.type = 'success'><span class="${properties.kcFeedbackSuccessIcon!}"></span>
 					<div class="form-group">

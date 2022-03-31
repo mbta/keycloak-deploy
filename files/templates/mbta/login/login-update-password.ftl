@@ -4,6 +4,18 @@
         ${msg("updatePasswordTitle")}
     <#elseif section = "form">
     	<div class="container">
+    		<h1>${msg('emailSetPasswordTitle')}</h1>
+    		<div class="form-group">
+	    		<div class="form-message-container form-info" role="alert">
+	            	<strong class="form-message-summary">${msg('resetpassword.info.title')}</strong>
+	            	<ul>
+	                	<li class="form-message-text">${msg('resetpassword.info.uppercase')}</li>
+	                	<li class="form-message-text">${msg('resetpassword.info.lowercase')}</li>
+	                	<li class="form-message-text">${msg('resetpassword.info.number')}</li>
+	                	<li class="form-message-text">${msg('resetpassword.info.specialchar')}</li>
+	            	</ul>
+	            </div>
+	        </div>
     		<#if message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>
 				<#if message.type = 'success'><span class="${properties.kcFeedbackSuccessIcon!}"></span>
 					<div class="form-group">
@@ -15,7 +27,7 @@
 	                    </div>
 	                </div>
 				</#if>
-				<#if message.type = 'warning'>
+				<#if message.type = 'warning' && message.summary != msg('resetPasswordMessage') && message.summary != msg('updatePasswordMessage')>
 					<div class="form-group">
 	                    <div class="form-message-container form-warning" role="alert">
 	                        <strong class="form-message-summary">${msg('message.warning')}</strong>
@@ -46,7 +58,7 @@
 	                </div>
 				</#if>	
 			</#if>
-	        <form action="${url.loginAction}" method="post">
+	        <form action="${url.loginAction}" class="form" method="post">
 	            <input type="text" id="username" name="username" value="${username}" autocomplete="username"
 	                   readonly="readonly" style="display:none;"/>
 	            <input type="password" id="password" name="password" autocomplete="current-password" style="display:none;"/>
