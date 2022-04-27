@@ -83,12 +83,6 @@
 	                           value="${(register.formData.email!'')}" autocomplete="email"
 	                           aria-invalid="<#if messagesPerField.existsError('email')>true</#if>"
 	                    />
-	
-	                    <#if messagesPerField.existsError('email')>
-	                        <span id="input-error-email" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
-	                            ${kcSanitize(messagesPerField.get('email'))?no_esc}
-	                        </span>
-	                    </#if>
 	            </div>
 	
 	            <#if !realm.registrationEmailAsUsername>
