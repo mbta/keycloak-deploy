@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  keycloak:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - KEYCLOAK_USER=kc_username
+      - KEYCLOAK_PASSWORD=kc_password
+      - PROXY_ADDRESS_FORWARDING=false
+      - KEYCLOAK_LOGLEVEL=INFO
+      - ROOT_LOGLEVEL=INFO
+      - DB_VENDOR=mariadb
+      - DB_ADDR=mariadb
+      - DB_DATABASE=keycloak
+      - DB_USER=keycloak
+      - DB_PASSWORD=keycloak
+      - JDBC_PARAMS=autoreconnect=true
+      - JAVA_OPTS_APPEND=-Xmx1500m -Djboss.bind.address=0.0.0.0
+      - CACHE_OWNERS_COUNT=1
+      - CACHE_OWNERS_AUTH_SESSIONS_COUNT=1
+      - JGROUPS_DISCOVERY_PROTOCOL=JDBC_PING
+      - JGROUPS_DISCOVERY_PROPERTIES=datasource_jndi_name=java:jboss/datasources/KeycloakDS,remove_old_coords_on_view_change=true
+      - AWS_REGION=us-east-1
+    links:
+      - mariadb
+  mariadb:
+    image: mariadb:latest
+    environment:
+      - MARIADB_USER=keycloak
+      - MARIADB_PASSWORD=keycloak
+      - MARIADB_DATABASE=keycloak
+      - MARIADB_RANDOM_ROOT_PASSWORD=true
