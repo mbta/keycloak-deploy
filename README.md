@@ -22,6 +22,8 @@ These workflows are designed to support the following code deployment process:
    When the release is created, the [Build Container Image](https://github.com/mbta/keycloak-deploy/actions/workflows/build-image.yml) workflow will run automatically to build an image with the corresponding tag and push it to ECR.
 1. Deploy to production by running the [Deploy Keycloak Prod](https://github.com/mbta/keycloak-deploy/actions/workflows/deploy-prod.yml) workflow, passing the newly created tag.
 
+There may be some configuration updates necessary following deployment to Production. Be sure to coordinate deployment timing with Integsoft so they can update configuration as needed
+
 ### Required Environment Variables
 
 The GitHub Actions workflows require the following variables to be set in the "Secrets" section of the repo settings:
