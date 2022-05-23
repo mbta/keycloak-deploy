@@ -2,6 +2,15 @@
 
 Assets, customizations and tooling to build and deploy Keycloak containers to ECS.
 
+## Testing locally
+
+You can use the container locally for testing with Docker Compose:
+
+```bash
+$ docker compose up
+$ open http://localhost:8080/
+```
+
 ## Building &amp; Deploying
 
 This repo contains GitHub Actions workflows for:
