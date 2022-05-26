@@ -11,7 +11,9 @@
 	                    <div class="form-message-container form-success" role="alert">
 	                        <strong class="form-message-summary">${msg('message.success')}</strong>
 	                        <ul>
-	                            <li class="form-message-text">${kcSanitize(message.summary)?no_esc}</li>
+	                            <#list message.summary?split("<br>") as oneMessage>
+									<li class="form-message-text">${kcSanitize(oneMessage)?no_esc}</li>
+								</#list>
 	                        </ul>                    
 	                    </div>
 	                </div>
@@ -21,7 +23,9 @@
 	                    <div class="form-message-container form-warning" role="alert">
 	                        <strong class="form-message-summary">${msg('message.warning')}</strong>
 	                        <ul>
-	                            <li class="form-message-text">${kcSanitize(message.summary)?no_esc}</li>
+	                            <#list message.summary?split("<br>") as oneMessage>
+									<li class="form-message-text">${kcSanitize(oneMessage)?no_esc}</li>
+								</#list>
 	                        </ul>
 	                    </div>
 	                </div>
@@ -31,7 +35,9 @@
 						<div class="form-message-container form-error" role="alert">
 							<strong class="form-message-summary">${msg('message.error')}</strong>
 							<ul>
-								<li class="form-message-text">${kcSanitize(message.summary)?no_esc}</li>
+								<#list message.summary?split("<br>") as oneMessage>
+									<li class="form-message-text">${kcSanitize(oneMessage)?no_esc}</li>
+								</#list>
 							</ul>
 						</div>
 					</div>
@@ -41,7 +47,9 @@
 	                    <div class="form-message-container form-info" role="alert">
 	                        <strong class="form-message-summary">${msg('message.info')}</strong>
 	                        <ul>
-	                            <li class="form-message-text">${kcSanitize(message.summary)?no_esc}</li>
+	                            <#list message.summary?split("<br>") as oneMessage>
+									<li class="form-message-text">${kcSanitize(oneMessage)?no_esc}</li>
+								</#list>
 	                        </ul>
 	                    </div>
 	                </div>
