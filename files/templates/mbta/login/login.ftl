@@ -61,9 +61,15 @@
 	            	<div class="form-group">
                         <label class="form-input-label" for="form-input-email"><#if !realm.loginWithEmailAllowed>${msg("username")}<#elseif !realm.registrationEmailAsUsername>${msg("usernameOrEmail")}<#else>${msg("email")}</#if></label>
                         <#if usernameEditDisabled??>
-	                        <input id="form-input-email" class="form-input" name="username" value="${(login.username!'')}" type="email" disabled />
+	                        <input id="form-input-email" class="form-input" name="username" value="${(login.username!'')}" type="text" disabled />
 	                    <#else>
-	                        <input id="form-input-email" class="form-input" name="username" value="${(login.username!'')}" type="email" autofocus autocomplete="off" />
+	                    	<#if !realm.loginWithEmailAllowed>
+	                    		<input id="form-input-email" class="form-input" name="username" value="${(login.username!'')}" type="text" autofocus autocomplete="off" />
+	                    	<#elseif !realm.registrationEmailAsUsername>
+	                    		<input id="form-input-email" class="form-input" name="username" value="${(login.username!'')}" type="text" autofocus autocomplete="off" />
+	                    	<#else>
+	                    		<input id="form-input-email" class="form-input" name="username" value="${(login.username!'')}" type="email" autofocus autocomplete="off" />
+	                    	</#if>
 	                    </#if>
                     </div>
                     <div class="form-group">
