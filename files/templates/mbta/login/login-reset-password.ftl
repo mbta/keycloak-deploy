@@ -59,7 +59,13 @@
 	        <form action="${url.loginAction}" method="post">
 	        	<div class="form-group">
 					<label for="form-input-email" class="form-input-label<#if messagesPerField.existsError('username')> label-error</#if>"><#if !realm.loginWithEmailAllowed>${msg("username")}<#elseif !realm.registrationEmailAsUsername>${msg("usernameOrEmail")}<#else>${msg("email")}</#if></label>
-					<input type="email" id="form-input-email" name="username" class="form-input<#if messagesPerField.existsError('username')> input-error</#if>" value="${(auth.attemptedUsername!'')}" />
+					<#if !realm.loginWithEmailAllowed>
+						<input type="text" id="form-input-email" name="username" class="form-input<#if messagesPerField.existsError('username')> input-error</#if>" value="${(auth.attemptedUsername!'')}" />
+					<#elseif !realm.registrationEmailAsUsername>
+						<input type="text" id="form-input-email" name="username" class="form-input<#if messagesPerField.existsError('username')> input-error</#if>" value="${(auth.attemptedUsername!'')}" />
+					<#else>
+						<input type="email" id="form-input-email" name="username" class="form-input<#if messagesPerField.existsError('username')> input-error</#if>" value="${(auth.attemptedUsername!'')}" />
+					</#if>
 				</div>
 				<div class="form-group submit-group">
 					<input type="submit" value="${msg("doSubmit")}" id="submit" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}"/>
