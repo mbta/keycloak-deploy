@@ -21,6 +21,9 @@ COPY files/startup-scripts/* /opt/jboss/startup-scripts/
 # copy custom modules
 RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/modules/* $JBOSS_HOME/modules/"]
 
+# copy welcome page
+RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/welcome-content/* $JBOSS_HOME/welcome-content/"]
+
 # copy templates
 RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/templates/* $JBOSS_HOME/themes/"]
 
