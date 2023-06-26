@@ -1,10 +1,10 @@
-FROM jboss/keycloak:15.0.2
+FROM index.docker.io/jboss/keycloak:15.0.2
 
 LABEL maintainer="support@integrationeye.com"
 LABEL builder="Integsoft s.r.o"
 LABEL description="MBTA Keycloak"
 
-ENV INSTALL_FOLDER=/tmp/files/
+ENV INSTALL_FOLDER=/tmp/files
 
 USER root
 # install system tools and update system
@@ -15,7 +15,8 @@ RUN ["/bin/bash", "-c", "microdnf update -y && microdnf install -y vim"]
 USER jboss
 
 # copy build scripts and related data
-COPY files/ $INSTALL_FOLDER
+COPY files/ $INSTALL_FOLDER/
+
 # copy CLI scripts (in this version it is not supported to use startup-scripts variable
 COPY files/startup-scripts/* /opt/jboss/startup-scripts/
 # copy custom modules

@@ -141,6 +141,10 @@ h3 {
     text-align: left;
     margin-bottom: 0.375rem;
 }
+.form-input-label span {
+	font-weight:300;
+	color: #525766;
+}
 
 .form-input {
     width: 100%;
@@ -428,4 +432,26 @@ a:visited {
 .fa-share-square {
     margin: 1rem;
 }
-
+.hidden {
+    display: none !important;
+}
+.input-group {
+	display: flex;
+	gap: 1em;
+}
+.form-select {
+	border: 1px solid #165c96;
+	border-radius: 4px;
+	padding: 12px;
+	font-size: 16px;
+}
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}

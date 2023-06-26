@@ -3,7 +3,7 @@
     <#if section = "header">
         ${msg("confirmLinkIdpTitle")}
     <#elseif section = "form">
-        <div class="container">
+        <div class="container" role="main">
 			<#if message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>
 				<#if message.type = 'success'><span class="${properties.kcFeedbackSuccessIcon!}"></span>
 					<div class="form-group">

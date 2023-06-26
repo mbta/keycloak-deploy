@@ -1,10 +1,10 @@
 <#import "template.ftl" as layout>
-<@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','email','firstName','lastName'); section>
+<@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','email','firstName','lastName','user.attributes.phone'); section>
     <#if section = "header">
         ${msg("loginProfileTitle")}
     <#elseif section = "form">
-    	<div class="container">
-    		<h1>${msg("registerTitle")}</h1>
+    	<div class="container" role="main">
+    		<h1>${msg("loginProfileTitle")}</h1>
 			<#if message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>
 				<#if message.type = 'success'><span class="${properties.kcFeedbackSuccessIcon!}"></span>
 					<div class="form-group">
@@ -67,9 +67,11 @@
 		                />
 	
 	                    <#if messagesPerField.existsError('username')>
-							<span id="input-error-username" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
-								${kcSanitize(messagesPerField.get('username'))?no_esc}
-							</span>
+							<div class="instructions-container">
+								<span id="input-error-username" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
+									${kcSanitize(messagesPerField.get('username'))?no_esc}
+								</span>
+							</div>
 						</#if>
 	                </div>
 	            </#if>
@@ -77,13 +79,15 @@
 	                <label for="email" class="form-input-label<#if messagesPerField.existsError('email')> label-error</#if>">${msg("email")}</label>
 	                <input type="text" id="email" name="email" value="${(user.email!'')}"
 	                	class="form-input<#if messagesPerField.existsError('email')> input-error</#if>
-	                    aria-invalid="<#if messagesPerField.existsError('email')>true</#if>"
+	                    aria-invalid="<#if messagesPerField.existsError('email')>true</#if>" <#if user.email?? && user.email?contains("@mbta.com")>readonly style="border-color: #999; color: #999;"</#if>
 	                />
 	
 	                <#if messagesPerField.existsError('email')>
-	                	<span id="input-error-email" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
-	                    	${kcSanitize(messagesPerField.get('email'))?no_esc}
-	                    </span>
+	                	<div class="instructions-container">
+		                	<span id="input-error-email" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
+		                    	${kcSanitize(messagesPerField.get('email'))?no_esc}
+		                    </span>
+		                </div>
 	                </#if>
 	            </div>
 	
@@ -95,9 +99,11 @@
 	                />
 	
 	                <#if messagesPerField.existsError('firstName')>
-	                	<span id="input-error-firstname" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
-	                    	${kcSanitize(messagesPerField.get('firstName'))?no_esc}
-	                    </span>
+	                	<div class="instructions-container">
+		                	<span id="input-error-firstname" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
+		                    	${kcSanitize(messagesPerField.get('firstName'))?no_esc}
+		                    </span>
+		                </div>
 	                </#if>
 	            </div>
 	
@@ -109,18 +115,42 @@
 					/>
 	
 					<#if messagesPerField.existsError('lastName')>
-						<span id="input-error-lastname" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
-							${kcSanitize(messagesPerField.get('lastName'))?no_esc}
-						</span>
+						<div class="instructions-container">
+							<span id="input-error-lastname" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
+								${kcSanitize(messagesPerField.get('lastName'))?no_esc}
+							</span>
+						</div>
+					</#if>
+	            </div>
+	            
+	            <div class="form-group">
+	            	<label for="user.attributes.phone" class="form-input-label<#if messagesPerField.existsError('user.attributes.phone_number')> label-error</#if>">${msg("user.attributes.phone")}  <span>${msg("user.attributes.phone.span")}</label>
+	                <div class="input-group">
+	                	<label class="visually-hidden" for="user.attributes.areacode">${msg("countryCode")}</label>
+		                <select id="user.attributes.areacode" class="form-select<#if messagesPerField.existsError('user.attributes.phone_number')> input-error</#if>" name="user.attributes.areacode">
+		                    	<option value="+1">US / +1</option>
+		                </select>
+		                <input type="tel" id="user.attributes.phone" name="user.attributes.phone_number" value="${(user.attributes.phone_number!'')}"
+							class="form-input<#if messagesPerField.existsError('user.attributes.phone_number')> input-error</#if> placeholder="###-###-####"
+							aria-invalid="<#if messagesPerField.existsError('user.attributes.phone_number')>true</#if>"
+						/>
+					</div>
+	
+					<#if messagesPerField.existsError('user.attributes.phone_number')>
+						<div class="instructions-container">
+							<span id="input-error-lastname" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
+								${kcSanitize(messagesPerField.get('user.attributes.phone_number'))?no_esc}
+							</span>
+						</div>
 					</#if>
 	            </div>
 	
 	            <div class="form-group submit-group">
 	            	<#if isAppInitiatedAction??>
-		            	<input id="submit" type="submit" value="${msg("doSubmit")}" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" />
-		                <button type="submit" name="cancel-aia" value="true" />${msg("doCancel")}</button>
+		            	<input id="submit" type="submit" value="${msg("doSubmitUpdateProfile")}" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" />
+		                <button id="cancel" type="submit" name="cancel-aia" value="true" />${msg("doCancel")}</button>
 	                <#else>
-	                	<input id="submit" type="submit" value="${msg("doSubmit")}" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" />
+	                	<input id="submit" type="submit" value="${msg("doSubmitUpdateProfile")}" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" />
 	                </#if>
 	            </div>
 	        </form>
