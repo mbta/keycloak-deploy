@@ -16,10 +16,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * limitations under the License.
  */
 import * as React from "../../common/keycloak/web_modules/react.js";
-import { Dropdown, KebabToggle, Toolbar, ToolbarGroup, ToolbarItem } from "../../common/keycloak/web_modules/@patternfly/react-core.js";
-import { ReferrerDropdownItem } from "./widgets/ReferrerDropdownItem.js";
+import { Toolbar, ToolbarGroup, ToolbarItem } from "../../common/keycloak/web_modules/@patternfly/react-core.js";
 import { ReferrerLink } from "./widgets/ReferrerLink.js";
-import { LogoutButton, LogoutDropdownItem } from "./widgets/Logout.js";
+import { LogoutButton } from "./widgets/Logout.js";
 export class PageToolbar extends React.Component {
   constructor(props) {
     super(props);
@@ -38,40 +37,23 @@ export class PageToolbar extends React.Component {
   }
 
   render() {
-    const kebabDropdownItems = [];
-
-    if (this.hasReferrer) {
-      kebabDropdownItems.push(React.createElement(ReferrerDropdownItem, {
-        key: "referrerDropdownItem"
-      }));
-    }
-
-    kebabDropdownItems.push(React.createElement(LogoutDropdownItem, {
-      key: "LogoutDropdownItem"
-    }));
-    return React.createElement(Toolbar, null, this.hasReferrer && React.createElement(ToolbarGroup, {
-      key: "referrerGroup"
-    }, React.createElement(ToolbarItem, {
+    return /*#__PURE__*/React.createElement(Toolbar, null, this.hasReferrer && /*#__PURE__*/React.createElement(ToolbarGroup, {
+      key: "referrerGroup",
+      alignment: {
+        default: "alignRight"
+      }
+    }, /*#__PURE__*/React.createElement(ToolbarItem, {
       className: "pf-m-icons",
       key: "referrer"
-    }, React.createElement(ReferrerLink, null))), React.createElement(ToolbarGroup, {
-      key: "secondGroup"
-    }, React.createElement(ToolbarItem, {
+    }, /*#__PURE__*/React.createElement(ReferrerLink, null))), /*#__PURE__*/React.createElement(ToolbarGroup, {
+      key: "secondGroup",
+      alignment: {
+        default: "alignRight"
+      }
+    }, /*#__PURE__*/React.createElement(ToolbarItem, {
       className: "pf-m-icons",
       key: "logout"
-    }, React.createElement(LogoutButton, null)), React.createElement(ToolbarItem, {
-      key: "kebab",
-      className: "pf-m-mobile"
-    }, React.createElement(Dropdown, {
-      isPlain: true,
-      position: "right",
-      toggle: React.createElement(KebabToggle, {
-        id: "mobileKebab",
-        onToggle: this.onKebabDropdownToggle
-      }),
-      isOpen: this.state.isKebabDropdownOpen,
-      dropdownItems: kebabDropdownItems
-    }))));
+    }, /*#__PURE__*/React.createElement(LogoutButton, null))));
   }
 
 }

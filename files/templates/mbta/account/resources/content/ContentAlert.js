@@ -86,19 +86,19 @@ export class ContentAlert extends React.Component {
   }
 
   render() {
-    return React.createElement(AlertGroup, {
+    return /*#__PURE__*/React.createElement(AlertGroup, {
       isToast: true,
       "aria-live": "assertive"
     }, this.state.alerts.map(({
       key,
       variant,
       message
-    }) => React.createElement(Alert, {
+    }) => /*#__PURE__*/React.createElement(Alert, {
       "aria-details": message,
       isLiveRegion: true,
       variant: variant,
       title: message,
-      action: React.createElement(AlertActionCloseButton, {
+      actionClose: /*#__PURE__*/React.createElement(AlertActionCloseButton, {
         title: message,
         variantLabel: `${variant} alert`,
         onClose: () => this.hideAlert(key)

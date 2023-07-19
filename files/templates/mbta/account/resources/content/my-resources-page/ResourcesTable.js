@@ -16,8 +16,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * limitations under the License.
  */
 import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { DataList, DataListItem, DataListItemRow, DataListCell, DataListToggle, DataListContent, DataListItemCells, Level, LevelItem, Button, DataListAction, DataListActionVisibility, Dropdown, DropdownPosition, DropdownItem, KebabToggle } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
-import { css } from "../../../../common/keycloak/web_modules/@patternfly/react-styles.js";
+import { DataList, DataListItem, DataListItemRow, DataListCell, DataListToggle, DataListContent, DataListItemCells, Level, LevelItem, Button, DataListAction, Dropdown, DropdownPosition, DropdownItem, KebabToggle } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
 import { Remove2Icon, RepositoryIcon, ShareAltIcon, EditAltIcon } from "../../../../common/keycloak/web_modules/@patternfly/react-icons.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
 import { PermissionRequest } from "./PermissionRequest.js";
@@ -90,89 +89,91 @@ export class ResourcesTable extends AbstractResourcesTable {
 
   render() {
     if (this.props.resources.data.length === 0) {
-      return React.createElement(EmptyMessageState, {
+      return /*#__PURE__*/React.createElement(EmptyMessageState, {
         icon: RepositoryIcon,
         messageKey: "notHaveAnyResource"
       });
     }
 
-    return React.createElement(DataList, {
+    return /*#__PURE__*/React.createElement(DataList, {
       "aria-label": Msg.localize('resources'),
       id: "resourcesList"
-    }, React.createElement(DataListItem, {
+    }, /*#__PURE__*/React.createElement(DataListItem, {
       key: "resource-header",
       "aria-labelledby": "resource-header"
-    }, React.createElement(DataListItemRow, null, "// invisible toggle allows headings to line up properly", React.createElement("span", {
+    }, /*#__PURE__*/React.createElement(DataListItemRow, null, "// invisible toggle allows headings to line up properly", /*#__PURE__*/React.createElement("span", {
       style: {
         visibility: 'hidden'
       }
-    }, React.createElement(DataListToggle, {
+    }, /*#__PURE__*/React.createElement(DataListToggle, {
       isExpanded: false,
       id: "resource-header-invisible-toggle",
       "aria-controls": "ex-expand1"
-    })), React.createElement(DataListItemCells, {
-      dataListCells: [React.createElement(DataListCell, {
+    })), /*#__PURE__*/React.createElement(DataListItemCells, {
+      dataListCells: [/*#__PURE__*/React.createElement(DataListCell, {
         key: "resource-name-header",
         width: 5
-      }, React.createElement("strong", null, React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(Msg, {
         msgKey: "resourceName"
-      }))), React.createElement(DataListCell, {
+      }))), /*#__PURE__*/React.createElement(DataListCell, {
         key: "application-name-header",
         width: 5
-      }, React.createElement("strong", null, React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(Msg, {
         msgKey: "application"
-      }))), React.createElement(DataListCell, {
+      }))), /*#__PURE__*/React.createElement(DataListCell, {
         key: "permission-request-header",
         width: 5
-      }, React.createElement("strong", null, React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(Msg, {
         msgKey: "permissionRequests"
       })))]
-    }))), this.props.resources.data.map((resource, row) => React.createElement(DataListItem, {
+    }))), this.props.resources.data.map((resource, row) => /*#__PURE__*/React.createElement(DataListItem, {
       key: 'resource-' + row,
       "aria-labelledby": resource.name,
       isExpanded: this.state.isRowOpen[row]
-    }, React.createElement(DataListItemRow, null, React.createElement(DataListToggle, {
+    }, /*#__PURE__*/React.createElement(DataListItemRow, null, /*#__PURE__*/React.createElement(DataListToggle, {
       onClick: () => this.onToggle(row),
       isExpanded: this.state.isRowOpen[row],
       id: 'resourceToggle-' + row,
       "aria-controls": "ex-expand1"
-    }), React.createElement(DataListItemCells, {
-      dataListCells: [React.createElement(DataListCell, {
+    }), /*#__PURE__*/React.createElement(DataListItemCells, {
+      dataListCells: [/*#__PURE__*/React.createElement(DataListCell, {
         id: 'resourceName-' + row,
         key: 'resourceName-' + row,
         width: 5
-      }, React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement(Msg, {
         msgKey: resource.name
-      })), React.createElement(DataListCell, {
+      })), /*#__PURE__*/React.createElement(DataListCell, {
         id: 'resourceClient-' + row,
         key: 'resourceClient-' + row,
         width: 5
-      }, React.createElement("a", {
+      }, /*#__PURE__*/React.createElement("a", {
         href: resource.client.baseUrl
-      }, this.getClientName(resource.client))), React.createElement(DataListCell, {
+      }, this.getClientName(resource.client))), /*#__PURE__*/React.createElement(DataListCell, {
         id: 'resourceRequests-' + row,
         key: 'permissionRequests-' + row,
         width: 5
-      }, resource.shareRequests.length > 0 && React.createElement(PermissionRequest, {
+      }, resource.shareRequests.length > 0 && /*#__PURE__*/React.createElement(PermissionRequest, {
         resource: resource,
         onClose: () => this.fetchPermissions(resource, row)
       }))]
-    }), React.createElement(DataListAction, {
-      className: DataListActionVisibility.hiddenOnLg,
+    }), /*#__PURE__*/React.createElement(DataListAction, {
+      visibility: {
+        lg: 'hidden'
+      },
       "aria-labelledby": "check-action-item3 check-action-action3",
       id: "check-action-action3",
       "aria-label": "Actions"
-    }, React.createElement(Dropdown, {
+    }, /*#__PURE__*/React.createElement(Dropdown, {
       isPlain: true,
       position: DropdownPosition.right,
       onSelect: () => this.setState({
         isModalActive: true
       }),
-      toggle: React.createElement(KebabToggle, {
+      toggle: /*#__PURE__*/React.createElement(KebabToggle, {
         onToggle: isOpen => this.onContextToggle(row + this.props.resources.data.length + 1, isOpen)
       }),
       isOpen: this.state.contextOpen[row + this.props.resources.data.length + 1],
-      dropdownItems: [React.createElement(ShareTheResource, {
+      dropdownItems: [/*#__PURE__*/React.createElement(ShareTheResource, {
         resource: resource,
         permissions: this.state.permissions.get(row),
         sharedWithUsersMsg: this.sharedWithUsersMessage(row),
@@ -184,13 +185,13 @@ export class ResourcesTable extends AbstractResourcesTable {
             this.fetchPermissions(resource, row + this.props.resources.data.length + 1);
           });
         }
-      }, toggle => React.createElement(DropdownItem, {
+      }, toggle => /*#__PURE__*/React.createElement(DropdownItem, {
         id: 'mob-share-' + row,
         key: "mob-share",
         onClick: toggle
-      }, React.createElement(ShareAltIcon, null), " ", React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement(ShareAltIcon, null), " ", /*#__PURE__*/React.createElement(Msg, {
         msgKey: "share"
-      }))), React.createElement(EditTheResource, {
+      }))), /*#__PURE__*/React.createElement(EditTheResource, {
         resource: resource,
         permissions: this.state.permissions.get(row),
         onClose: () => {
@@ -201,20 +202,20 @@ export class ResourcesTable extends AbstractResourcesTable {
             this.fetchPermissions(resource, row + this.props.resources.data.length + 1);
           });
         }
-      }, toggle => React.createElement(DropdownItem, {
+      }, toggle => /*#__PURE__*/React.createElement(DropdownItem, {
         id: 'mob-edit-' + row,
         key: "mob-edit",
         isDisabled: this.numOthers(row) < 0,
         onClick: toggle
-      }, React.createElement(EditAltIcon, null), " ", React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement(EditAltIcon, null), " ", /*#__PURE__*/React.createElement(Msg, {
         msgKey: "edit"
-      }))), React.createElement(ContinueCancelModal, {
-        render: toggle => React.createElement(DropdownItem, {
+      }))), /*#__PURE__*/React.createElement(ContinueCancelModal, {
+        render: toggle => /*#__PURE__*/React.createElement(DropdownItem, {
           id: 'mob-remove-' + row,
           key: "mob-remove",
           isDisabled: this.numOthers(row) < 0,
           onClick: toggle
-        }, React.createElement(Remove2Icon, null), " ", React.createElement(Msg, {
+        }, /*#__PURE__*/React.createElement(Remove2Icon, null), " ", /*#__PURE__*/React.createElement(Msg, {
           msgKey: "unShare"
         })),
         modalTitle: "unShare",
@@ -226,34 +227,37 @@ export class ResourcesTable extends AbstractResourcesTable {
         }),
         onContinue: () => this.removeShare(resource, row).then(() => this.fetchPermissions(resource, row + this.props.resources.data.length + 1))
       })]
-    })), React.createElement(DataListAction, {
+    })), /*#__PURE__*/React.createElement(DataListAction, {
       id: `actions-${row}`,
-      className: css(DataListActionVisibility.visibleOnLg, DataListActionVisibility.hidden),
+      visibility: {
+        default: 'hidden',
+        lg: 'visible'
+      },
       "aria-labelledby": "Row actions",
       "aria-label": "Actions"
-    }, React.createElement(ShareTheResource, {
+    }, /*#__PURE__*/React.createElement(ShareTheResource, {
       resource: resource,
       permissions: this.state.permissions.get(row),
       sharedWithUsersMsg: this.sharedWithUsersMessage(row),
       onClose: () => this.fetchPermissions(resource, row)
-    }, toggle => React.createElement(Button, {
+    }, toggle => /*#__PURE__*/React.createElement(Button, {
       id: `share-${row}`,
       variant: "link",
       onClick: toggle
-    }, React.createElement(ShareAltIcon, null), " ", React.createElement(Msg, {
+    }, /*#__PURE__*/React.createElement(ShareAltIcon, null), " ", /*#__PURE__*/React.createElement(Msg, {
       msgKey: "share"
-    }))), React.createElement(Dropdown, {
+    }))), /*#__PURE__*/React.createElement(Dropdown, {
       id: `action-menu-${row}`,
       isPlain: true,
       position: DropdownPosition.right,
-      toggle: React.createElement(KebabToggle, {
+      toggle: /*#__PURE__*/React.createElement(KebabToggle, {
         onToggle: isOpen => this.onContextToggle(row, isOpen)
       }),
       onSelect: () => this.setState({
         isModalActive: true
       }),
       isOpen: this.state.contextOpen[row],
-      dropdownItems: [React.createElement(EditTheResource, {
+      dropdownItems: [/*#__PURE__*/React.createElement(EditTheResource, {
         resource: resource,
         permissions: this.state.permissions.get(row),
         onClose: () => {
@@ -264,22 +268,22 @@ export class ResourcesTable extends AbstractResourcesTable {
             this.fetchPermissions(resource, row);
           });
         }
-      }, toggle => React.createElement(DropdownItem, {
+      }, toggle => /*#__PURE__*/React.createElement(DropdownItem, {
         id: 'edit-' + row,
         key: "edit",
         component: "button",
         isDisabled: this.numOthers(row) < 0,
         onClick: toggle
-      }, React.createElement(EditAltIcon, null), " ", React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement(EditAltIcon, null), " ", /*#__PURE__*/React.createElement(Msg, {
         msgKey: "edit"
-      }))), React.createElement(ContinueCancelModal, {
-        render: toggle => React.createElement(DropdownItem, {
+      }))), /*#__PURE__*/React.createElement(ContinueCancelModal, {
+        render: toggle => /*#__PURE__*/React.createElement(DropdownItem, {
           id: 'remove-' + row,
           key: "remove",
           component: "button",
           isDisabled: this.numOthers(row) < 0,
           onClick: toggle
-        }, React.createElement(Remove2Icon, null), " ", React.createElement(Msg, {
+        }, /*#__PURE__*/React.createElement(Remove2Icon, null), " ", /*#__PURE__*/React.createElement(Msg, {
           msgKey: "unShare"
         })),
         modalTitle: "unShare",
@@ -291,16 +295,16 @@ export class ResourcesTable extends AbstractResourcesTable {
         }),
         onContinue: () => this.removeShare(resource, row).then(() => this.fetchPermissions(resource, row))
       })]
-    }))), React.createElement(DataListContent, {
-      noPadding: false,
+    }))), /*#__PURE__*/React.createElement(DataListContent, {
+      hasNoPadding: false,
       "aria-label": "Session Details",
       id: 'ex-expand' + row,
       isHidden: !this.state.isRowOpen[row]
-    }, React.createElement(Level, {
-      gutter: "md"
-    }, React.createElement(LevelItem, null, React.createElement("span", null)), React.createElement(LevelItem, {
+    }, /*#__PURE__*/React.createElement(Level, {
+      hasGutter: true
+    }, /*#__PURE__*/React.createElement(LevelItem, null, /*#__PURE__*/React.createElement("span", null)), /*#__PURE__*/React.createElement(LevelItem, {
       id: 'shared-with-user-message-' + row
-    }, this.sharedWithUsersMessage(row)), React.createElement(LevelItem, null, React.createElement("span", null)))))));
+    }, this.sharedWithUsersMessage(row)), /*#__PURE__*/React.createElement(LevelItem, null, /*#__PURE__*/React.createElement("span", null)))))));
   }
 
 }

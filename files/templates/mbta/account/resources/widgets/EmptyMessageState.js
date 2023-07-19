@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "../../../common/keycloak/web_modules/react.js";
-import { EmptyState, EmptyStateVariant, Title, EmptyStateIcon, TitleLevel, EmptyStateBody } from "../../../common/keycloak/web_modules/@patternfly/react-core.js";
+import { EmptyState, EmptyStateVariant, Title, EmptyStateIcon, EmptyStateBody } from "../../../common/keycloak/web_modules/@patternfly/react-core.js";
 import { Msg } from "./Msg.js";
 export default class EmptyMessageState extends React.Component {
   constructor(props) {
@@ -22,16 +22,16 @@ export default class EmptyMessageState extends React.Component {
   }
 
   render() {
-    return React.createElement(EmptyState, {
+    return /*#__PURE__*/React.createElement(EmptyState, {
       variant: EmptyStateVariant.full
-    }, React.createElement(EmptyStateIcon, {
+    }, /*#__PURE__*/React.createElement(EmptyStateIcon, {
       icon: this.props.icon
-    }), React.createElement(Title, {
-      headingLevel: TitleLevel.h5,
+    }), /*#__PURE__*/React.createElement(Title, {
+      headingLevel: "h5",
       size: "lg"
-    }, React.createElement(Msg, {
+    }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: this.props.messageKey
-    })), React.createElement(EmptyStateBody, null, this.props.children));
+    })), /*#__PURE__*/React.createElement(EmptyStateBody, null, this.props.children));
   }
 
 }

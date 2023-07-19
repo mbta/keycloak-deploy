@@ -18,14 +18,14 @@ export class AbstractResourcesTable extends React.Component {
   }
 
   sharedWithUsersMessage(row) {
-    if (!this.hasPermissions(row)) return React.createElement(React.Fragment, null, React.createElement(Msg, {
+    if (!this.hasPermissions(row)) return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "resourceNotShared"
     }));
-    return React.createElement(React.Fragment, null, React.createElement(Msg, {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "resourceSharedWith"
-    }, React.createElement("strong", null, this.firstUser(row))), this.numOthers(row) > 0 && React.createElement(Msg, {
+    }, /*#__PURE__*/React.createElement("strong", null, this.firstUser(row))), this.numOthers(row) > 0 && /*#__PURE__*/React.createElement(Msg, {
       msgKey: "and"
-    }, React.createElement("strong", null, this.numOthers(row))), ".");
+    }, /*#__PURE__*/React.createElement("strong", null, this.numOthers(row))), ".");
   }
 
   getClientName(client) {

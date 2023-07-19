@@ -16,7 +16,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * limitations under the License.
  */
 import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { Button, Modal, Text, Badge, DataListItem, DataList, TextVariants, DataListItemRow, DataListItemCells, DataListCell, Chip, Split, SplitItem } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
+import { Button, Modal, Text, Badge, DataListItem, DataList, TextVariants, DataListItemRow, DataListItemCells, DataListCell, Chip, Split, SplitItem, ModalVariant } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
 import { UserCheckIcon } from "../../../../common/keycloak/web_modules/@patternfly/react-icons.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
 import { Msg } from "../../widgets/Msg.js";
@@ -75,64 +75,64 @@ export class PermissionRequest extends React.Component {
 
   render() {
     const id = `shareRequest-${this.props.resource.name.replace(/\s/, '-')}`;
-    return React.createElement(React.Fragment, null, React.createElement(Button, {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Button, {
       id: id,
       variant: "link",
       onClick: this.handleToggleDialog
-    }, React.createElement(UserCheckIcon, {
+    }, /*#__PURE__*/React.createElement(UserCheckIcon, {
       size: "lg"
-    }), React.createElement(Badge, null, this.props.resource.shareRequests.length)), React.createElement(Modal, {
+    }), /*#__PURE__*/React.createElement(Badge, null, this.props.resource.shareRequests.length)), /*#__PURE__*/React.createElement(Modal, {
       id: `modal-${id}`,
       title: Msg.localize('permissionRequests') + ' - ' + this.props.resource.name,
-      isLarge: true,
+      variant: ModalVariant.large,
       isOpen: this.state.isOpen,
       onClose: this.handleToggleDialog,
-      actions: [React.createElement(Button, {
+      actions: [/*#__PURE__*/React.createElement(Button, {
         id: `close-${id}`,
         key: "close",
         variant: "link",
         onClick: this.handleToggleDialog
-      }, React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement(Msg, {
         msgKey: "close"
       }))]
-    }, React.createElement(DataList, {
+    }, /*#__PURE__*/React.createElement(DataList, {
       "aria-label": Msg.localize('permissionRequests')
-    }, React.createElement(DataListItemRow, null, React.createElement(DataListItemCells, {
-      dataListCells: [React.createElement(DataListCell, {
+    }, /*#__PURE__*/React.createElement(DataListItemRow, null, /*#__PURE__*/React.createElement(DataListItemCells, {
+      dataListCells: [/*#__PURE__*/React.createElement(DataListCell, {
         key: "permissions-name-header",
         width: 5
-      }, React.createElement("strong", null, "Requestor")), React.createElement(DataListCell, {
+      }, /*#__PURE__*/React.createElement("strong", null, "Requestor")), /*#__PURE__*/React.createElement(DataListCell, {
         key: "permissions-requested-header",
         width: 5
-      }, React.createElement("strong", null, React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(Msg, {
         msgKey: "permissionRequests"
-      }))), React.createElement(DataListCell, {
+      }))), /*#__PURE__*/React.createElement(DataListCell, {
         key: "permission-request-header",
         width: 5
       })]
-    })), this.props.resource.shareRequests.map((shareRequest, i) => React.createElement(DataListItem, {
+    })), this.props.resource.shareRequests.map((shareRequest, i) => /*#__PURE__*/React.createElement(DataListItem, {
       key: i,
       "aria-labelledby": "requestor"
-    }, React.createElement(DataListItemRow, null, React.createElement(DataListItemCells, {
-      dataListCells: [React.createElement(DataListCell, {
+    }, /*#__PURE__*/React.createElement(DataListItemRow, null, /*#__PURE__*/React.createElement(DataListItemCells, {
+      dataListCells: [/*#__PURE__*/React.createElement(DataListCell, {
         id: `requestor${i}`,
         key: `requestor${i}`
-      }, React.createElement("span", null, shareRequest.firstName, " ", shareRequest.lastName, " ", shareRequest.lastName ? '' : shareRequest.username), React.createElement("br", null), React.createElement(Text, {
+      }, /*#__PURE__*/React.createElement("span", null, shareRequest.firstName, " ", shareRequest.lastName, " ", shareRequest.lastName ? '' : shareRequest.username), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement(Text, {
         component: TextVariants.small
-      }, shareRequest.email)), React.createElement(DataListCell, {
+      }, shareRequest.email)), /*#__PURE__*/React.createElement(DataListCell, {
         id: `permissions${i}`,
         key: `permissions${i}`
-      }, shareRequest.scopes.map((scope, j) => React.createElement(Chip, {
+      }, shareRequest.scopes.map((scope, j) => /*#__PURE__*/React.createElement(Chip, {
         key: j,
         isReadOnly: true
-      }, scope))), React.createElement(DataListCell, {
+      }, scope))), /*#__PURE__*/React.createElement(DataListCell, {
         key: `actions${i}`
-      }, React.createElement(Split, {
-        gutter: "sm"
-      }, React.createElement(SplitItem, null, React.createElement(Button, {
+      }, /*#__PURE__*/React.createElement(Split, {
+        hasGutter: true
+      }, /*#__PURE__*/React.createElement(SplitItem, null, /*#__PURE__*/React.createElement(Button, {
         id: `accept-${i}-${id}`,
         onClick: () => this.handleApprove(shareRequest, i)
-      }, "Accept")), React.createElement(SplitItem, null, React.createElement(Button, {
+      }, "Accept")), /*#__PURE__*/React.createElement(SplitItem, null, /*#__PURE__*/React.createElement(Button, {
         id: `deny-${i}-${id}`,
         variant: "danger",
         onClick: () => this.handleDeny(shareRequest, i)

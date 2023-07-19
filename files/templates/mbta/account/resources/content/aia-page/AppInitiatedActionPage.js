@@ -19,7 +19,7 @@ import * as React from "../../../../common/keycloak/web_modules/react.js";
 import { withRouter } from "../../../../common/keycloak/web_modules/react-router-dom.js";
 import { AIACommand } from "../../util/AIACommand.js";
 import { Msg } from "../../widgets/Msg.js";
-import { Title, TitleLevel, Button, EmptyState, EmptyStateVariant, EmptyStateIcon, EmptyStateBody } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
+import { Title, Button, EmptyState, EmptyStateVariant, EmptyStateIcon, EmptyStateBody, TitleSizes } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
 import { PassportIcon } from "../../../../common/keycloak/web_modules/@patternfly/react-icons.js";
 import { KeycloakContext } from "../../keycloak-service/KeycloakContext.js"; // Note: This class demonstrates two features of the ContentPages framework:
 // 1) The PageDef is available as a React property.
@@ -40,23 +40,23 @@ class ApplicationInitiatedActionPage extends React.Component {
   }
 
   render() {
-    return React.createElement(EmptyState, {
+    return /*#__PURE__*/React.createElement(EmptyState, {
       variant: EmptyStateVariant.full
-    }, React.createElement(EmptyStateIcon, {
+    }, /*#__PURE__*/React.createElement(EmptyStateIcon, {
       icon: PassportIcon
-    }), React.createElement(Title, {
-      headingLevel: TitleLevel.h5,
-      size: "lg"
-    }, React.createElement(Msg, {
+    }), /*#__PURE__*/React.createElement(Title, {
+      headingLevel: "h5",
+      size: TitleSizes.lg
+    }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: this.props.pageDef.label,
       params: this.props.pageDef.labelParams
-    })), React.createElement(EmptyStateBody, null, React.createElement(Msg, {
+    })), /*#__PURE__*/React.createElement(EmptyStateBody, null, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "actionRequiresIDP"
-    })), React.createElement(KeycloakContext.Consumer, null, keycloak => React.createElement(Button, {
+    })), /*#__PURE__*/React.createElement(KeycloakContext.Consumer, null, keycloak => /*#__PURE__*/React.createElement(Button, {
       variant: "primary",
       onClick: () => this.handleClick(keycloak),
       target: "_blank"
-    }, React.createElement(Msg, {
+    }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "continue"
     }))));
   }

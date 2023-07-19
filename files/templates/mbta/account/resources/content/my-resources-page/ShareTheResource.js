@@ -16,7 +16,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * limitations under the License.
  */
 import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { Button, Chip, ChipGroup, ChipGroupToolbarItem, Form, FormGroup, Gallery, GalleryItem, Modal, Stack, StackItem, TextInput } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
+import { Button, Chip, ChipGroup, Form, FormGroup, Gallery, GalleryItem, Modal, Stack, StackItem, TextInput, ModalVariant } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
 import { Msg } from "../../widgets/Msg.js";
 import { ContentAlert } from "../ContentAlert.js";
@@ -144,75 +144,70 @@ export class ShareTheResource extends React.Component {
   }
 
   render() {
-    return React.createElement(React.Fragment, null, this.props.children(this.handleToggleDialog), React.createElement(Modal, {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, this.props.children(this.handleToggleDialog), /*#__PURE__*/React.createElement(Modal, {
       title: 'Share the resource - ' + this.props.resource.name,
-      isLarge: true,
+      variant: ModalVariant.large,
       isOpen: this.state.isOpen,
       onClose: this.handleToggleDialog,
-      actions: [React.createElement(Button, {
+      actions: [/*#__PURE__*/React.createElement(Button, {
         key: "cancel",
         variant: "link",
         onClick: this.handleToggleDialog
-      }, React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement(Msg, {
         msgKey: "cancel"
-      })), React.createElement(Button, {
+      })), /*#__PURE__*/React.createElement(Button, {
         key: "confirm",
         variant: "primary",
         id: "done",
         onClick: this.handleAddPermission,
         isDisabled: this.isFormInvalid()
-      }, React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement(Msg, {
         msgKey: "done"
       }))]
-    }, React.createElement(Stack, {
-      gutter: "md"
-    }, React.createElement(StackItem, {
+    }, /*#__PURE__*/React.createElement(Stack, {
+      hasGutter: true
+    }, /*#__PURE__*/React.createElement(StackItem, {
       isFilled: true
-    }, React.createElement(Form, null, React.createElement(FormGroup, {
+    }, /*#__PURE__*/React.createElement(Form, null, /*#__PURE__*/React.createElement(FormGroup, {
       label: "Add users to share your resource with",
       type: "string",
       helperTextInvalid: Msg.localize('resourceAlreadyShared'),
       fieldId: "username",
-      isRequired: true,
-      isValid: !this.isAlreadyShared()
-    }, React.createElement(Gallery, {
-      gutter: "sm"
-    }, React.createElement(GalleryItem, null, React.createElement(TextInput, {
+      isRequired: true
+    }, /*#__PURE__*/React.createElement(Gallery, {
+      hasGutter: true
+    }, /*#__PURE__*/React.createElement(GalleryItem, null, /*#__PURE__*/React.createElement(TextInput, {
       value: this.state.usernameInput,
-      isValid: !this.isAlreadyShared(),
       id: "username",
       "aria-describedby": "username-helper",
       placeholder: "Username or email",
       onChange: this.handleUsernameChange,
       onKeyPress: this.handleEnterKeyInAddField
-    })), React.createElement(GalleryItem, null, React.createElement(Button, {
+    })), /*#__PURE__*/React.createElement(GalleryItem, null, /*#__PURE__*/React.createElement(Button, {
       key: "add-user",
       variant: "primary",
       id: "add",
       onClick: this.handleAddUsername,
       isDisabled: this.isAddDisabled()
-    }, React.createElement(Msg, {
+    }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "add"
-    })))), React.createElement(ChipGroup, {
-      withToolbar: true
-    }, React.createElement(ChipGroupToolbarItem, {
-      key: "users-selected",
-      categoryName: "Share with "
-    }, this.state.usernames.map(currentChip => React.createElement(Chip, {
+    })))), /*#__PURE__*/React.createElement(ChipGroup, {
+      categoryName: Msg.localize('shareWith')
+    }, this.state.usernames.map(currentChip => /*#__PURE__*/React.createElement(Chip, {
       key: currentChip,
       onClick: () => this.handleDeleteUsername(currentChip)
-    }, currentChip))))), React.createElement(FormGroup, {
+    }, currentChip)))), /*#__PURE__*/React.createElement(FormGroup, {
       label: "",
       fieldId: "permissions-selected"
-    }, React.createElement(PermissionSelect, {
+    }, /*#__PURE__*/React.createElement(PermissionSelect, {
       scopes: this.state.permissionsUnSelected,
       onSelect: selection => this.setState({
         permissionsSelected: selection
       }),
       direction: "up"
-    })))), React.createElement(StackItem, {
+    })))), /*#__PURE__*/React.createElement(StackItem, {
       isFilled: true
-    }, React.createElement("br", null)), React.createElement(StackItem, {
+    }, /*#__PURE__*/React.createElement("br", null)), /*#__PURE__*/React.createElement(StackItem, {
       isFilled: true
     }, this.props.sharedWithUsersMsg))));
   }

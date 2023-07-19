@@ -21,12 +21,21 @@
     </properties>
 
     <resources>
-        <resource-root path="keycloak-services-15.0.2-integsoft-1.jar"/>
+        <resource-root path="keycloak-services-19.0.3-integsoft-1.jar"/>
     </resources>
 
     <dependencies>
+        <module name="org.keycloak.keycloak-admin-ui" services="import" export="true">
+            <imports>
+                <include path="META-INF*"/>
+            </imports>
+            <exports>
+                <include path="META-INF*"/>
+            </exports>
+        </module>
         <module name="org.keycloak.keycloak-common" services="import"/>
         <module name="org.keycloak.keycloak-core" services="import"/>
+        <module name="org.keycloak.keycloak-crypto-default" services="import"/>
         <module name="org.keycloak.keycloak-js-adapter" services="import"/>
         <module name="org.keycloak.keycloak-kerberos-federation" services="import"/>
         <module name="org.keycloak.keycloak-ldap-federation" services="import"/>
@@ -36,6 +45,9 @@
         <module name="org.keycloak.keycloak-model-jpa" services="import"/>
         <module name="org.keycloak.keycloak-model-map" services="import"/>
         <module name="org.keycloak.keycloak-model-infinispan" services="import"/>
+        <module name="org.keycloak.keycloak-model-legacy" services="import"/>
+        <module name="org.keycloak.keycloak-model-legacy-private" services="import"/>
+        <module name="org.keycloak.keycloak-model-legacy-services" services="import"/>
         <module name="org.keycloak.keycloak-saml-core-public" services="import"/>
         <module name="org.keycloak.keycloak-saml-core" services="import"/>
         <module name="org.keycloak.keycloak-services" export="true" services="import"/>
@@ -43,9 +55,6 @@
 
         <!-- Authorization -->
         <module name="org.keycloak.keycloak-authz-policy-common" services="import"/>
-
-        <!-- Openshift Client Storage -->
-        <module name="com.openshift.openshift-restclient-java" services="import"/>
 
         <module name="com.googlecode.owasp-java-html-sanitizer"/>
         <module name="com.google.guava"/>

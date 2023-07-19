@@ -15,10 +15,10 @@ class PgNotFound extends React.Component {
   }
 
   render() {
-    return React.createElement(EmptyMessageState, {
+    return /*#__PURE__*/React.createElement(EmptyMessageState, {
       icon: WarningTriangleIcon,
       messageKey: "pageNotFound"
-    }, React.createElement(Msg, {
+    }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "invalidRoute",
       params: [this.props.location.pathname]
     }));

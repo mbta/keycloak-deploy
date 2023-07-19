@@ -42,7 +42,7 @@ class PageNavigation extends React.Component {
 
   render() {
     const activeItem = this.findActiveItem();
-    return React.createElement(Nav, null, React.createElement(NavList, null, makeNavItems(activeItem)));
+    return /*#__PURE__*/React.createElement(Nav, null, /*#__PURE__*/React.createElement(NavList, null, makeNavItems(activeItem)));
   }
 
 }

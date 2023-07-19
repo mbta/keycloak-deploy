@@ -21,7 +21,7 @@
     </properties>
 
     <resources>
-        <resource-root path="keycloak-server-spi-private-15.0.2-integsoft-1.jar"/>
+        <resource-root path="keycloak-server-spi-private-19.0.3-integsoft-1.jar"/>
     </resources>
 
     <dependencies>
@@ -29,7 +29,6 @@
         <module name="org.keycloak.keycloak-common"/>
         <module name="org.keycloak.keycloak-core"/>
         <module name="org.keycloak.keycloak-server-spi"/>
-        <module name="org.bouncycastle"/>
         <module name="javax.api"/>
         <module name="javax.ws.rs.api"/>
         <module name="org.apache.httpcomponents"/>

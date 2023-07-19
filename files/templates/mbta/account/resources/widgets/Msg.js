@@ -24,7 +24,7 @@ export class Msg extends React.Component {
       return Msg.localizeWithChildren(this.props.msgKey, this.props.children);
     }
 
-    return React.createElement(React.Fragment, null, Msg.localize(this.props.msgKey, this.props.params));
+    return /*#__PURE__*/React.createElement(React.Fragment, null, Msg.localize(this.props.msgKey, this.props.params));
   }
 
   static localizeWithChildren(msgKey, children) {
@@ -45,7 +45,7 @@ export class Msg extends React.Component {
       });
     }
 
-    return unescape(message);
+    return message;
   } // if the message key has Freemarker syntax, remove it
 
 

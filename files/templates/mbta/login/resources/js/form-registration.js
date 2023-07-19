@@ -1,16 +1,5 @@
 /* Registration Form Script */
 
-//window.onload = function() {
-//  setTimeout(
-//    function() {
-//      $("#token").val('this must be empty').delay(2000).queue(function() {
-//				$("#token").val((new Date).getFullYear());
-//				});
-//		
-//    }, 2000);
-//}
-
-
 (function() {
 
 	"use strict";

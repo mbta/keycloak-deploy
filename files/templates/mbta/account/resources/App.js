@@ -17,9 +17,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  */
 import * as React from "../../common/keycloak/web_modules/react.js";
 import { PageNav } from "./PageNav.js";
-import { PageToolbar } from "./PageToolbar.js";
+import { PageHeaderTool } from "./PageHeaderTool.js";
 import { makeRoutes } from "./ContentPages.js";
-import { Brand, Page, PageHeader, PageSection, PageSidebar } from "../../common/keycloak/web_modules/@patternfly/react-core.js";
+import { Brand, Page, PageHeader, PageSidebar } from "../../common/keycloak/web_modules/@patternfly/react-core.js";
 import { KeycloakContext } from "./keycloak-service/KeycloakContext.js";
 ;
 export class App extends React.Component {
@@ -39,37 +39,26 @@ export class App extends React.Component {
       this.context.login();
     }
 
-    const username = React.createElement("span", {
-      style: {
-        marginLeft: '10px'
-      },
-      id: "loggedInUser"
-    }, loggedInUserName());
-    const Header = React.createElement(PageHeader, {
-      logo: React.createElement("a", {
+    const Header = /*#__PURE__*/React.createElement(PageHeader, {
+      logo: /*#__PURE__*/React.createElement("a", {
         id: "brandLink",
         href: brandUrl
-      }, React.createElement(Brand, {
+      }, /*#__PURE__*/React.createElement(Brand, {
         src: brandImg,
         alt: "Logo",
         className: "brand"
       })),
-      toolbar: React.createElement(PageToolbar, null),
-      avatar: username,
+      headerTools: /*#__PURE__*/React.createElement(PageHeaderTool, null),
       showNavToggle: true
     });
-    const Sidebar = React.createElement(PageSidebar, {
-      nav: React.createElement(PageNav, null)
+    const Sidebar = /*#__PURE__*/React.createElement(PageSidebar, {
+      nav: /*#__PURE__*/React.createElement(PageNav, null)
     });
-    return React.createElement("span", {
-      style: {
-        height: '100%'
-      }
-    }, React.createElement(Page, {
+    return /*#__PURE__*/React.createElement(Page, {
       header: Header,
       sidebar: Sidebar,
       isManagedSidebar: true
-    }, React.createElement(PageSection, null, makeRoutes())));
+    }, makeRoutes());
   }
 
 }
