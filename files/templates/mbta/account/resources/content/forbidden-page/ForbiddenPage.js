@@ -23,10 +23,10 @@ export class ForbiddenPage extends React.Component {
   }
 
   render() {
-    return React.createElement(EmptyMessageState, {
+    return /*#__PURE__*/React.createElement(EmptyMessageState, {
       icon: WarningTriangleIcon,
       messageKey: "forbidden"
-    }, React.createElement(Msg, {
+    }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "needAccessRights"
     }));
   }

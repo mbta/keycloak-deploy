@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { DataList, DataListItem, DataListItemRow, DataListCell, DataListItemCells, ChipGroup, ChipGroupToolbarItem, Chip } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
+import { DataList, DataListItem, DataListItemRow, DataListCell, DataListItemCells, ChipGroup, Chip } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
 import { RepositoryIcon } from "../../../../common/keycloak/web_modules/@patternfly/react-icons.js";
 import { Msg } from "../../widgets/Msg.js";
 import { AbstractResourcesTable } from "./AbstractResourceTable.js";
@@ -29,73 +29,67 @@ export class SharedResourcesTable extends AbstractResourcesTable {
 
   render() {
     if (this.props.resources.data.length === 0) {
-      return React.createElement(EmptyMessageState, {
+      return /*#__PURE__*/React.createElement(EmptyMessageState, {
         icon: RepositoryIcon,
         messageKey: "noResourcesSharedWithYou"
       });
     }
 
-    return React.createElement(DataList, {
+    return /*#__PURE__*/React.createElement(DataList, {
       "aria-label": Msg.localize('resources'),
       id: "sharedResourcesList"
-    }, React.createElement(DataListItem, {
+    }, /*#__PURE__*/React.createElement(DataListItem, {
       key: "resource-header",
       "aria-labelledby": "resource-header"
-    }, React.createElement(DataListItemRow, null, React.createElement(DataListItemCells, {
-      dataListCells: [React.createElement(DataListCell, {
+    }, /*#__PURE__*/React.createElement(DataListItemRow, null, /*#__PURE__*/React.createElement(DataListItemCells, {
+      dataListCells: [/*#__PURE__*/React.createElement(DataListCell, {
         key: "resource-name-header",
         width: 2
-      }, React.createElement("strong", null, React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(Msg, {
         msgKey: "resourceName"
-      }))), React.createElement(DataListCell, {
+      }))), /*#__PURE__*/React.createElement(DataListCell, {
         key: "application-name-header",
         width: 2
-      }, React.createElement("strong", null, React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement("strong", null, /*#__PURE__*/React.createElement(Msg, {
         msgKey: "application"
-      }))), React.createElement(DataListCell, {
+      }))), /*#__PURE__*/React.createElement(DataListCell, {
         key: "permission-header",
         width: 2
-      }), React.createElement(DataListCell, {
+      }), /*#__PURE__*/React.createElement(DataListCell, {
         key: "requests-header",
         width: 2
       })]
-    }))), this.props.resources.data.map((resource, row) => React.createElement(DataListItem, {
+    }))), this.props.resources.data.map((resource, row) => /*#__PURE__*/React.createElement(DataListItem, {
       key: 'resource-' + row,
       "aria-labelledby": resource.name
-    }, React.createElement(DataListItemRow, null, React.createElement(DataListItemCells, {
-      dataListCells: [React.createElement(DataListCell, {
+    }, /*#__PURE__*/React.createElement(DataListItemRow, null, /*#__PURE__*/React.createElement(DataListItemCells, {
+      dataListCells: [/*#__PURE__*/React.createElement(DataListCell, {
         key: 'resourceName-' + row,
         width: 2
-      }, React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement(Msg, {
         msgKey: resource.name
-      })), React.createElement(DataListCell, {
+      })), /*#__PURE__*/React.createElement(DataListCell, {
         key: 'resourceClient-' + row,
         width: 2
-      }, React.createElement("a", {
+      }, /*#__PURE__*/React.createElement("a", {
         href: resource.client.baseUrl
-      }, this.getClientName(resource.client))), React.createElement(DataListCell, {
+      }, this.getClientName(resource.client))), /*#__PURE__*/React.createElement(DataListCell, {
         key: 'permissions-' + row,
         width: 2
-      }, resource.scopes.length > 0 && React.createElement(ChipGroup, {
-        withToolbar: true
-      }, React.createElement(ChipGroupToolbarItem, {
-        key: "permissions",
+      }, resource.scopes.length > 0 && /*#__PURE__*/React.createElement(ChipGroup, {
         categoryName: Msg.localize('permissions')
-      }, resource.scopes.map(scope => React.createElement(Chip, {
+      }, resource.scopes.map(scope => /*#__PURE__*/React.createElement(Chip, {
         key: scope.name,
         isReadOnly: true
-      }, scope.displayName || scope.name))))), React.createElement(DataListCell, {
+      }, scope.displayName || scope.name)))), /*#__PURE__*/React.createElement(DataListCell, {
         key: 'pending-' + row,
         width: 2
-      }, resource.shareRequests.length > 0 && React.createElement(ChipGroup, {
-        withToolbar: true
-      }, React.createElement(ChipGroupToolbarItem, {
-        key: "permissions",
+      }, resource.shareRequests.length > 0 && /*#__PURE__*/React.createElement(ChipGroup, {
         categoryName: Msg.localize('pending')
-      }, resource.shareRequests[0].scopes.map(scope => React.createElement(Chip, {
+      }, resource.shareRequests[0].scopes.map(scope => /*#__PURE__*/React.createElement(Chip, {
         key: scope.name,
         isReadOnly: true
-      }, scope.displayName || scope.name)))))]
+      }, scope.displayName || scope.name))))]
     })))));
   }
 

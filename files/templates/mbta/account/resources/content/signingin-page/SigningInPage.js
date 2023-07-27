@@ -17,7 +17,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  */
 import * as React from "../../../../common/keycloak/web_modules/react.js";
 import { withRouter } from "../../../../common/keycloak/web_modules/react-router-dom.js";
-import { Button, DataList, DataListAction, DataListItemCells, DataListCell, DataListItem, DataListItemRow, Stack, StackItem, Title, TitleLevel, DataListActionVisibility, Dropdown, DropdownPosition, KebabToggle } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
+import { Alert, Button, DataList, DataListAction, DataListItemCells, DataListCell, DataListItem, DataListItemRow, EmptyState, EmptyStateVariant, EmptyStateBody, Split, SplitItem, Title, Dropdown, DropdownPosition, KebabToggle, PageSection, PageSectionVariants } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
 import { AIACommand } from "../../util/AIACommand.js";
 import TimeUtil from "../../util/TimeUtil.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
@@ -26,7 +26,6 @@ import { Msg } from "../../widgets/Msg.js";
 import { ContentPage } from "../ContentPage.js";
 import { ContentAlert } from "../ContentAlert.js";
 import { KeycloakContext } from "../../keycloak-service/KeycloakContext.js";
-import { css } from "../../../../common/keycloak/web_modules/@patternfly/react-styles.js";
 
 /**
  * @author Stan Silvert ssilvert@redhat.com (C) 2018 Red Hat Inc.
@@ -40,14 +39,13 @@ class SigningInPage extends React.Component {
     _defineProperty(this, "handleRemove", (credentialId, userLabel) => {
       this.context.doDelete("/credentials/" + credentialId).then(() => {
         this.getCredentialContainers();
-        ContentAlert.success('successRemovedMessage', [userLabel]);
+        ContentAlert.success("successRemovedMessage", [userLabel]);
       });
     });
 
     this.context = context;
     this.state = {
-      credentialContainers: new Map(),
-      toggle: false
+      credentialContainers: new Map()
     };
     this.getCredentialContainers();
   }
@@ -69,9 +67,6 @@ class SigningInPage extends React.Component {
       this.setState({
         credentialContainers: allContainers
       });
-      console.log({
-        allContainers
-      });
     });
   }
 
@@ -80,75 +75,78 @@ class SigningInPage extends React.Component {
   }
 
   render() {
-    return React.createElement(ContentPage, {
+    return /*#__PURE__*/React.createElement(ContentPage, {
       title: "signingIn",
       introMessage: "signingInSubMessage"
-    }, React.createElement(Stack, {
-      gutter: "md"
-    }, this.renderCategories()));
+    }, this.renderCategories());
   }
 
   renderCategories() {
-    return React.createElement(React.Fragment, null, " ", Array.from(this.state.credentialContainers.keys()).map(category => React.createElement(StackItem, {
+    return Array.from(this.state.credentialContainers.keys()).map(category => /*#__PURE__*/React.createElement(PageSection, {
       key: category,
-      isFilled: true
-    }, React.createElement(Title, {
+      variant: PageSectionVariants.light
+    }, /*#__PURE__*/React.createElement(Title, {
       id: `${category}-categ-title`,
-      headingLevel: TitleLevel.h2,
-      size: "2xl"
-    }, React.createElement("strong", null, React.createElement(Msg, {
+      headingLevel: "h2",
+      size: "xl"
+    }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: category
-    }))), React.createElement(DataList, {
-      "aria-label": "foo"
-    }, this.renderTypes(this.state.credentialContainers.get(category))))));
+    })), this.renderTypes(category)));
   }
 
-  renderTypes(credTypeMap) {
-    return React.createElement(KeycloakContext.Consumer, null, keycloak => React.createElement(React.Fragment, null, Array.from(credTypeMap.keys()).map((credType, index, typeArray) => [this.renderCredTypeTitle(credTypeMap.get(credType), keycloak), this.renderUserCredentials(credTypeMap, credType, keycloak), this.renderEmptyRow(credTypeMap.get(credType).type, index === typeArray.length - 1)])));
+  renderTypes(category) {
+    let credTypeMap = this.state.credentialContainers.get(category);
+    return /*#__PURE__*/React.createElement(KeycloakContext.Consumer, null, keycloak => /*#__PURE__*/React.createElement(React.Fragment, null, Array.from(credTypeMap.keys()).map((credType, index, typeArray) => [this.renderCredTypeTitle(credTypeMap.get(credType), keycloak, category), this.renderUserCredentials(credTypeMap, credType, keycloak)])));
   }
 
   renderEmptyRow(type, isLast) {
     if (isLast) return; // don't put empty row at the end
 
-    return React.createElement(DataListItem, {
-      "aria-labelledby": 'empty-list-item-' + type
-    }, React.createElement(DataListItemRow, {
-      key: 'empty-row-' + type
-    }, React.createElement(DataListItemCells, {
-      dataListCells: [React.createElement(DataListCell, null)]
+    return /*#__PURE__*/React.createElement(DataListItem, {
+      "aria-labelledby": "empty-list-item-" + type
+    }, /*#__PURE__*/React.createElement(DataListItemRow, {
+      key: "empty-row-" + type
+    }, /*#__PURE__*/React.createElement(DataListItemCells, {
+      dataListCells: [/*#__PURE__*/React.createElement(DataListCell, null)]
     })));
   }
 
   renderUserCredentials(credTypeMap, credType, keycloak) {
     const credContainer = credTypeMap.get(credType);
-    const userCredentials = credContainer.userCredentials;
+    const userCredentialMetadatas = credContainer.userCredentialMetadatas;
     const removeable = credContainer.removeable;
     const type = credContainer.type;
     const displayName = credContainer.displayName;
 
-    if (!userCredentials || userCredentials.length === 0) {
+    if (!userCredentialMetadatas || userCredentialMetadatas.length === 0) {
       const localizedDisplayName = Msg.localize(displayName);
-      return React.createElement(DataListItem, {
+      return /*#__PURE__*/React.createElement(DataList, {
+        "aria-label": Msg.localize('notSetUp', [localizedDisplayName]),
+        className: "pf-u-mb-xl"
+      }, /*#__PURE__*/React.createElement(DataListItem, {
         key: "no-credentials-list-item",
-        "aria-labelledby": "no-credentials-list-item"
-      }, React.createElement(DataListItemRow, {
-        key: "no-credentials-list-item-row"
-      }, React.createElement(DataListItemCells, {
-        dataListCells: [React.createElement(DataListCell, {
+        "aria-labelledby": Msg.localize('notSetUp', [localizedDisplayName])
+      }, /*#__PURE__*/React.createElement(DataListItemRow, {
+        key: "no-credentials-list-item-row",
+        className: "pf-u-align-items-center"
+      }, /*#__PURE__*/React.createElement(DataListItemCells, {
+        dataListCells: [/*#__PURE__*/React.createElement(DataListCell, {
           key: 'no-credentials-cell-0'
-        }), React.createElement("strong", {
+        }), /*#__PURE__*/React.createElement(EmptyState, {
           id: `${type}-not-set-up`,
-          key: 'no-credentials-cell-1'
-        }, React.createElement(Msg, {
+          key: 'no-credentials-cell-1',
+          variant: EmptyStateVariant.xs
+        }, /*#__PURE__*/React.createElement(EmptyStateBody, null, /*#__PURE__*/React.createElement(Msg, {
           msgKey: "notSetUp",
           params: [localizedDisplayName]
-        })), React.createElement(DataListCell, {
+        }))), /*#__PURE__*/React.createElement(DataListCell, {
           key: 'no-credentials-cell-2'
         })]
-      })));
+      }))));
     }
 
-    userCredentials.forEach(credential => {
+    userCredentialMetadatas.forEach(credentialMetadata => {
+      let credential = credentialMetadata.credential;
       if (!credential.userLabel) credential.userLabel = Msg.localize(credential.type);
 
       if (credential.hasOwnProperty('createdDate') && credential.createdDate && credential.createdDate > 0) {
@@ -161,48 +159,75 @@ class SigningInPage extends React.Component {
       updateAIA = new AIACommand(keycloak, credContainer.updateAction);
     }
 
-    return React.createElement(React.Fragment, {
-      key: "userCredentials"
-    }, " ", userCredentials.map(credential => React.createElement(DataListItem, {
-      id: `${SigningInPage.credElementId(type, credential.id, 'row')}`,
-      key: 'credential-list-item-' + credential.id,
-      "aria-labelledby": 'credential-list-item-' + credential.userLabel
-    }, React.createElement(DataListItemRow, {
-      key: 'userCredentialRow-' + credential.id
-    }, React.createElement(DataListItemCells, {
-      dataListCells: this.credentialRowCells(credential, type)
-    }), React.createElement(CredentialAction, {
-      credential: credential,
+    let maxWidth = {
+      maxWidth: 689
+    };
+    return /*#__PURE__*/React.createElement(React.Fragment, {
+      key: "userCredentialMetadatas"
+    }, " ", userCredentialMetadatas.map(credentialMetadata => /*#__PURE__*/React.createElement(React.Fragment, null, credentialMetadata.infoMessage && !credentialMetadata.warningMessageTitle && !credentialMetadata.warningMessageDescription && /*#__PURE__*/React.createElement(Alert, {
+      variant: "default",
+      className: "pf-u-mb-md",
+      isInline: true,
+      isPlain: true,
+      title: Msg.localize(JSON.parse(credentialMetadata.infoMessage).key, JSON.parse(credentialMetadata.infoMessage).parameters)
+    }), credentialMetadata.warningMessageTitle && credentialMetadata.warningMessageDescription && /*#__PURE__*/React.createElement(Alert, {
+      variant: "warning",
+      className: "pf-u-mb-md",
+      isInline: true,
+      title: Msg.localize(JSON.parse(credentialMetadata.warningMessageTitle).key, JSON.parse(credentialMetadata.warningMessageTitle).parameters),
+      style: maxWidth
+    }, /*#__PURE__*/React.createElement("p", null, Msg.localize(JSON.parse(credentialMetadata.warningMessageDescription).key, JSON.parse(credentialMetadata.warningMessageDescription).parameters))), /*#__PURE__*/React.createElement(DataList, {
+      "aria-label": "user credential",
+      className: "pf-u-mb-xl"
+    }, /*#__PURE__*/React.createElement(DataListItem, {
+      id: `${SigningInPage.credElementId(type, credentialMetadata.credential.id, 'row')}`,
+      key: 'credential-list-item-' + credentialMetadata.credential.id,
+      "aria-labelledby": 'credential-list-item-' + credentialMetadata.credential.userLabel
+    }, /*#__PURE__*/React.createElement(DataListItemRow, {
+      key: 'userCredentialRow-' + credentialMetadata.credential.id,
+      className: "pf-u-align-items-center"
+    }, /*#__PURE__*/React.createElement(DataListItemCells, {
+      dataListCells: this.credentialRowCells(credentialMetadata, type)
+    }), /*#__PURE__*/React.createElement(CredentialAction, {
+      credential: credentialMetadata.credential,
       removeable: removeable,
       updateAction: updateAIA,
       credRemover: this.handleRemove
-    })))));
+    })))))), " ");
   }
 
-  credentialRowCells(credential, type) {
+  credentialRowCells(credMetadata, type) {
     const credRowCells = [];
-    credRowCells.push(React.createElement(DataListCell, {
+    const credential = credMetadata.credential;
+    let maxWidth = {
+      "--pf-u-max-width--MaxWidth": "300px"
+    };
+    credRowCells.push( /*#__PURE__*/React.createElement(DataListCell, {
       id: `${SigningInPage.credElementId(type, credential.id, 'label')}`,
-      key: 'userLabel-' + credential.id
+      key: 'userLabel-' + credential.id,
+      className: "pf-u-max-width",
+      style: maxWidth
     }, credential.userLabel));
 
     if (credential.strCreatedDate) {
-      credRowCells.push(React.createElement(DataListCell, {
-        id: `${SigningInPage.credElementId(type, credential.id, 'created-at')}`,
-        key: 'created-' + credential.id
-      }, React.createElement("strong", null, React.createElement(Msg, {
+      credRowCells.push( /*#__PURE__*/React.createElement(DataListCell, {
+        id: `${SigningInPage.credElementId(type, credential.id, "created-at")}`,
+        key: "created-" + credential.id
+      }, /*#__PURE__*/React.createElement("strong", {
+        className: "pf-u-mr-md"
+      }, /*#__PURE__*/React.createElement(Msg, {
         msgKey: "credentialCreatedAt"
-      }), ": "), credential.strCreatedDate));
-      credRowCells.push(React.createElement(DataListCell, {
-        key: 'spacer-' + credential.id
+      }), " "), credential.strCreatedDate));
+      credRowCells.push( /*#__PURE__*/React.createElement(DataListCell, {
+        key: "spacer-" + credential.id
       }));
     }
 
     return credRowCells;
   }
 
-  renderCredTypeTitle(credContainer, keycloak) {
-    if (!credContainer.hasOwnProperty('helptext') && !credContainer.hasOwnProperty('createAction')) return;
+  renderCredTypeTitle(credContainer, keycloak, category) {
+    if (!credContainer.hasOwnProperty("helptext") && !credContainer.hasOwnProperty("createAction")) return;
     let setupAction;
 
     if (credContainer.createAction) {
@@ -210,72 +235,68 @@ class SigningInPage extends React.Component {
     }
 
     const credContainerDisplayName = Msg.localize(credContainer.displayName);
-    return React.createElement(React.Fragment, {
-      key: 'credTypeTitle-' + credContainer.type
-    }, React.createElement(DataListItem, {
-      "aria-labelledby": 'type-datalistitem-' + credContainer.type
-    }, React.createElement(DataListItemRow, {
-      key: 'credTitleRow-' + credContainer.type
-    }, React.createElement(DataListItemCells, {
-      dataListCells: [React.createElement(DataListCell, {
-        width: 5,
-        key: 'credTypeTitle-' + credContainer.type
-      }, React.createElement(Title, {
-        headingLevel: TitleLevel.h3,
-        size: "2xl"
-      }, React.createElement("strong", {
-        id: `${credContainer.type}-cred-title`
-      }, React.createElement(Msg, {
-        msgKey: credContainer.displayName
-      }))), React.createElement("span", {
-        id: `${credContainer.type}-cred-help`
-      }, credContainer.helptext && React.createElement(Msg, {
-        msgKey: credContainer.helptext
-      })))]
-    }), credContainer.createAction && React.createElement(DataListAction, {
-      "aria-labelledby": "create",
-      "aria-label": "create action",
-      id: 'mob-setUpAction-' + credContainer.type,
-      className: DataListActionVisibility.hiddenOnLg
-    }, React.createElement(Dropdown, {
+    return /*#__PURE__*/React.createElement(React.Fragment, {
+      key: "credTypeTitle-" + credContainer.type
+    }, /*#__PURE__*/React.createElement(Split, {
+      className: "pf-u-mt-lg pf-u-mb-lg"
+    }, /*#__PURE__*/React.createElement(SplitItem, null, /*#__PURE__*/React.createElement(Title, {
+      headingLevel: "h3",
+      size: "md",
+      className: "pf-u-mb-md"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "cred-title pf-u-display-block",
+      id: `${credContainer.type}-cred-title`
+    }, /*#__PURE__*/React.createElement(Msg, {
+      msgKey: credContainer.displayName
+    }))), /*#__PURE__*/React.createElement("span", {
+      id: `${credContainer.type}-cred-help`
+    }, credContainer.helptext && /*#__PURE__*/React.createElement(Msg, {
+      msgKey: credContainer.helptext
+    }))), /*#__PURE__*/React.createElement(SplitItem, {
+      isFilled: true
+    }, credContainer.createAction && /*#__PURE__*/React.createElement("div", {
+      id: "mob-setUpAction-" + credContainer.type,
+      className: "pf-u-display-none-on-lg pf-u-float-right"
+    }, /*#__PURE__*/React.createElement(Dropdown, {
       isPlain: true,
       position: DropdownPosition.right,
-      toggle: React.createElement(KebabToggle, {
-        onToggle: isOpen => this.setState({
-          toggle: isOpen
-        })
+      toggle: /*#__PURE__*/React.createElement(KebabToggle, {
+        onToggle: isOpen => {
+          credContainer.open = isOpen;
+          this.setState({
+            credentialContainers: new Map(this.state.credentialContainers)
+          });
+        }
       }),
-      isOpen: this.state.toggle,
-      dropdownItems: [React.createElement("button", {
+      isOpen: credContainer.open,
+      dropdownItems: [/*#__PURE__*/React.createElement("button", {
         id: `mob-${credContainer.type}-set-up`,
         className: "pf-c-button pf-m-link",
         type: "button",
         onClick: () => setupAction.execute()
-      }, React.createElement("span", {
+      }, /*#__PURE__*/React.createElement("span", {
         className: "pf-c-button__icon"
-      }, React.createElement("i", {
+      }, /*#__PURE__*/React.createElement("i", {
         className: "fas fa-plus-circle",
         "aria-hidden": "true"
-      })), React.createElement(Msg, {
+      })), /*#__PURE__*/React.createElement(Msg, {
         msgKey: "setUpNew",
         params: [credContainerDisplayName]
       }))]
-    })), credContainer.createAction && React.createElement(DataListAction, {
-      "aria-labelledby": "create",
-      "aria-label": "create action",
-      id: 'setUpAction-' + credContainer.type,
-      className: css(DataListActionVisibility.visibleOnLg, DataListActionVisibility.hidden)
-    }, React.createElement("button", {
+    })), credContainer.createAction && /*#__PURE__*/React.createElement("div", {
+      id: "setUpAction-" + credContainer.type,
+      className: "pf-u-display-none pf-u-display-inline-flex-on-lg pf-u-float-right"
+    }, /*#__PURE__*/React.createElement("button", {
       id: `${credContainer.type}-set-up`,
       className: "pf-c-button pf-m-link",
       type: "button",
       onClick: () => setupAction.execute()
-    }, React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "pf-c-button__icon"
-    }, React.createElement("i", {
+    }, /*#__PURE__*/React.createElement("i", {
       className: "fas fa-plus-circle",
       "aria-hidden": "true"
-    })), React.createElement(Msg, {
+    })), /*#__PURE__*/React.createElement(Msg, {
       msgKey: "setUpNew",
       params: [credContainerDisplayName]
     }))))));
@@ -286,32 +307,32 @@ class SigningInPage extends React.Component {
 _defineProperty(SigningInPage, "contextType", AccountServiceContext);
 
 ;
-;
 
 class CredentialAction extends React.Component {
   render() {
     if (this.props.updateAction) {
-      return React.createElement(DataListAction, {
-        "aria-labelledby": "foo",
-        "aria-label": "foo action",
-        id: 'updateAction-' + this.props.credential.id
-      }, React.createElement(Button, {
-        id: `${SigningInPage.credElementId(this.props.credential.type, this.props.credential.id, 'update')}`,
-        variant: "primary",
+      return /*#__PURE__*/React.createElement(DataListAction, {
+        "aria-labelledby": Msg.localize('updateCredAriaLabel'),
+        "aria-label": Msg.localize('updateCredAriaLabel'),
+        id: "updateAction-" + this.props.credential.id
+      }, /*#__PURE__*/React.createElement(Button, {
+        variant: "secondary",
+        id: `${SigningInPage.credElementId(this.props.credential.type, this.props.credential.id, "update")}`,
         onClick: () => this.props.updateAction.execute()
-      }, React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement(Msg, {
         msgKey: "update"
       })));
     }
 
     if (this.props.removeable) {
       const userLabel = this.props.credential.userLabel;
-      return React.createElement(DataListAction, {
-        "aria-labelledby": "foo",
-        "aria-label": "foo action",
+      return /*#__PURE__*/React.createElement(DataListAction, {
+        "aria-label": Msg.localize('removeCredAriaLabel'),
+        "aria-labelledby": Msg.localize('removeCredAriaLabel'),
         id: 'removeAction-' + this.props.credential.id
-      }, React.createElement(ContinueCancelModal, {
+      }, /*#__PURE__*/React.createElement(ContinueCancelModal, {
         buttonTitle: "remove",
+        buttonVariant: "danger",
         buttonId: `${SigningInPage.credElementId(this.props.credential.type, this.props.credential.id, 'remove')}`,
         modalTitle: Msg.localize('removeCred', [userLabel]),
         modalMessage: Msg.localize('stopUsingCred', [userLabel]),
@@ -319,7 +340,7 @@ class CredentialAction extends React.Component {
       }));
     }
 
-    return React.createElement(React.Fragment, null);
+    return /*#__PURE__*/React.createElement(React.Fragment, null);
   }
 
 }

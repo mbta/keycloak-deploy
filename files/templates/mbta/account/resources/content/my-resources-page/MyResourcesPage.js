@@ -17,7 +17,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  */
 import * as React from "../../../../common/keycloak/web_modules/react.js";
 import parse from "../../util/ParseLink.js";
-import { Button, Level, LevelItem, Stack, StackItem, Tab, Tabs, TextInput } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
+import { Button, Level, LevelItem, PageSection, PageSectionVariants, Stack, StackItem, Tab, Tabs, TextInput } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
 import { Scope } from "./resource-model.js";
 import { ResourcesTable } from "./ResourcesTable.js";
@@ -213,56 +213,58 @@ export class MyResourcesPage extends React.Component {
   }
 
   makeTab(eventKey, title, resources, sharedResourcesTab) {
-    return React.createElement(Tab, {
+    return /*#__PURE__*/React.createElement(Tab, {
       id: title,
       eventKey: eventKey,
       title: Msg.localize(title)
-    }, React.createElement(Stack, {
-      gutter: "md"
-    }, React.createElement(StackItem, {
+    }, /*#__PURE__*/React.createElement(Stack, {
+      hasGutter: true
+    }, /*#__PURE__*/React.createElement(StackItem, {
       isFilled: true
-    }, React.createElement("span", null)), React.createElement(StackItem, {
+    }, /*#__PURE__*/React.createElement("span", null)), /*#__PURE__*/React.createElement(StackItem, {
       isFilled: true
-    }, React.createElement(Level, {
-      gutter: "md"
-    }, React.createElement(LevelItem, null, React.createElement(TextInput, {
+    }, /*#__PURE__*/React.createElement(Level, {
+      hasGutter: true
+    }, /*#__PURE__*/React.createElement(LevelItem, null, /*#__PURE__*/React.createElement(TextInput, {
       value: this.state.nameFilter,
       onChange: this.handleFilterRequest,
       id: 'filter-' + title,
       type: "text",
-      placeholder: Msg.localize('filterByName')
-    })))), React.createElement(StackItem, {
+      placeholder: Msg.localize('filterByName'),
+      iconVariant: "search"
+    })))), /*#__PURE__*/React.createElement(StackItem, {
       isFilled: true
-    }, !sharedResourcesTab && React.createElement(ResourcesTable, {
+    }, !sharedResourcesTab && /*#__PURE__*/React.createElement(ResourcesTable, {
       resources: resources
-    }), sharedResourcesTab && React.createElement(SharedResourcesTable, {
+    }), sharedResourcesTab && /*#__PURE__*/React.createElement(SharedResourcesTable, {
       resources: resources
     }))));
   }
 
   render() {
-    return React.createElement(ContentPage, {
+    return /*#__PURE__*/React.createElement(ContentPage, {
       title: "resources",
       onRefresh: this.fetchInitialResources.bind(this)
-    }, React.createElement(Tabs, {
-      isFilled: true,
+    }, /*#__PURE__*/React.createElement(PageSection, {
+      variant: PageSectionVariants.light
+    }, /*#__PURE__*/React.createElement(Tabs, {
       activeKey: this.state.activeTabKey,
       onSelect: this.handleTabClick
-    }, this.makeTab(0, 'myResources', this.state.myResources, false), this.makeTab(1, 'sharedwithMe', this.state.sharedWithMe, true)), React.createElement(Level, {
-      gutter: "md"
-    }, React.createElement(LevelItem, null, this.hasPrevious() && React.createElement(Button, {
+    }, this.makeTab(0, 'myResources', this.state.myResources, false), this.makeTab(1, 'sharedwithMe', this.state.sharedWithMe, true)), /*#__PURE__*/React.createElement(Level, {
+      hasGutter: true
+    }, /*#__PURE__*/React.createElement(LevelItem, null, this.hasPrevious() && /*#__PURE__*/React.createElement(Button, {
       onClick: this.handlePreviousClick
-    }, "<", React.createElement(Msg, {
+    }, "<", /*#__PURE__*/React.createElement(Msg, {
       msgKey: "previousPage"
-    }))), React.createElement(LevelItem, null, this.hasPrevious() && React.createElement(Button, {
+    }))), /*#__PURE__*/React.createElement(LevelItem, null, this.hasPrevious() && /*#__PURE__*/React.createElement(Button, {
       onClick: this.handleFirstPageClick
-    }, React.createElement(Msg, {
+    }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "firstPage"
-    }))), React.createElement(LevelItem, null, this.hasNext() && React.createElement(Button, {
+    }))), /*#__PURE__*/React.createElement(LevelItem, null, this.hasNext() && /*#__PURE__*/React.createElement(Button, {
       onClick: this.handleNextClick
-    }, React.createElement(Msg, {
+    }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "nextPage"
-    }), ">"))));
+    }), ">")))));
   }
 
   clearNextPrev() {

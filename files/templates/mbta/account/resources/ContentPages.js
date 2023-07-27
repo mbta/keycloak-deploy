@@ -45,12 +45,12 @@ function isChildOf(parent, child) {
 }
 
 function createNavItems(activePage, contentParam, groupNum) {
-  if (typeof content === 'undefined') return React.createElement(React.Fragment, null);
+  if (typeof content === 'undefined') return /*#__PURE__*/React.createElement(React.Fragment, null);
   const links = contentParam.map(item => {
     const navLinkId = `nav-link-${item.id}`;
 
     if (isExpansion(item)) {
-      return React.createElement(NavExpandable, {
+      return /*#__PURE__*/React.createElement(NavExpandable, {
         id: navLinkId,
         groupId: item.groupId,
         key: item.groupId,
@@ -59,7 +59,7 @@ function createNavItems(activePage, contentParam, groupNum) {
       }, createNavItems(activePage, item.content, groupNum + 1));
     } else {
       const page = item;
-      return React.createElement(NavItem, {
+      return /*#__PURE__*/React.createElement(NavItem, {
         id: navLinkId,
         groupId: item.groupId,
         itemId: item.itemId,
@@ -70,7 +70,7 @@ function createNavItems(activePage, contentParam, groupNum) {
       }, Msg.localize(page.label, page.labelParams));
     }
   });
-  return React.createElement(React.Fragment, null, links);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, links);
 }
 
 export function makeNavItems(activePage) {
@@ -124,14 +124,14 @@ export function flattenContent(pageDefs) {
   return flat;
 }
 export function makeRoutes() {
-  if (typeof content === 'undefined') return React.createElement("span", null);
+  if (typeof content === 'undefined') return /*#__PURE__*/React.createElement("span", null);
   const pageDefs = flattenContent(content);
   const routes = pageDefs.map(page => {
     if (isModulePageDef(page)) {
       const node = React.createElement(page.module[page.componentName], {
         'pageDef': page
       });
-      return React.createElement(Route, {
+      return /*#__PURE__*/React.createElement(Route, {
         key: page.itemId,
         path: '/' + page.path,
         exact: true,
@@ -139,7 +139,7 @@ export function makeRoutes() {
       });
     } else {
       const pageDef = page;
-      return React.createElement(Route, {
+      return /*#__PURE__*/React.createElement(Route, {
         key: page.itemId,
         path: '/' + page.path,
         exact: true,
@@ -147,10 +147,10 @@ export function makeRoutes() {
       });
     }
   });
-  return React.createElement(Switch, null, routes, React.createElement(Route, {
+  return /*#__PURE__*/React.createElement(Switch, null, routes, /*#__PURE__*/React.createElement(Route, {
     path: "/forbidden",
     component: ForbiddenPage
-  }), React.createElement(Route, {
+  }), /*#__PURE__*/React.createElement(Route, {
     component: PageNotFound
   }));
 }

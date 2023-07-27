@@ -24,10 +24,10 @@ function handleLogout(keycloak) {
 
 export class LogoutButton extends React.Component {
   render() {
-    return React.createElement(KeycloakContext.Consumer, null, keycloak => React.createElement(Button, {
+    return /*#__PURE__*/React.createElement(KeycloakContext.Consumer, null, keycloak => /*#__PURE__*/React.createElement(Button, {
       id: "signOutButton",
       onClick: () => handleLogout(keycloak)
-    }, React.createElement(Msg, {
+    }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "doSignOut"
     })));
   }
@@ -35,7 +35,7 @@ export class LogoutButton extends React.Component {
 }
 export class LogoutDropdownItem extends React.Component {
   render() {
-    return React.createElement(KeycloakContext.Consumer, null, keycloak => React.createElement(DropdownItem, {
+    return /*#__PURE__*/React.createElement(KeycloakContext.Consumer, null, keycloak => /*#__PURE__*/React.createElement(DropdownItem, {
       id: "signOutLink",
       key: "logout",
       onClick: () => handleLogout(keycloak)

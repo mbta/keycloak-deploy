@@ -20,7 +20,7 @@ export class AuthenticatorPage extends React.Component {
   }
 
   render() {
-    return React.createElement("div", null, React.createElement("h2", null, "Hello Authenticator Page"));
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", null, "Hello Authenticator Page"));
   }
 
 }

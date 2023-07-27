@@ -3,7 +3,7 @@
     <#if section = "header">
         ${msg("loginAccountTitle")}
     <#elseif section = "form">
-    	<div class="container">
+    	<div class="container" role="main">
 			<h1>${msg("loginAccountTitle")}</h1>
 			<#if realm.password>
 	        	<#if message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>

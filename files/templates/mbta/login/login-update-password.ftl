@@ -3,7 +3,7 @@
     <#if section = "header">
         ${msg("updatePasswordTitle")}
     <#elseif section = "form">
-    	<div class="container">
+    	<div class="container" role="main">
     		<h1>${msg('emailSetPasswordTitle')}</h1>
     		<div class="form-group">
 	    		<div class="form-message-container form-info" role="alert">
@@ -110,10 +110,10 @@
 	
 	            <div class="form-group submit-group">
 					<#if isAppInitiatedAction??>
-						<input type="submit" value="${msg("doSubmit")}" id="submit" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" />
-						<button type="submit" name="cancel-aia" value="true" />${msg("doCancel")}</button>
+						<input type="submit" value="${msg("doSubmitResetPassword")}" id="submit" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" />
+						<button id="cancel" type="submit" name="cancel-aia" value="true" />${msg("doCancel")}</button>
 					<#else>
-						<input type="submit" value="${msg("doSubmit")}" id="submit" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" />
+						<input type="submit" value="${msg("doSubmitResetPassword")}" id="submit" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" />
 					</#if>
 	            </div>
 	        </form>

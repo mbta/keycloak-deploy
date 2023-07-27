@@ -4,7 +4,7 @@
     <#if section = "header">
         ${msg("registerTitle")}
     <#elseif section = "form">
-    	<div class="container">
+    	<div class="container" role="main">
     		<h1>${msg("registerTitle")}</h1>
 			<#if message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>
 				<#if message.type = 'success'><span class="${properties.kcFeedbackSuccessIcon!}"></span>

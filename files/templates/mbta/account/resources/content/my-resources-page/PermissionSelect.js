@@ -2,6 +2,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 import * as React from "../../../../common/keycloak/web_modules/react.js";
 import { Select, SelectOption, SelectVariant } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
+import { Msg } from "../../widgets/Msg.js";
 
 class ScopeValue {
   constructor(value) {
@@ -66,7 +67,7 @@ export class PermissionSelect extends React.Component {
     this.state = {
       isExpanded: false,
       selected: values,
-      scopes: this.props.scopes.map((option, index) => React.createElement(SelectOption, {
+      scopes: this.props.scopes.map((option, index) => /*#__PURE__*/React.createElement(SelectOption, {
         key: index,
         value: values.find(s => s.compareTo(option)) || new ScopeValue(option)
       }))
@@ -79,20 +80,22 @@ export class PermissionSelect extends React.Component {
       selected
     } = this.state;
     const titleId = 'permission-id';
-    return React.createElement("div", null, React.createElement("span", {
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
       id: titleId,
       hidden: true
-    }, "Select the permissions"), React.createElement(Select, {
+    }, /*#__PURE__*/React.createElement(Msg, {
+      msgKey: "selectPermissions"
+    })), /*#__PURE__*/React.createElement(Select, {
       direction: this.props.direction || 'down',
       variant: SelectVariant.typeaheadMulti,
-      ariaLabelTypeAhead: "Select the permissions",
+      typeAheadAriaLabel: Msg.localize("selectPermissions"),
       onToggle: this.onToggle,
       onSelect: this.onSelect,
       onClear: this.clearSelection,
       selections: selected,
-      isExpanded: isExpanded,
-      ariaLabelledBy: titleId,
-      placeholderText: "Select the permissions"
+      isOpen: isExpanded,
+      "aria-labelledby": titleId,
+      placeholderText: Msg.localize("selectPermissions")
     }, this.state.scopes));
   }
 

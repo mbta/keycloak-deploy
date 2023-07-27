@@ -34,11 +34,11 @@ export class Main extends React.Component {
 
   render() {
     const keycloakService = new KeycloakService(keycloak);
-    return React.createElement(HashRouter, null, React.createElement(KeycloakContext.Provider, {
+    return /*#__PURE__*/React.createElement(HashRouter, null, /*#__PURE__*/React.createElement(KeycloakContext.Provider, {
       value: keycloakService
-    }, React.createElement(AccountServiceContext.Provider, {
+    }, /*#__PURE__*/React.createElement(AccountServiceContext.Provider, {
       value: new AccountServiceClient(keycloakService)
-    }, React.createElement(App, null))));
+    }, /*#__PURE__*/React.createElement(App, null))));
   }
 
 }

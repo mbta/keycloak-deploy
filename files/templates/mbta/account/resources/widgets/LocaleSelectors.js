@@ -23,14 +23,14 @@ export class LocaleSelector extends React.Component {
   }
 
   render() {
-    return React.createElement(FormSelect, {
+    return /*#__PURE__*/React.createElement(FormSelect, {
       id: "locale-select",
       value: this.props.value,
       onChange: (value, event) => {
         if (this.props.onChange) this.props.onChange(value, event);
       },
       "aria-label": Msg.localize('selectLocale')
-    }, availableLocales.map((locale, index) => React.createElement(FormSelectOption, {
+    }, availableLocales.map((locale, index) => /*#__PURE__*/React.createElement(FormSelectOption, {
       key: index,
       value: locale.locale,
       label: locale.label

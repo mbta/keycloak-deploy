@@ -16,7 +16,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * limitations under the License.
  */
 import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { Button, Modal, Form, FormGroup, TextInput, InputGroup } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
+import { Button, Modal, Form, FormGroup, TextInput, InputGroup, ModalVariant } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
 import { OkIcon } from "../../../../common/keycloak/web_modules/@patternfly/react-icons.js";
 import { Scope } from "./resource-model.js";
 import { Msg } from "../../widgets/Msg.js";
@@ -68,34 +68,34 @@ export class EditTheResource extends React.Component {
   }
 
   render() {
-    return React.createElement(React.Fragment, null, this.props.children(this.handleToggleDialog), React.createElement(Modal, {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, this.props.children(this.handleToggleDialog), /*#__PURE__*/React.createElement(Modal, {
       title: 'Edit the resource - ' + this.props.resource.name,
-      isLarge: true,
+      variant: ModalVariant.large,
       isOpen: this.state.isOpen,
       onClose: this.handleToggleDialog,
-      actions: [React.createElement(Button, {
+      actions: [/*#__PURE__*/React.createElement(Button, {
         key: "done",
         variant: "link",
         id: "done",
         onClick: this.handleToggleDialog
-      }, React.createElement(Msg, {
+      }, /*#__PURE__*/React.createElement(Msg, {
         msgKey: "done"
       }))]
-    }, React.createElement(Form, {
+    }, /*#__PURE__*/React.createElement(Form, {
       isHorizontal: true
-    }, this.props.permissions.map((p, row) => React.createElement(React.Fragment, null, React.createElement(FormGroup, {
+    }, this.props.permissions.map((p, row) => /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(FormGroup, {
       fieldId: `username-${row}`,
       label: Msg.localize('User')
-    }, React.createElement(TextInput, {
+    }, /*#__PURE__*/React.createElement(TextInput, {
       id: `username-${row}`,
       type: "text",
       value: p.username,
       isDisabled: true
-    })), React.createElement(FormGroup, {
+    })), /*#__PURE__*/React.createElement(FormGroup, {
       fieldId: `permissions-${row}`,
       label: Msg.localize('permissions'),
       isRequired: true
-    }, React.createElement(InputGroup, null, React.createElement(PermissionSelect, {
+    }, /*#__PURE__*/React.createElement(InputGroup, null, /*#__PURE__*/React.createElement(PermissionSelect, {
       scopes: this.props.resource.scopes,
       selected: p.scopes.map(s => new Scope(s)),
       direction: row === this.props.permissions.length - 1 ? "up" : "down",
@@ -103,11 +103,11 @@ export class EditTheResource extends React.Component {
         p.scopes = selection.map(s => s.name);
         this.updateChanged(row);
       }
-    }), React.createElement(Button, {
+    }), /*#__PURE__*/React.createElement(Button, {
       id: `save-${row}`,
       isDisabled: !this.state.changed[row],
       onClick: () => this.savePermission(p)
-    }, React.createElement(OkIcon, null)))), React.createElement("hr", null))))));
+    }, /*#__PURE__*/React.createElement(OkIcon, null)))), /*#__PURE__*/React.createElement("hr", null))))));
   }
 
 }

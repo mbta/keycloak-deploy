@@ -1,7 +1,7 @@
 <#import "template.ftl" as layout>
 <@layout.registrationLayout displayInfo=true; section>
 	<#if section = "form">
-    	<div class="container">
+    	<div class="container" role="main">
     		<span class="user-name-container">
     			<h1>${kcSanitize(msg("secondFactor.validateCodeTitle"))?no_esc}</h1>
     		</span>

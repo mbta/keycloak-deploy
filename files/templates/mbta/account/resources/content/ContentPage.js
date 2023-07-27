@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 import * as React from "../../../common/keycloak/web_modules/react.js";
-import { Button, Grid, GridItem, Title, Tooltip } from "../../../common/keycloak/web_modules/@patternfly/react-core.js";
-import { RedoIcon } from "../../../common/keycloak/web_modules/@patternfly/react-icons.js";
+import { Button, Text, Title, Tooltip, PageSection, TextContent, PageSectionVariants, SplitItem, Split } from "../../../common/keycloak/web_modules/@patternfly/react-core.js";
+import { SyncAltIcon } from "../../../common/keycloak/web_modules/@patternfly/react-icons.js";
 import { Msg } from "../widgets/Msg.js";
 import { ContentAlert } from "./ContentAlert.js";
 
@@ -28,36 +28,34 @@ export class ContentPage extends React.Component {
   }
 
   render() {
-    return React.createElement(React.Fragment, null, React.createElement(ContentAlert, null), React.createElement("section", {
-      id: "page-heading",
-      className: "pf-c-page__main-section pf-m-light"
-    }, React.createElement(Grid, null, React.createElement(GridItem, {
-      span: 11
-    }, React.createElement(Title, {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(ContentAlert, null), /*#__PURE__*/React.createElement(PageSection, {
+      variant: PageSectionVariants.light,
+      className: "pf-u-pb-xs"
+    }, /*#__PURE__*/React.createElement(Split, null, /*#__PURE__*/React.createElement(SplitItem, {
+      isFilled: true
+    }, /*#__PURE__*/React.createElement(TextContent, null, /*#__PURE__*/React.createElement(Title, {
       headingLevel: "h1",
-      size: "3xl"
-    }, React.createElement("strong", null, React.createElement(Msg, {
+      size: "2xl",
+      className: "pf-u-mb-xl"
+    }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: this.props.title
-    })))), this.props.onRefresh && React.createElement(GridItem, {
-      span: 1
-    }, React.createElement(Tooltip, {
-      content: React.createElement(Msg, {
+    })), this.props.introMessage && /*#__PURE__*/React.createElement(Text, {
+      component: "p"
+    }, /*#__PURE__*/React.createElement(Msg, {
+      msgKey: this.props.introMessage
+    })))), this.props.onRefresh && /*#__PURE__*/React.createElement(SplitItem, null, /*#__PURE__*/React.createElement(Tooltip, {
+      content: /*#__PURE__*/React.createElement(Msg, {
         msgKey: "refreshPage"
       })
-    }, React.createElement(Button, {
-      "aria-describedby": "refresh page",
+    }, /*#__PURE__*/React.createElement(Button, {
+      "aria-label": Msg.localize('refreshPage'),
       id: "refresh-page",
-      variant: "plain",
-      onClick: this.props.onRefresh
-    }, React.createElement(RedoIcon, {
-      size: "sm"
-    })))), this.props.introMessage && React.createElement(GridItem, {
-      span: 12
-    }, " ", React.createElement(Msg, {
-      msgKey: this.props.introMessage
-    })))), React.createElement("section", {
-      className: "pf-c-page__main-section pf-m-no-padding-mobile"
-    }, this.props.children));
+      variant: "link",
+      onClick: this.props.onRefresh,
+      icon: /*#__PURE__*/React.createElement(SyncAltIcon, null)
+    }, /*#__PURE__*/React.createElement(Msg, {
+      msgKey: "refresh"
+    })))))), this.props.children);
   }
 
 }
