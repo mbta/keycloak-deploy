@@ -2,7 +2,7 @@
 
 <module xmlns="urn:jboss:module:1.1" name="cz.integsoft.keycloak.browser.authenticator">
 	<resources>
-		<resource-root path="mbta-keycloak-browser-authenticator-1.0.9.jar"/>
+		<resource-root path="mbta-keycloak-browser-authenticator-1.0.10.jar"/>
 		<resource-root path="amazon-sqs-java-messaging-lib-1.0.8.jar"/>
 		<resource-root path="aws-java-sdk-core-1.11.106.jar"/>
 		<resource-root path="aws-java-sdk-sqs-1.11.106.jar"/>
