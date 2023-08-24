@@ -187,6 +187,16 @@
 		                        </div>
 	                        </#if>
 	                </div>
+	                
+	                <div class="form-group">
+						<div class="input-group">	
+	                        <input type="checkbox" id="terms_of_use" class="form-input-checkbox <#if messagesPerField.existsError('terms_of_use')> input-error</#if>"
+	                               name="terms_of_use"
+	                               aria-invalid="<#if messagesPerField.existsError('terms_of_use')>true</#if>"
+	                        />
+	                        <label for="terms_of_use" class="form-input-label-not-bold<#if messagesPerField.existsError('terms_of_use')> label-error</#if>">${msg("termsOfUse")?no_esc}</label>
+	                    </div>
+	                </div>
 	            </#if>
 	
 	            <#if recaptchaRequired??>
