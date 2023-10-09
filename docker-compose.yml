@@ -5,22 +5,19 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - KEYCLOAK_USER=kc_username
-      - KEYCLOAK_PASSWORD=kc_password
-      - PROXY_ADDRESS_FORWARDING=false
-      - KEYCLOAK_LOGLEVEL=INFO
-      - ROOT_LOGLEVEL=INFO
-      - DB_VENDOR=mariadb
-      - DB_ADDR=mariadb
-      - DB_DATABASE=keycloak
-      - DB_USER=keycloak
-      - DB_PASSWORD=keycloak
-      - JDBC_PARAMS=autoreconnect=true
+      - KEYCLOAK_ADMIN=kc_username
+      - KEYCLOAK_ADMIN_PASSWORD=kc_password
+      - KC_HTTP_ENABLED=true
+      - KC_HOSTNAME_STRICT=false
+      - KC_HEALTH_ENABLED=true
+      - KC_LOG_LEVEL=INFO,cz.integsoft:DEBUG,org.infinispan:DEBUG,org.jgroups:DEBUG
+      - KC_DB=mariadb
+      - KC_DB_URL=jdbc:mysql://mariadb:3306/keycloak?autoReconnect=true
+      - KC_DB_USERNAME=keycloak
+      - KC_DB_PASSWORD=keycloak
+      - KC_HTTP_RELATIVE_PATH=/auth
+      - KC_CACHE_CONFIG_FILE=cache-ispn-jdbc-ping.xml
       - JAVA_OPTS_APPEND=-Xmx1500m -Djboss.bind.address=0.0.0.0
-      - CACHE_OWNERS_COUNT=1
-      - CACHE_OWNERS_AUTH_SESSIONS_COUNT=1
-      - JGROUPS_DISCOVERY_PROTOCOL=JDBC_PING
-      - JGROUPS_DISCOVERY_PROPERTIES=datasource_jndi_name=java:jboss/datasources/KeycloakDS,remove_old_coords_on_view_change=true
       - AWS_REGION=us-east-1
     links:
       - mariadb
