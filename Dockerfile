@@ -1,48 +1,47 @@
-FROM quay.io/keycloak/keycloak:19.0.3-legacy
+FROM quay.io/keycloak/keycloak:19.0.3 as builder
 
 LABEL maintainer="support@integrationeye.com"
 LABEL builder="Integsoft s.r.o"
 LABEL description="MBTA Keycloak"
 
 ENV INSTALL_FOLDER=/tmp/files
+ENV KC_FOLDER=/opt/keycloak
+
+ENV KC_DB=mariadb
+ENV KC_HTTP_RELATIVE_PATH=/auth
+ENV KC_CACHE_CONFIG_FILE=cache-ispn-jdbc-ping.xml
+ENV KC_HOSTNAME_STRICT=false
+ENV KC_HTTP_ENABLED=true
+ENV KC_LOG_LEVEL=INFO,cz.integsoft:debug
+ENV KC_PROXY=edge
 
 USER root
 # install system tools and update system
 RUN ["/bin/bash", "-c", "microdnf update -y && microdnf install -y vim"]
-# remove root password
-# RUN ["/bin/bash", "-c", "passwd --delete root"]
 
-USER jboss
+USER keycloak
 
 # copy build scripts and related data
 COPY files/ $INSTALL_FOLDER/
 
-# copy CLI scripts (in this version it is not supported to use startup-scripts variable
-COPY files/startup-scripts/* /opt/jboss/startup-scripts/
-# copy custom modules
-RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/modules/* $JBOSS_HOME/modules/"]
+# copy the custom cache config file into the keycloak conf dir
+RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/conf/cache-ispn-jdbc-ping.xml $KC_FOLDER/conf/"]
 
-# copy welcome page
-RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/welcome-content/* $JBOSS_HOME/welcome-content/"]
+# copy custom modules
+RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/modules/* $KC_FOLDER/providers/"]
 
 # copy templates
-RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/templates/* $JBOSS_HOME/themes/"]
+RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/templates/* $KC_FOLDER/themes/"]
 
-# add integsoft version of keycloak-model-infinispan and replace module.xml
-RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/keycloak-modules/keycloak-model-infinispan/* $JBOSS_HOME/modules/system/layers/keycloak/org/keycloak/keycloak-model-infinispan/main/"]
+# add integsoft version of keycloak jars
+RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/keycloak-modules/* $KC_FOLDER/lib/lib/main"]
 
-# add integsoft version of keycloak-server-spi and replace module.xml
-RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/keycloak-modules/keycloak-server-spi/* $JBOSS_HOME/modules/system/layers/keycloak/org/keycloak/keycloak-server-spi/main/"]
+RUN /opt/keycloak/bin/kc.sh build --spi-email-sender-provider=aws-ses --spi-email-sender-provider-aws-ses-enabled=true --spi-email-sender-provider-aws-ses-region=$AWS_REGION
+RUN /opt/keycloak/bin/kc.sh show-config
 
-# add integsoft version of keycloak-server-spi-private and replace module.xml
-RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/keycloak-modules/keycloak-server-spi-private/* $JBOSS_HOME/modules/system/layers/keycloak/org/keycloak/keycloak-server-spi-private/main/"]
-
-# add integsoft version of keycloak-services and replace module.xml
-RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/keycloak-modules/keycloak-services/* $JBOSS_HOME/modules/system/layers/keycloak/org/keycloak/keycloak-services/main/"]
-
-# copy AWS SES SPI library
-RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/mbta-keycloak-aws-ses-email-provider-1.1.0.jar $JBOSS_HOME/standalone/deployments/"]
+WORKDIR /opt/keycloak
 
 # Ports
 EXPOSE 8080 8443
 
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start", "--optimized"]
