@@ -30,9 +30,6 @@ RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/conf/cache-ispn-jdbc-ping.xml $K
 # copy custom modules
 RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/modules/* $KC_FOLDER/providers/"]
 
-# copy welcome page
-#RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/welcome-content/* $KC_FOLDER/welcome-content/"]
-
 # copy templates
 RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/templates/* $KC_FOLDER/themes/"]
 
