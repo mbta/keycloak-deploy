@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:19.0.3 as builder
+FROM quay.io/keycloak/keycloak:22.0.4 as builder
 
 LABEL maintainer="support@integrationeye.com"
 LABEL builder="Integsoft s.r.o"
@@ -14,10 +14,6 @@ ENV KC_HOSTNAME_STRICT=false
 ENV KC_HTTP_ENABLED=true
 ENV KC_LOG_LEVEL=INFO,cz.integsoft:debug
 ENV KC_PROXY=edge
-
-USER root
-# install system tools and update system
-RUN ["/bin/bash", "-c", "microdnf update -y && microdnf install -y vim"]
 
 USER keycloak
 
