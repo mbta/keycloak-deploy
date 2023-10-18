@@ -12,7 +12,9 @@ services:
       - KC_HEALTH_ENABLED=true
       - KC_LOG_LEVEL=INFO,cz.integsoft:DEBUG,org.infinispan:DEBUG,org.jgroups:DEBUG
       - KC_DB=mariadb
-      - KC_DB_URL=jdbc:mysql://mariadb:3306/keycloak?autoReconnect=true
+      - KC_DB_URL_HOST=mariadb
+      - KC_DB_URL_DATABASE=keycloak
+      - KC_DB_URL_PROPERTIES=?autoReconnect=true
       - KC_DB_USERNAME=keycloak
       - KC_DB_PASSWORD=keycloak
       - KC_HTTP_RELATIVE_PATH=/auth
