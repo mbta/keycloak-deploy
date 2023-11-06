@@ -1,5 +1,5 @@
 <#import "template.ftl" as layout>
-<@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','email','firstName','lastName','user.attributes.phone_number'); section>
+<@layout.registrationLayout displayMessage=!messagesPerField.existsError('email','firstName','lastName','user.attributes.phone_number'); section>
     <#if section = "header">
         ${msg("loginProfileTitle")}
     <#elseif section = "form">
@@ -57,24 +57,6 @@
 			</#if>
 			
 			<form action="${url.loginAction}" method="post">
-	            <#if user.editUsernameAllowed>
-	            	<div class="form-group">
-		                <label for="username" class="form-input-label<#if messagesPerField.existsError('username')> label-error</#if>">${msg("username")}</label>
-		                <input type="text" id="username" name="username" 
-		                	value="${(user.username!'')}"
-		                	class="form-input<#if messagesPerField.existsError('username')> input-error</#if>
-		                    aria-invalid="<#if messagesPerField.existsError('username')>true</#if>"
-		                />
-	
-	                    <#if messagesPerField.existsError('username')>
-							<div class="instructions-container">
-								<span id="input-error-username" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
-									${kcSanitize(messagesPerField.get('username'))?no_esc}
-								</span>
-							</div>
-						</#if>
-	                </div>
-	            </#if>
 	            <div class="form-group">
 	                <label for="email" class="form-input-label<#if messagesPerField.existsError('email')> label-error</#if>">${msg("email")}</label>
 	                <input type="text" id="email" name="email" value="${(user.email!'')}"
@@ -82,13 +64,15 @@
 	                    aria-invalid="<#if messagesPerField.existsError('email')>true</#if>" <#if user.email?? && user.email?contains("@mbta.com")>readonly style="border-color: #999; color: #999;"</#if>
 	                />
 	
-	                <#if messagesPerField.existsError('email')>
-	                	<div class="instructions-container">
-		                	<span id="input-error-email" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
-		                    	${kcSanitize(messagesPerField.get('email'))?no_esc}
-		                    </span>
-		                </div>
-	                </#if>
+	                <div class="instructions-container">
+		               	<#if messagesPerField.existsError('email')>
+			               	<span id="input-error-email" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
+			                   	${kcSanitize(messagesPerField.get('email'))?no_esc}
+			                </span>
+			            <#else>
+			            	${msg("updateprofile.email.info")}
+			            </#if>
+		              </div>
 	            </div>
 	
 	            <div class="form-group">
