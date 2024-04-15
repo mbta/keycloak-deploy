@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:23.0.7 as builder
+FROM quay.io/keycloak/keycloak:24.0.2 as builder
 
 LABEL maintainer="support@integrationeye.com"
 LABEL builder="Integsoft s.r.o"
@@ -14,6 +14,7 @@ ENV KC_HOSTNAME_STRICT=false
 ENV KC_HTTP_ENABLED=true
 ENV KC_LOG_LEVEL=INFO,cz.integsoft:debug
 ENV KC_PROXY=edge
+ENV KC_HEALTH_ENABLED=true
 
 USER keycloak
 
@@ -32,7 +33,7 @@ RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/templates/* $KC_FOLDER/themes/"]
 # add integsoft version of keycloak jars
 RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/keycloak-modules/* $KC_FOLDER/lib/lib/main"]
 
-RUN /opt/keycloak/bin/kc.sh build --spi-email-sender-provider=aws-ses --spi-email-sender-provider-aws-ses-enabled=true --spi-email-sender-provider-aws-ses-region=$AWS_REGION --features="token-exchange"
+RUN /opt/keycloak/bin/kc.sh build --health-enabled=true --spi-email-sender-provider=aws-ses --spi-email-sender-provider-aws-ses-enabled=true --spi-email-sender-provider-aws-ses-region=$AWS_REGION --features="token-exchange"
 RUN /opt/keycloak/bin/kc.sh show-config
 
 WORKDIR /opt/keycloak
