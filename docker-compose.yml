@@ -21,6 +21,7 @@ services:
       - KC_CACHE_CONFIG_FILE=cache-ispn-jdbc-ping.xml
       - JAVA_OPTS_APPEND=-Xmx1500m -Djboss.bind.address=0.0.0.0
       - AWS_REGION=us-east-1
+      - KC_HEALTH_ENABLED=true
     links:
       - mariadb
   mariadb:
