@@ -1,5 +1,6 @@
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
  * Copyright 2018 Red Hat, Inc. and/or its affiliates.
  *
@@ -15,9 +16,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { DataList, DataListItem, DataListItemRow, DataListCell, DataListToggle, DataListContent, DataListItemCells, Level, LevelItem, Button, DataListAction, Dropdown, DropdownPosition, DropdownItem, KebabToggle } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
-import { Remove2Icon, RepositoryIcon, ShareAltIcon, EditAltIcon } from "../../../../common/keycloak/web_modules/@patternfly/react-icons.js";
+
+import * as React from "../../../keycloak.v2/web_modules/react.js";
+import { DataList, DataListItem, DataListItemRow, DataListCell, DataListToggle, DataListContent, DataListItemCells, Level, LevelItem, Button, DataListAction, Dropdown, DropdownPosition, DropdownItem, KebabToggle } from "../../../keycloak.v2/web_modules/@patternfly/react-core.js";
+import { Remove2Icon, RepositoryIcon, ShareAltIcon, EditAltIcon } from "../../../keycloak.v2/web_modules/@patternfly/react-icons.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
 import { PermissionRequest } from "./PermissionRequest.js";
 import { ShareTheResource } from "./ShareTheResource.js";
@@ -30,9 +32,7 @@ import { ContinueCancelModal } from "../../widgets/ContinueCancelModal.js";
 export class ResourcesTable extends AbstractResourcesTable {
   constructor(props, context) {
     super(props);
-
     _defineProperty(this, "context", void 0);
-
     _defineProperty(this, "onToggle", row => {
       const newIsRowOpen = this.state.isRowOpen;
       newIsRowOpen[row] = !newIsRowOpen[row];
@@ -41,23 +41,19 @@ export class ResourcesTable extends AbstractResourcesTable {
         isRowOpen: newIsRowOpen
       });
     });
-
     _defineProperty(this, "onContextToggle", (row, isOpen) => {
       if (this.state.isModalActive) return;
       const data = this.props.resources.data;
       const contextOpen = this.state.contextOpen;
       contextOpen[row] = isOpen;
-
       if (isOpen) {
         const index = row > data.length ? row - data.length - 1 : row;
         this.fetchPermissions(data[index], index);
       }
-
       this.setState({
         contextOpen
       });
     });
-
     this.context = context;
     this.state = {
       isRowOpen: [],
@@ -66,9 +62,8 @@ export class ResourcesTable extends AbstractResourcesTable {
       permissions: new Map()
     };
   }
-
   fetchPermissions(resource, row) {
-    this.context.doGet(`/resources/${resource._id}/permissions`).then(response => {
+    this.context.doGet(`/resources/${encodeURIComponent(resource._id)}/permissions`).then(response => {
       const newPermissions = new Map(this.state.permissions);
       newPermissions.set(row, response.data || []);
       this.setState({
@@ -76,17 +71,15 @@ export class ResourcesTable extends AbstractResourcesTable {
       });
     });
   }
-
   removeShare(resource, row) {
     const permissions = this.state.permissions.get(row).map(a => ({
       username: a.username,
       scopes: []
     }));
-    return this.context.doPut(`/resources/${resource._id}/permissions`, permissions).then(() => {
+    return this.context.doPut(`/resources/${encodeURIComponent(resource._id)}/permissions`, permissions).then(() => {
       ContentAlert.success(Msg.localize('unShareSuccess'));
     });
   }
-
   render() {
     if (this.props.resources.data.length === 0) {
       return /*#__PURE__*/React.createElement(EmptyMessageState, {
@@ -94,7 +87,6 @@ export class ResourcesTable extends AbstractResourcesTable {
         messageKey: "notHaveAnyResource"
       });
     }
-
     return /*#__PURE__*/React.createElement(DataList, {
       "aria-label": Msg.localize('resources'),
       id: "resourcesList"
@@ -306,8 +298,6 @@ export class ResourcesTable extends AbstractResourcesTable {
       id: 'shared-with-user-message-' + row
     }, this.sharedWithUsersMessage(row)), /*#__PURE__*/React.createElement(LevelItem, null, /*#__PURE__*/React.createElement("span", null)))))));
   }
-
 }
-
 _defineProperty(ResourcesTable, "contextType", AccountServiceContext);
 //# sourceMappingURL=ResourcesTable.js.map

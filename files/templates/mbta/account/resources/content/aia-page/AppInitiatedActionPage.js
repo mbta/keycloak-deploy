@@ -1,5 +1,6 @@
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
  * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
@@ -15,30 +16,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { withRouter } from "../../../../common/keycloak/web_modules/react-router-dom.js";
+
+import * as React from "../../../keycloak.v2/web_modules/react.js";
+import { withRouter } from "../../../keycloak.v2/web_modules/react-router-dom.js";
 import { AIACommand } from "../../util/AIACommand.js";
 import { Msg } from "../../widgets/Msg.js";
-import { Title, Button, EmptyState, EmptyStateVariant, EmptyStateIcon, EmptyStateBody, TitleSizes } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
-import { PassportIcon } from "../../../../common/keycloak/web_modules/@patternfly/react-icons.js";
-import { KeycloakContext } from "../../keycloak-service/KeycloakContext.js"; // Note: This class demonstrates two features of the ContentPages framework:
+import { Title, Button, EmptyState, EmptyStateVariant, EmptyStateIcon, EmptyStateBody, TitleSizes } from "../../../keycloak.v2/web_modules/@patternfly/react-core.js";
+import { PassportIcon } from "../../../keycloak.v2/web_modules/@patternfly/react-icons.js";
+import { KeycloakContext } from "../../keycloak-service/KeycloakContext.js";
+
+// Note: This class demonstrates two features of the ContentPages framework:
 // 1) The PageDef is available as a React property.
 // 2) You can add additional custom properties to the PageDef.  In this case,
 //    we add a value called kcAction in content.js and access it by extending the
 //    PageDef interface.
-
+// Extend RouteComponentProps to get access to router information such as
+// the hash-routed path associated with this page.  See this.props.location.pathname
+// as used below.
 /**
  * @author Stan Silvert
  */
 class ApplicationInitiatedActionPage extends React.Component {
   constructor(props) {
     super(props);
-
     _defineProperty(this, "handleClick", keycloak => {
       new AIACommand(keycloak, this.props.pageDef.kcAction).execute();
     });
   }
-
   render() {
     return /*#__PURE__*/React.createElement(EmptyState, {
       variant: EmptyStateVariant.full
@@ -60,11 +64,10 @@ class ApplicationInitiatedActionPage extends React.Component {
       msgKey: "continue"
     }))));
   }
-
 }
+;
 
-; // Note that the class name is not exported above.  To get access to the router,
+// Note that the class name is not exported above.  To get access to the router,
 // we use withRouter() and export a different name.
-
 export const AppInitiatedActionPage = withRouter(ApplicationInitiatedActionPage);
 //# sourceMappingURL=AppInitiatedActionPage.js.map

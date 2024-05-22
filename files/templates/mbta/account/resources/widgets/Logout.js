@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../common/keycloak/web_modules/react.js";
+
+import * as React from "../../keycloak.v2/web_modules/react.js";
 import { Msg } from "./Msg.js";
 import { KeycloakContext } from "../keycloak-service/KeycloakContext.js";
-import { Button, DropdownItem } from "../../../common/keycloak/web_modules/@patternfly/react-core.js";
-
+import { Button, DropdownItem } from "../../keycloak.v2/web_modules/@patternfly/react-core.js";
 function handleLogout(keycloak) {
   keycloak.logout();
 }
-
 export class LogoutButton extends React.Component {
   render() {
     return /*#__PURE__*/React.createElement(KeycloakContext.Consumer, null, keycloak => /*#__PURE__*/React.createElement(Button, {
@@ -31,7 +30,6 @@ export class LogoutButton extends React.Component {
       msgKey: "doSignOut"
     })));
   }
-
 }
 export class LogoutDropdownItem extends React.Component {
   render() {
@@ -41,6 +39,5 @@ export class LogoutDropdownItem extends React.Component {
       onClick: () => handleLogout(keycloak)
     }, Msg.localize('doSignOut')));
   }
-
 }
 //# sourceMappingURL=Logout.js.map

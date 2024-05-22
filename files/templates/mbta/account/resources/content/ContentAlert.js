@@ -1,5 +1,7 @@
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+var _class;
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
  * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
@@ -15,21 +17,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../common/keycloak/web_modules/react.js";
-import { Alert, AlertActionCloseButton, AlertGroup, AlertVariant } from "../../../common/keycloak/web_modules/@patternfly/react-core.js";
+
+import * as React from "../../keycloak.v2/web_modules/react.js";
+import { Alert, AlertActionCloseButton, AlertGroup, AlertVariant } from "../../keycloak.v2/web_modules/@patternfly/react-core.js";
 import { Msg } from "../widgets/Msg.js";
 export class ContentAlert extends React.Component {
   constructor(props) {
     super(props);
-
     _defineProperty(this, "hideAlert", key => {
       this.setState({
         alerts: [...this.state.alerts.filter(el => el.key !== key)]
       });
     });
-
     _defineProperty(this, "getUniqueId", () => new Date().getTime());
-
     _defineProperty(this, "postAlert", (variant, message, params) => {
       const alerts = this.state.alerts;
       const key = this.getUniqueId();
@@ -41,50 +41,43 @@ export class ContentAlert extends React.Component {
       this.setState({
         alerts
       });
-
       if (variant !== AlertVariant.danger) {
         setTimeout(() => this.hideAlert(key), 8000);
       }
     });
-
     this.state = {
       alerts: []
     };
     ContentAlert.instance = this;
   }
+
   /**
    * @param message A literal text message or localization key.
    */
-
-
   static success(message, params) {
     ContentAlert.instance.postAlert(AlertVariant.success, message, params);
   }
+
   /**
    * @param message A literal text message or localization key.
    */
-
-
   static danger(message, params) {
     ContentAlert.instance.postAlert(AlertVariant.danger, message, params);
   }
+
   /**
    * @param message A literal text message or localization key.
    */
-
-
   static warning(message, params) {
     ContentAlert.instance.postAlert(AlertVariant.warning, message, params);
   }
+
   /**
    * @param message A literal text message or localization key.
    */
-
-
   static info(message, params) {
     ContentAlert.instance.postAlert(AlertVariant.info, message, params);
   }
-
   render() {
     return /*#__PURE__*/React.createElement(AlertGroup, {
       isToast: true,
@@ -106,8 +99,7 @@ export class ContentAlert extends React.Component {
       key: key
     })));
   }
-
 }
-
+_class = ContentAlert;
 _defineProperty(ContentAlert, "instance", void 0);
 //# sourceMappingURL=ContentAlert.js.map

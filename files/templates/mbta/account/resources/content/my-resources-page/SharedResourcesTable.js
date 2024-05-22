@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { DataList, DataListItem, DataListItemRow, DataListCell, DataListItemCells, ChipGroup, Chip } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
-import { RepositoryIcon } from "../../../../common/keycloak/web_modules/@patternfly/react-icons.js";
+
+import * as React from "../../../keycloak.v2/web_modules/react.js";
+import { DataList, DataListItem, DataListItemRow, DataListCell, DataListItemCells, ChipGroup, Chip } from "../../../keycloak.v2/web_modules/@patternfly/react-core.js";
+import { RepositoryIcon } from "../../../keycloak.v2/web_modules/@patternfly/react-icons.js";
 import { Msg } from "../../widgets/Msg.js";
 import { AbstractResourcesTable } from "./AbstractResourceTable.js";
 import EmptyMessageState from "../../widgets/EmptyMessageState.js";
@@ -26,7 +27,6 @@ export class SharedResourcesTable extends AbstractResourcesTable {
       permissions: new Map()
     };
   }
-
   render() {
     if (this.props.resources.data.length === 0) {
       return /*#__PURE__*/React.createElement(EmptyMessageState, {
@@ -34,7 +34,6 @@ export class SharedResourcesTable extends AbstractResourcesTable {
         messageKey: "noResourcesSharedWithYou"
       });
     }
-
     return /*#__PURE__*/React.createElement(DataList, {
       "aria-label": Msg.localize('resources'),
       id: "sharedResourcesList"
@@ -92,6 +91,5 @@ export class SharedResourcesTable extends AbstractResourcesTable {
       }, scope.displayName || scope.name))))]
     })))));
   }
-
 }
 //# sourceMappingURL=SharedResourcesTable.js.map

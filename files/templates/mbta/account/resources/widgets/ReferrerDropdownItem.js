@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../common/keycloak/web_modules/react.js";
-import { Msg } from "./Msg.js";
-import { DropdownItem } from "../../../common/keycloak/web_modules/@patternfly/react-core.js";
-import { ArrowIcon } from "../../../common/keycloak/web_modules/@patternfly/react-icons.js";
 
+import * as React from "../../keycloak.v2/web_modules/react.js";
+import { Msg } from "./Msg.js";
+import { DropdownItem } from "../../keycloak.v2/web_modules/@patternfly/react-core.js";
+import { ArrowIcon } from "../../keycloak.v2/web_modules/@patternfly/react-icons.js";
 /**
  * @author Stan Silvert ssilvert@redhat.com (C) 2018 Red Hat Inc.
  */
@@ -25,14 +25,12 @@ export class ReferrerDropdownItem extends React.Component {
   constructor(props) {
     super(props);
   }
-
   render() {
     return /*#__PURE__*/React.createElement(DropdownItem, {
       id: "referrerMobileLink",
       href: referrerUri
     }, /*#__PURE__*/React.createElement(ArrowIcon, null), " ", Msg.localize('backTo', [referrerName]));
   }
-
 }
 ;
 //# sourceMappingURL=ReferrerDropdownItem.js.map

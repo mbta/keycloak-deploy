@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../common/keycloak/web_modules/react.js";
-import { Route, Switch } from "../../common/keycloak/web_modules/react-router-dom.js";
-import { NavItem, NavExpandable } from "../../common/keycloak/web_modules/@patternfly/react-core.js";
+
+import * as React from "../keycloak.v2/web_modules/react.js";
+import { Route, Switch } from "../keycloak.v2/web_modules/react-router-dom.js";
+import { NavItem, NavExpandable } from "../keycloak.v2/web_modules/@patternfly/react-core.js";
 import { Msg } from "./widgets/Msg.js";
 import { PageNotFound } from "./content/page-not-found/PageNotFound.js";
 import { ForbiddenPage } from "./content/forbidden-page/ForbiddenPage.js";
@@ -26,29 +27,23 @@ export function isModulePageDef(item) {
 export function isExpansion(contentItem) {
   return contentItem.content !== undefined;
 }
-
 function groupId(group) {
   return 'grp-' + group;
 }
-
 function itemId(group, item) {
   return 'grp-' + group + '_itm-' + item;
 }
-
 function isChildOf(parent, child) {
   for (var item of parent.content) {
     if (isExpansion(item) && isChildOf(item, child)) return true;
     if (parent.groupId === child.groupId) return true;
   }
-
   return false;
 }
-
 function createNavItems(activePage, contentParam, groupNum) {
   if (typeof content === 'undefined') return /*#__PURE__*/React.createElement(React.Fragment, null);
   const links = contentParam.map(item => {
     const navLinkId = `nav-link-${item.id}`;
-
     if (isExpansion(item)) {
       return /*#__PURE__*/React.createElement(NavExpandable, {
         id: navLinkId,
@@ -72,21 +67,17 @@ function createNavItems(activePage, contentParam, groupNum) {
   });
   return /*#__PURE__*/React.createElement(React.Fragment, null, links);
 }
-
 export function makeNavItems(activePage) {
   console.log({
     activePage
   });
   return createNavItems(activePage, content, 0);
 }
-
 function setIds(contentParam, groupNum) {
   if (typeof contentParam === 'undefined') return groupNum;
   let expansionGroupNum = groupNum;
-
   for (let i = 0; i < contentParam.length; i++) {
     const item = contentParam[i];
-
     if (isExpansion(item)) {
       item.itemId = itemId(groupNum, i);
       expansionGroupNum = expansionGroupNum + 1;
@@ -98,21 +89,19 @@ function setIds(contentParam, groupNum) {
       item.itemId = itemId(groupNum, i);
     }
   }
-
   ;
   return expansionGroupNum;
 }
-
 export function initGroupAndItemIds() {
   setIds(content, 0);
   console.log({
     content
   });
-} // get rid of Expansions and put all PageDef items into a single array
+}
 
+// get rid of Expansions and put all PageDef items into a single array
 export function flattenContent(pageDefs) {
   const flat = [];
-
   for (let item of pageDefs) {
     if (isExpansion(item)) {
       flat.push(...flattenContent(item.content));
@@ -120,7 +109,6 @@ export function flattenContent(pageDefs) {
       flat.push(item);
     }
   }
-
   return flat;
 }
 export function makeRoutes() {

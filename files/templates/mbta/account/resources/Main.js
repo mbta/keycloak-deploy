@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../common/keycloak/web_modules/react.js";
-import * as ReactDOM from "../../common/keycloak/web_modules/react-dom.js";
-import { HashRouter } from "../../common/keycloak/web_modules/react-router-dom.js";
+
+import * as React from "../keycloak.v2/web_modules/react.js";
+import * as ReactDOM from "../keycloak.v2/web_modules/react-dom.js";
+import { HashRouter } from "../keycloak.v2/web_modules/react-router-dom.js";
 import { App } from "./App.js";
 import { flattenContent, initGroupAndItemIds, isExpansion, isModulePageDef } from "./ContentPages.js";
 import { KeycloakService } from "./keycloak-service/keycloak.service.js";
@@ -26,12 +27,10 @@ export class Main extends React.Component {
   constructor(props) {
     super(props);
   }
-
   componentDidMount() {
     isReactLoading = false;
     toggleReact();
   }
-
   render() {
     const keycloakService = new KeycloakService(keycloak);
     return /*#__PURE__*/React.createElement(HashRouter, null, /*#__PURE__*/React.createElement(KeycloakContext.Provider, {
@@ -40,21 +39,16 @@ export class Main extends React.Component {
       value: new AccountServiceClient(keycloakService)
     }, /*#__PURE__*/React.createElement(App, null))));
   }
-
 }
 ;
 const e = React.createElement;
-
 function removeHidden(items) {
   const visible = [];
-
   for (let item of items) {
     if (item.hidden && eval(item.hidden)) continue;
-
     if (isExpansion(item)) {
       visible.push(item);
       item.content = removeHidden(item.content);
-
       if (item.content.length === 0) {
         visible.pop(); // remove empty expansion
       }
@@ -62,13 +56,10 @@ function removeHidden(items) {
       visible.push(item);
     }
   }
-
   return visible;
 }
-
 content = removeHidden(content);
 initGroupAndItemIds();
-
 function loadModule(modulePage) {
   return new Promise((resolve, reject) => {
     console.log('loading: ' + resourceUrl + modulePage.modulePath);
@@ -81,15 +72,15 @@ function loadModule(modulePage) {
     });
   });
 }
-
 ;
 const moduleLoaders = [];
 flattenContent(content).forEach(item => {
   if (isModulePageDef(item)) {
     moduleLoaders.push(loadModule(item));
   }
-}); // load content modules and start
+});
 
+// load content modules and start
 Promise.all(moduleLoaders).then(() => {
   const domContainer = document.querySelector('#main_react_container');
   ReactDOM.render(e(Main), domContainer);

@@ -1,5 +1,6 @@
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
  * Copyright 2018 Red Hat, Inc. and/or its affiliates.
  *
@@ -15,9 +16,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../../common/keycloak/web_modules/react.js";
+
+import * as React from "../../../keycloak.v2/web_modules/react.js";
 import parse from "../../util/ParseLink.js";
-import { Button, Level, LevelItem, PageSection, PageSectionVariants, Stack, StackItem, Tab, Tabs, TextInput } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
+import { Button, Level, LevelItem, PageSection, PageSectionVariants, Stack, StackItem, Tab, Tabs, TextInput } from "../../../keycloak.v2/web_modules/@patternfly/react-core.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
 import { Scope } from "./resource-model.js";
 import { ResourcesTable } from "./ResourcesTable.js";
@@ -29,23 +31,17 @@ const SHARED_WITH_ME_TAB = 1;
 export class MyResourcesPage extends React.Component {
   constructor(props, context) {
     super(props);
-
     _defineProperty(this, "context", void 0);
-
     _defineProperty(this, "first", 0);
-
     _defineProperty(this, "max", 5);
-
     _defineProperty(this, "makeScopeObj", scope => {
       return new Scope(scope.name, scope.displayName);
     });
-
     _defineProperty(this, "fetchPermissionRequests", () => {
       this.state.myResources.data.forEach(resource => {
         this.fetchShareRequests(resource);
       });
     });
-
     _defineProperty(this, "fetchPending", async () => {
       const response = await this.context.doGet(`/resources/pending-requests`);
       const resources = response.data || [];
@@ -61,7 +57,6 @@ export class MyResourcesPage extends React.Component {
         });
       });
     });
-
     _defineProperty(this, "handleFilterRequest", value => {
       this.setState({
         nameFilter: value
@@ -70,11 +65,9 @@ export class MyResourcesPage extends React.Component {
         name: value
       });
     });
-
     _defineProperty(this, "handleFirstPageClick", () => {
       this.fetchInitialResources();
     });
-
     _defineProperty(this, "handleNextClick", () => {
       if (this.isSharedWithMeTab()) {
         this.fetchResources(this.state.sharedWithMe.nextUrl);
@@ -82,7 +75,6 @@ export class MyResourcesPage extends React.Component {
         this.fetchResources(this.state.myResources.nextUrl);
       }
     });
-
     _defineProperty(this, "handlePreviousClick", () => {
       if (this.isSharedWithMeTab()) {
         this.fetchResources(this.state.sharedWithMe.prevUrl);
@@ -90,8 +82,7 @@ export class MyResourcesPage extends React.Component {
         this.fetchResources(this.state.myResources.prevUrl);
       }
     });
-
-    _defineProperty(this, "handleTabClick", (event, tabIndex) => {
+    _defineProperty(this, "handleTabClick", tabIndex => {
       if (this.state.activeTabKey === tabIndex) return;
       this.setState({
         nameFilter: '',
@@ -100,7 +91,6 @@ export class MyResourcesPage extends React.Component {
         this.fetchInitialResources();
       });
     });
-
     this.context = context;
     this.state = {
       activeTabKey: MY_RESOURCES_TAB,
@@ -119,11 +109,9 @@ export class MyResourcesPage extends React.Component {
     };
     this.fetchInitialResources();
   }
-
   isSharedWithMeTab() {
     return this.state.activeTabKey === SHARED_WITH_ME_TAB;
   }
-
   hasNext() {
     if (this.isSharedWithMeTab()) {
       return this.state.sharedWithMe.nextUrl !== null && this.state.sharedWithMe.nextUrl !== '';
@@ -131,7 +119,6 @@ export class MyResourcesPage extends React.Component {
       return this.state.myResources.nextUrl !== null && this.state.myResources.nextUrl !== '';
     }
   }
-
   hasPrevious() {
     if (this.isSharedWithMeTab()) {
       return this.state.sharedWithMe.prevUrl !== null && this.state.sharedWithMe.prevUrl !== '';
@@ -139,7 +126,6 @@ export class MyResourcesPage extends React.Component {
       return this.state.myResources.prevUrl !== null && this.state.myResources.prevUrl !== '';
     }
   }
-
   fetchInitialResources() {
     if (this.isSharedWithMeTab()) {
       this.fetchResources("/resources/shared-with-me");
@@ -150,27 +136,26 @@ export class MyResourcesPage extends React.Component {
       });
     }
   }
-
   fetchFilteredResources(params) {
     if (this.isSharedWithMeTab()) {
       this.fetchResources("/resources/shared-with-me", params);
     } else {
-      this.fetchResources("/resources", { ...params,
+      this.fetchResources("/resources", {
+        ...params,
         first: this.first,
         max: this.max
       });
     }
   }
-
   fetchResources(url, extraParams) {
     this.context.doGet(url, {
       params: extraParams
     }).then(response => {
       const resources = response.data || [];
-      resources.forEach(resource => resource.shareRequests = []); // serialize the Scope objects from JSON so that toString() will work.
+      resources.forEach(resource => resource.shareRequests = []);
 
+      // serialize the Scope objects from JSON so that toString() will work.
       resources.forEach(resource => resource.scopes = resource.scopes.map(this.makeScopeObj));
-
       if (this.isSharedWithMeTab()) {
         this.setState({
           sharedWithMe: this.parseResourceResponse(response)
@@ -182,28 +167,23 @@ export class MyResourcesPage extends React.Component {
       }
     });
   }
-
   fetchShareRequests(resource) {
     this.context.doGet('/resources/' + resource._id + '/permissions/requests').then(response => {
       resource.shareRequests = response.data || [];
-
       if (resource.shareRequests.length > 0) {
         this.forceUpdate();
       }
     });
   }
-
   parseResourceResponse(response) {
     const links = response.headers.get('link') || undefined;
     const parsed = parse(links);
     let next = '';
     let prev = '';
-
     if (parsed !== null) {
       if (parsed.next) next = parsed.next;
       if (parsed.prev) prev = parsed.prev;
     }
-
     const resources = response.data || [];
     return {
       nextUrl: next,
@@ -211,7 +191,6 @@ export class MyResourcesPage extends React.Component {
       data: resources
     };
   }
-
   makeTab(eventKey, title, resources, sharedResourcesTab) {
     return /*#__PURE__*/React.createElement(Tab, {
       id: title,
@@ -240,7 +219,6 @@ export class MyResourcesPage extends React.Component {
       resources: resources
     }))));
   }
-
   render() {
     return /*#__PURE__*/React.createElement(ContentPage, {
       title: "resources",
@@ -249,7 +227,7 @@ export class MyResourcesPage extends React.Component {
       variant: PageSectionVariants.light
     }, /*#__PURE__*/React.createElement(Tabs, {
       activeKey: this.state.activeTabKey,
-      onSelect: this.handleTabClick
+      onSelect: (event, index) => this.handleTabClick(index)
     }, this.makeTab(0, 'myResources', this.state.myResources, false), this.makeTab(1, 'sharedwithMe', this.state.sharedWithMe, true)), /*#__PURE__*/React.createElement(Level, {
       hasGutter: true
     }, /*#__PURE__*/React.createElement(LevelItem, null, this.hasPrevious() && /*#__PURE__*/React.createElement(Button, {
@@ -266,7 +244,6 @@ export class MyResourcesPage extends React.Component {
       msgKey: "nextPage"
     }), ">")))));
   }
-
   clearNextPrev() {
     const newMyResources = this.state.myResources;
     newMyResources.nextUrl = '';
@@ -275,10 +252,7 @@ export class MyResourcesPage extends React.Component {
       myResources: newMyResources
     });
   }
-
 }
-
 _defineProperty(MyResourcesPage, "contextType", AccountServiceContext);
-
 ;
 //# sourceMappingURL=MyResourcesPage.js.map

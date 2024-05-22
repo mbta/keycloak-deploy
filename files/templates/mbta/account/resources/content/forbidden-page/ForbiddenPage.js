@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { WarningTriangleIcon } from "../../../../common/keycloak/web_modules/@patternfly/react-icons.js";
+import * as React from "../../../keycloak.v2/web_modules/react.js";
+import { WarningTriangleIcon } from "../../../keycloak.v2/web_modules/@patternfly/react-icons.js";
 import { Msg } from "../../widgets/Msg.js";
 import EmptyMessageState from "../../widgets/EmptyMessageState.js";
 export class ForbiddenPage extends React.Component {
   constructor() {
     super({});
   }
-
   render() {
     return /*#__PURE__*/React.createElement(EmptyMessageState, {
       icon: WarningTriangleIcon,
@@ -30,7 +29,6 @@ export class ForbiddenPage extends React.Component {
       msgKey: "needAccessRights"
     }));
   }
-
 }
 ;
 //# sourceMappingURL=ForbiddenPage.js.map

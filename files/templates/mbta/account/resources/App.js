@@ -1,5 +1,6 @@
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
  * Copyright 2018 Red Hat, Inc. and/or its affiliates.
  *
@@ -15,30 +16,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../common/keycloak/web_modules/react.js";
+
+import * as React from "../keycloak.v2/web_modules/react.js";
 import { PageNav } from "./PageNav.js";
 import { PageHeaderTool } from "./PageHeaderTool.js";
 import { makeRoutes } from "./ContentPages.js";
-import { Brand, Page, PageHeader, PageSidebar } from "../../common/keycloak/web_modules/@patternfly/react-core.js";
+import { Brand, Page, PageHeader, PageSidebar } from "../keycloak.v2/web_modules/@patternfly/react-core.js";
 import { KeycloakContext } from "./keycloak-service/KeycloakContext.js";
 ;
 export class App extends React.Component {
   constructor(props, context) {
     super(props);
-
     _defineProperty(this, "context", void 0);
-
     this.context = context;
     toggleReact();
   }
-
   render() {
-    toggleReact(); // check login
+    toggleReact();
 
+    // check login
     if (!this.context.authenticated() && !isWelcomePage()) {
       this.context.login();
     }
-
     const Header = /*#__PURE__*/React.createElement(PageHeader, {
       logo: /*#__PURE__*/React.createElement("a", {
         id: "brandLink",
@@ -60,10 +59,7 @@ export class App extends React.Component {
       isManagedSidebar: true
     }, makeRoutes());
   }
-
 }
-
 _defineProperty(App, "contextType", KeycloakContext);
-
 ;
 //# sourceMappingURL=App.js.map

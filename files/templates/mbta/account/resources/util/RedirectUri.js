@@ -24,7 +24,6 @@
  */
 export const createRedirect = currentLocation => {
   let redirectUri = baseUrl;
-
   if (typeof referrer !== 'undefined') {
     // '_hash_' is a workaround for when uri encoding is not
     // sufficient to escape the # character properly.
@@ -33,7 +32,6 @@ export const createRedirect = currentLocation => {
     // it sees the hash in the redirect param and stops.
     redirectUri += "?referrer=" + referrer + "&referrer_uri=" + referrerUri.replace('#', '_hash_');
   }
-
   return encodeURIComponent(redirectUri) + encodeURIComponent("/#" + currentLocation);
 };
 //# sourceMappingURL=RedirectUri.js.map

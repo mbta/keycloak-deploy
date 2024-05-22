@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../../common/keycloak/web_modules/react.js";
+
+import * as React from "../../../keycloak.v2/web_modules/react.js";
 export class AuthenticatorPage extends React.Component {
   constructor(props) {
     super(props);
   }
-
   render() {
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", null, "Hello Authenticator Page"));
   }
-
 }
 ;
 //# sourceMappingURL=AuthenticatorPage.js.map

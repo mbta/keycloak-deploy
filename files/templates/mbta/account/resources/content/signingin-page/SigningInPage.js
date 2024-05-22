@@ -1,5 +1,6 @@
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
  * Copyright 2018 Red Hat, Inc. and/or its affiliates.
  *
@@ -15,9 +16,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { withRouter } from "../../../../common/keycloak/web_modules/react-router-dom.js";
-import { Alert, Button, DataList, DataListAction, DataListItemCells, DataListCell, DataListItem, DataListItemRow, EmptyState, EmptyStateVariant, EmptyStateBody, Split, SplitItem, Title, Dropdown, DropdownPosition, KebabToggle, PageSection, PageSectionVariants } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
+
+import * as React from "../../../keycloak.v2/web_modules/react.js";
+import { withRouter } from "../../../keycloak.v2/web_modules/react-router-dom.js";
+import { Alert, Button, DataList, DataListAction, DataListItemCells, DataListCell, DataListItem, DataListItemRow, EmptyState, EmptyStateVariant, EmptyStateBody, Split, SplitItem, Title, Dropdown, DropdownPosition, KebabToggle, PageSection, PageSectionVariants } from "../../../keycloak.v2/web_modules/@patternfly/react-core.js";
 import { AIACommand } from "../../util/AIACommand.js";
 import TimeUtil from "../../util/TimeUtil.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
@@ -27,41 +29,37 @@ import { ContentPage } from "../ContentPage.js";
 import { ContentAlert } from "../ContentAlert.js";
 import { KeycloakContext } from "../../keycloak-service/KeycloakContext.js";
 
+// A CredentialContainer is unique by combo of credential type and credential category
+
 /**
  * @author Stan Silvert ssilvert@redhat.com (C) 2018 Red Hat Inc.
  */
 class SigningInPage extends React.Component {
   constructor(props, context) {
     super(props);
-
     _defineProperty(this, "context", void 0);
-
     _defineProperty(this, "handleRemove", (credentialId, userLabel) => {
-      this.context.doDelete("/credentials/" + credentialId).then(() => {
+      this.context.doDelete("/credentials/" + encodeURIComponent(credentialId)).then(() => {
         this.getCredentialContainers();
         ContentAlert.success("successRemovedMessage", [userLabel]);
       });
     });
-
     this.context = context;
     this.state = {
       credentialContainers: new Map()
     };
     this.getCredentialContainers();
   }
-
   getCredentialContainers() {
     this.context.doGet("/credentials").then(response => {
       const allContainers = new Map();
       const containers = response.data || [];
       containers.forEach(container => {
         let categoryMap = allContainers.get(container.category);
-
         if (!categoryMap) {
           categoryMap = new Map();
           allContainers.set(container.category, categoryMap);
         }
-
         categoryMap.set(container.type, container);
       });
       this.setState({
@@ -69,18 +67,15 @@ class SigningInPage extends React.Component {
       });
     });
   }
-
   static credElementId(credType, credId, item) {
     return `${credType}-${item}-${credId.substring(0, 8)}`;
   }
-
   render() {
     return /*#__PURE__*/React.createElement(ContentPage, {
       title: "signingIn",
       introMessage: "signingInSubMessage"
     }, this.renderCategories());
   }
-
   renderCategories() {
     return Array.from(this.state.credentialContainers.keys()).map(category => /*#__PURE__*/React.createElement(PageSection, {
       key: category,
@@ -93,12 +88,10 @@ class SigningInPage extends React.Component {
       msgKey: category
     })), this.renderTypes(category)));
   }
-
   renderTypes(category) {
     let credTypeMap = this.state.credentialContainers.get(category);
     return /*#__PURE__*/React.createElement(KeycloakContext.Consumer, null, keycloak => /*#__PURE__*/React.createElement(React.Fragment, null, Array.from(credTypeMap.keys()).map((credType, index, typeArray) => [this.renderCredTypeTitle(credTypeMap.get(credType), keycloak, category), this.renderUserCredentials(credTypeMap, credType, keycloak)])));
   }
-
   renderEmptyRow(type, isLast) {
     if (isLast) return; // don't put empty row at the end
 
@@ -110,14 +103,12 @@ class SigningInPage extends React.Component {
       dataListCells: [/*#__PURE__*/React.createElement(DataListCell, null)]
     })));
   }
-
   renderUserCredentials(credTypeMap, credType, keycloak) {
     const credContainer = credTypeMap.get(credType);
     const userCredentialMetadatas = credContainer.userCredentialMetadatas;
     const removeable = credContainer.removeable;
     const type = credContainer.type;
     const displayName = credContainer.displayName;
-
     if (!userCredentialMetadatas || userCredentialMetadatas.length === 0) {
       const localizedDisplayName = Msg.localize(displayName);
       return /*#__PURE__*/React.createElement(DataList, {
@@ -144,21 +135,17 @@ class SigningInPage extends React.Component {
         })]
       }))));
     }
-
     userCredentialMetadatas.forEach(credentialMetadata => {
       let credential = credentialMetadata.credential;
       if (!credential.userLabel) credential.userLabel = Msg.localize(credential.type);
-
       if (credential.hasOwnProperty('createdDate') && credential.createdDate && credential.createdDate > 0) {
         credential.strCreatedDate = TimeUtil.format(credential.createdDate);
       }
     });
     let updateAIA;
-
     if (credContainer.updateAction) {
       updateAIA = new AIACommand(keycloak, credContainer.updateAction);
     }
-
     let maxWidth = {
       maxWidth: 689
     };
@@ -195,7 +182,6 @@ class SigningInPage extends React.Component {
       credRemover: this.handleRemove
     })))))), " ");
   }
-
   credentialRowCells(credMetadata, type) {
     const credRowCells = [];
     const credential = credMetadata.credential;
@@ -208,7 +194,6 @@ class SigningInPage extends React.Component {
       className: "pf-u-max-width",
       style: maxWidth
     }, credential.userLabel));
-
     if (credential.strCreatedDate) {
       credRowCells.push( /*#__PURE__*/React.createElement(DataListCell, {
         id: `${SigningInPage.credElementId(type, credential.id, "created-at")}`,
@@ -222,18 +207,14 @@ class SigningInPage extends React.Component {
         key: "spacer-" + credential.id
       }));
     }
-
     return credRowCells;
   }
-
   renderCredTypeTitle(credContainer, keycloak, category) {
     if (!credContainer.hasOwnProperty("helptext") && !credContainer.hasOwnProperty("createAction")) return;
     let setupAction;
-
     if (credContainer.createAction) {
       setupAction = new AIACommand(keycloak, credContainer.createAction);
     }
-
     const credContainerDisplayName = Msg.localize(credContainer.displayName);
     return /*#__PURE__*/React.createElement(React.Fragment, {
       key: "credTypeTitle-" + credContainer.type
@@ -277,7 +258,7 @@ class SigningInPage extends React.Component {
       }, /*#__PURE__*/React.createElement("span", {
         className: "pf-c-button__icon"
       }, /*#__PURE__*/React.createElement("i", {
-        className: "fas fa-plus-circle",
+        className: "fa fa-plus-circle",
         "aria-hidden": "true"
       })), /*#__PURE__*/React.createElement(Msg, {
         msgKey: "setUpNew",
@@ -294,20 +275,16 @@ class SigningInPage extends React.Component {
     }, /*#__PURE__*/React.createElement("span", {
       className: "pf-c-button__icon"
     }, /*#__PURE__*/React.createElement("i", {
-      className: "fas fa-plus-circle",
+      className: "fa fa-plus-circle",
       "aria-hidden": "true"
     })), /*#__PURE__*/React.createElement(Msg, {
       msgKey: "setUpNew",
       params: [credContainerDisplayName]
     }))))));
   }
-
 }
-
 _defineProperty(SigningInPage, "contextType", AccountServiceContext);
-
 ;
-
 class CredentialAction extends React.Component {
   render() {
     if (this.props.updateAction) {
@@ -323,7 +300,6 @@ class CredentialAction extends React.Component {
         msgKey: "update"
       })));
     }
-
     if (this.props.removeable) {
       const userLabel = this.props.credential.userLabel;
       return /*#__PURE__*/React.createElement(DataListAction, {
@@ -339,12 +315,9 @@ class CredentialAction extends React.Component {
         onContinue: () => this.props.credRemover(this.props.credential.id, userLabel)
       }));
     }
-
     return /*#__PURE__*/React.createElement(React.Fragment, null);
   }
-
 }
-
 const SigningInPageWithRouter = withRouter(SigningInPage);
 export { SigningInPageWithRouter as SigningInPage };
 //# sourceMappingURL=SigningInPage.js.map

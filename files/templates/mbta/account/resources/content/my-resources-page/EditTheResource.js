@@ -1,5 +1,6 @@
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
  * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
@@ -15,9 +16,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { Button, Modal, Form, FormGroup, TextInput, InputGroup, ModalVariant } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
-import { OkIcon } from "../../../../common/keycloak/web_modules/@patternfly/react-icons.js";
+
+import * as React from "../../../keycloak.v2/web_modules/react.js";
+import { Button, Modal, Form, FormGroup, TextInput, InputGroup, ModalVariant } from "../../../keycloak.v2/web_modules/@patternfly/react-core.js";
+import { OkIcon } from "../../../keycloak.v2/web_modules/@patternfly/react-icons.js";
 import { Scope } from "./resource-model.js";
 import { Msg } from "../../widgets/Msg.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
@@ -26,9 +28,7 @@ import { PermissionSelect } from "./PermissionSelect.js";
 export class EditTheResource extends React.Component {
   constructor(props, context) {
     super(props);
-
     _defineProperty(this, "context", void 0);
-
     _defineProperty(this, "handleToggleDialog", () => {
       if (this.state.isOpen) {
         this.setState({
@@ -42,7 +42,6 @@ export class EditTheResource extends React.Component {
         });
       }
     });
-
     _defineProperty(this, "updateChanged", row => {
       const changed = this.state.changed;
       changed[row] = !changed[row];
@@ -50,23 +49,19 @@ export class EditTheResource extends React.Component {
         changed
       });
     });
-
     this.context = context;
     this.state = {
       changed: [],
       isOpen: false
     };
   }
-
   clearState() {
     this.setState({});
   }
-
   async savePermission(permission) {
-    await this.context.doPut(`/resources/${this.props.resource._id}/permissions`, [permission]);
+    await this.context.doPut(`/resources/${encodeURIComponent(this.props.resource._id)}/permissions`, [permission]);
     ContentAlert.success(Msg.localize('updateSuccess'));
   }
-
   render() {
     return /*#__PURE__*/React.createElement(React.Fragment, null, this.props.children(this.handleToggleDialog), /*#__PURE__*/React.createElement(Modal, {
       title: 'Edit the resource - ' + this.props.resource.name,
@@ -109,12 +104,9 @@ export class EditTheResource extends React.Component {
       onClick: () => this.savePermission(p)
     }, /*#__PURE__*/React.createElement(OkIcon, null)))), /*#__PURE__*/React.createElement("hr", null))))));
   }
-
 }
-
 _defineProperty(EditTheResource, "defaultProps", {
   permissions: []
 });
-
 _defineProperty(EditTheResource, "contextType", AccountServiceContext);
 //# sourceMappingURL=EditTheResource.js.map

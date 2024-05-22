@@ -1,5 +1,6 @@
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
  * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
@@ -15,27 +16,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../common/keycloak/web_modules/react.js";
-import { Toolbar, ToolbarGroup, ToolbarItem } from "../../common/keycloak/web_modules/@patternfly/react-core.js";
+
+import * as React from "../keycloak.v2/web_modules/react.js";
+import { Toolbar, ToolbarGroup, ToolbarItem } from "../keycloak.v2/web_modules/@patternfly/react-core.js";
 import { ReferrerLink } from "./widgets/ReferrerLink.js";
 import { LogoutButton } from "./widgets/Logout.js";
 export class PageToolbar extends React.Component {
   constructor(props) {
     super(props);
-
     _defineProperty(this, "hasReferrer", typeof referrerName !== 'undefined');
-
     _defineProperty(this, "onKebabDropdownToggle", isKebabDropdownOpen => {
       this.setState({
         isKebabDropdownOpen
       });
     });
-
     this.state = {
       isKebabDropdownOpen: false
     };
   }
-
   render() {
     return /*#__PURE__*/React.createElement(Toolbar, null, this.hasReferrer && /*#__PURE__*/React.createElement(ToolbarGroup, {
       key: "referrerGroup",
@@ -55,6 +53,5 @@ export class PageToolbar extends React.Component {
       key: "logout"
     }, /*#__PURE__*/React.createElement(LogoutButton, null))));
   }
-
 }
 //# sourceMappingURL=PageToolbar.js.map
