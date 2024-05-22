@@ -1,5 +1,6 @@
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
  * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
@@ -15,46 +16,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { Button, Chip, ChipGroup, Form, FormGroup, Gallery, GalleryItem, Modal, Stack, StackItem, TextInput, ModalVariant } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
+
+import * as React from "../../../keycloak.v2/web_modules/react.js";
+import { Button, Chip, ChipGroup, Form, FormGroup, Gallery, GalleryItem, Modal, Stack, StackItem, TextInput, ModalVariant } from "../../../keycloak.v2/web_modules/@patternfly/react-core.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
 import { Msg } from "../../widgets/Msg.js";
 import { ContentAlert } from "../ContentAlert.js";
 import { PermissionSelect } from "./PermissionSelect.js";
-
 /**
  * @author Stan Silvert ssilvert@redhat.com (C) 2019 Red Hat Inc.
  */
 export class ShareTheResource extends React.Component {
   constructor(props, context) {
     super(props);
-
     _defineProperty(this, "context", void 0);
-
     _defineProperty(this, "handleAddPermission", () => {
       const rscId = this.props.resource._id;
       const newPermissions = [];
-
       for (const permission of this.state.permissionsSelected) {
         newPermissions.push(permission.name);
       }
-
       const permissions = [];
-
       for (const username of this.state.usernames) {
         permissions.push({
           username: username,
           scopes: newPermissions
         });
       }
-
       this.handleToggleDialog();
-      this.context.doPut(`/resources/${rscId}/permissions`, permissions).then(() => {
+      this.context.doPut(`/resources/${encodeURIComponent(rscId)}/permissions`, permissions).then(() => {
         ContentAlert.success('shareSuccess');
         this.props.onClose();
       });
     });
-
     _defineProperty(this, "handleToggleDialog", () => {
       if (this.state.isOpen) {
         this.setState({
@@ -68,21 +62,18 @@ export class ShareTheResource extends React.Component {
         });
       }
     });
-
     _defineProperty(this, "handleUsernameChange", username => {
       this.setState({
         usernameInput: username
       });
     });
-
     _defineProperty(this, "handleAddUsername", async () => {
       if (this.state.usernameInput !== '' && !this.state.usernames.includes(this.state.usernameInput)) {
-        const response = await this.context.doGet(`/resources/${this.props.resource._id}/user`, {
+        const response = await this.context.doGet(`/resources/${encodeURIComponent(this.props.resource._id)}/user`, {
           params: {
             value: this.state.usernameInput
           }
         });
-
         if (response.data && response.data.username) {
           this.setState({
             usernameInput: '',
@@ -93,21 +84,18 @@ export class ShareTheResource extends React.Component {
         }
       }
     });
-
     _defineProperty(this, "handleEnterKeyInAddField", event => {
       if (event.key === "Enter") {
         event.preventDefault();
         this.handleAddUsername();
       }
     });
-
     _defineProperty(this, "handleDeleteUsername", username => {
       const newUsernames = this.state.usernames.filter(user => user !== username);
       this.setState({
         usernames: newUsernames
       });
     });
-
     this.context = context;
     this.state = {
       isOpen: false,
@@ -117,7 +105,6 @@ export class ShareTheResource extends React.Component {
       usernameInput: ''
     };
   }
-
   clearState() {
     this.setState({
       permissionsSelected: [],
@@ -126,23 +113,18 @@ export class ShareTheResource extends React.Component {
       usernameInput: ''
     });
   }
-
   isAddDisabled() {
     return this.state.usernameInput === '' || this.isAlreadyShared();
   }
-
   isAlreadyShared() {
     for (let permission of this.props.permissions) {
       if (permission.username === this.state.usernameInput) return true;
     }
-
     return false;
   }
-
   isFormInvalid() {
     return this.state.usernames.length === 0 || this.state.permissionsSelected.length === 0;
   }
-
   render() {
     return /*#__PURE__*/React.createElement(React.Fragment, null, this.props.children(this.handleToggleDialog), /*#__PURE__*/React.createElement(Modal, {
       title: 'Share the resource - ' + this.props.resource.name,
@@ -211,12 +193,9 @@ export class ShareTheResource extends React.Component {
       isFilled: true
     }, this.props.sharedWithUsersMsg))));
   }
-
 }
-
 _defineProperty(ShareTheResource, "defaultProps", {
   permissions: []
 });
-
 _defineProperty(ShareTheResource, "contextType", AccountServiceContext);
 //# sourceMappingURL=ShareTheResource.js.map

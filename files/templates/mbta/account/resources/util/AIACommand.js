@@ -22,12 +22,10 @@ export class AIACommand {
     this.keycloak = keycloak;
     this.action = action;
   }
-
   execute() {
     this.keycloak.login({
       action: this.action
     });
   }
-
 }
 //# sourceMappingURL=AIACommand.js.map

@@ -3,7 +3,6 @@ export class Scope {
     this.name = name;
     this.displayName = displayName;
   }
-
   toString() {
     if (this.hasOwnProperty('displayName') && this.displayName) {
       return this.displayName;
@@ -11,6 +10,5 @@ export class Scope {
       return this.name;
     }
   }
-
 }
 //# sourceMappingURL=resource-model.js.map

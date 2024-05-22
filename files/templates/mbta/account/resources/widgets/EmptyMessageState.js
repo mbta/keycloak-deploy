@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../common/keycloak/web_modules/react.js";
-import { EmptyState, EmptyStateVariant, Title, EmptyStateIcon, EmptyStateBody } from "../../../common/keycloak/web_modules/@patternfly/react-core.js";
+
+import * as React from "../../keycloak.v2/web_modules/react.js";
+import { EmptyState, EmptyStateVariant, Title, EmptyStateIcon, EmptyStateBody } from "../../keycloak.v2/web_modules/@patternfly/react-core.js";
 import { Msg } from "./Msg.js";
 export default class EmptyMessageState extends React.Component {
   constructor(props) {
     super(props);
   }
-
   render() {
     return /*#__PURE__*/React.createElement(EmptyState, {
       variant: EmptyStateVariant.full
@@ -33,6 +33,5 @@ export default class EmptyMessageState extends React.Component {
       msgKey: this.props.messageKey
     })), /*#__PURE__*/React.createElement(EmptyStateBody, null, this.props.children));
   }
-
 }
 //# sourceMappingURL=EmptyMessageState.js.map

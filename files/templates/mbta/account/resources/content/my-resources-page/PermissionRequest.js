@@ -1,5 +1,6 @@
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
  * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
@@ -15,42 +16,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { Button, Modal, Text, Badge, DataListItem, DataList, TextVariants, DataListItemRow, DataListItemCells, DataListCell, Chip, Split, SplitItem, ModalVariant } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
-import { UserCheckIcon } from "../../../../common/keycloak/web_modules/@patternfly/react-icons.js";
+import * as React from "../../../keycloak.v2/web_modules/react.js";
+import { Button, Modal, Text, Badge, DataListItem, DataList, TextVariants, DataListItemRow, DataListItemCells, DataListCell, Chip, Split, SplitItem, ModalVariant } from "../../../keycloak.v2/web_modules/@patternfly/react-core.js";
+import { UserCheckIcon } from "../../../keycloak.v2/web_modules/@patternfly/react-icons.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
 import { Msg } from "../../widgets/Msg.js";
 import { ContentAlert } from "../ContentAlert.js";
 export class PermissionRequest extends React.Component {
   constructor(props, context) {
     super(props);
-
     _defineProperty(this, "context", void 0);
-
     _defineProperty(this, "handleApprove", async (shareRequest, index) => {
       this.handle(shareRequest.username, shareRequest.scopes, true);
       this.props.resource.shareRequests.splice(index, 1);
     });
-
     _defineProperty(this, "handleDeny", async (shareRequest, index) => {
       this.handle(shareRequest.username, shareRequest.scopes);
       this.props.resource.shareRequests.splice(index, 1);
     });
-
     _defineProperty(this, "handle", async (username, scopes, approve = false) => {
       const id = this.props.resource._id;
       this.handleToggleDialog();
-      const permissionsRequest = await this.context.doGet(`/resources/${id}/permissions`);
+      const permissionsRequest = await this.context.doGet(`/resources/${encodeURIComponent(id)}/permissions`);
       const permissions = permissionsRequest.data || [];
       const foundPermission = permissions.find(p => p.username === username);
       const userScopes = foundPermission ? foundPermission.scopes : [];
-
       if (approve) {
         userScopes.push(...scopes);
       }
-
       try {
-        await this.context.doPut(`/resources/${id}/permissions`, [{
+        await this.context.doPut(`/resources/${encodeURIComponent(id)}/permissions`, [{
           username: username,
           scopes: userScopes
         }]);
@@ -60,19 +55,16 @@ export class PermissionRequest extends React.Component {
         console.error('Could not update permissions', e.error);
       }
     });
-
     _defineProperty(this, "handleToggleDialog", () => {
       this.setState({
         isOpen: !this.state.isOpen
       });
     });
-
     this.context = context;
     this.state = {
       isOpen: false
     };
   }
-
   render() {
     const id = `shareRequest-${this.props.resource.name.replace(/\s/, '-')}`;
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Button, {
@@ -139,13 +131,10 @@ export class PermissionRequest extends React.Component {
       }, "Deny"))))]
     })))))));
   }
-
 }
-
 _defineProperty(PermissionRequest, "defaultProps", {
   permissions: [],
   row: 0
 });
-
 _defineProperty(PermissionRequest, "contextType", AccountServiceContext);
 //# sourceMappingURL=PermissionRequest.js.map

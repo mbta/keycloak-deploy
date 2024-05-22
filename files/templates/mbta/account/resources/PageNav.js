@@ -13,39 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../common/keycloak/web_modules/react.js";
-import { withRouter } from "../../common/keycloak/web_modules/react-router-dom.js";
-import { Nav, NavList } from "../../common/keycloak/web_modules/@patternfly/react-core.js";
-import { makeNavItems, flattenContent } from "./ContentPages.js";
 
+import * as React from "../keycloak.v2/web_modules/react.js";
+import { withRouter } from "../keycloak.v2/web_modules/react-router-dom.js";
+import { Nav, NavList } from "../keycloak.v2/web_modules/@patternfly/react-core.js";
+import { makeNavItems, flattenContent } from "./ContentPages.js";
 class PageNavigation extends React.Component {
   constructor(props) {
     super(props);
   }
-
   findActiveItem() {
     const currentPath = this.props.location.pathname;
     const items = flattenContent(content);
     const firstItem = items[0];
-
     for (let item of items) {
       const itemPath = '/' + item.path;
-
       if (itemPath === currentPath) {
         return item;
       }
     }
-
     ;
     return firstItem;
   }
-
   render() {
     const activeItem = this.findActiveItem();
     return /*#__PURE__*/React.createElement(Nav, null, /*#__PURE__*/React.createElement(NavList, null, makeNavItems(activeItem)));
   }
-
 }
-
 export const PageNav = withRouter(PageNavigation);
 //# sourceMappingURL=PageNav.js.map

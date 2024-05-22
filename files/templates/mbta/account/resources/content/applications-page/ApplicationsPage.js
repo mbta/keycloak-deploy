@@ -1,5 +1,6 @@
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
  * Copyright 2018 Red Hat, Inc. and/or its affiliates.
  *
@@ -15,9 +16,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { DataList, DataListItem, DataListItemRow, DataListCell, DataListToggle, DataListContent, DataListItemCells, DescriptionList, DescriptionListTerm, DescriptionListGroup, DescriptionListDescription, Grid, GridItem, Button, PageSection, PageSectionVariants, Stack } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
-import { InfoAltIcon, CheckIcon, ExternalLinkAltIcon } from "../../../../common/keycloak/web_modules/@patternfly/react-icons.js";
+
+import * as React from "../../../keycloak.v2/web_modules/react.js";
+import { DataList, DataListItem, DataListItemRow, DataListCell, DataListToggle, DataListContent, DataListItemCells, DescriptionList, DescriptionListTerm, DescriptionListGroup, DescriptionListDescription, Grid, GridItem, Button, PageSection, PageSectionVariants, Stack } from "../../../keycloak.v2/web_modules/@patternfly/react-core.js";
+import { InfoAltIcon, CheckIcon, ExternalLinkAltIcon } from "../../../keycloak.v2/web_modules/@patternfly/react-icons.js";
 import { ContentPage } from "../ContentPage.js";
 import { ContinueCancelModal } from "../../widgets/ContinueCancelModal.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
@@ -25,15 +27,12 @@ import { Msg } from "../../widgets/Msg.js";
 export class ApplicationsPage extends React.Component {
   constructor(props, context) {
     super(props);
-
     _defineProperty(this, "context", void 0);
-
     _defineProperty(this, "removeConsent", clientId => {
-      this.context.doDelete("/applications/" + clientId + "/consent").then(() => {
+      this.context.doDelete("/applications/" + encodeURIComponent(clientId) + "/consent").then(() => {
         this.fetchApplications();
       });
     });
-
     _defineProperty(this, "onToggle", row => {
       const newIsRowOpen = this.state.isRowOpen;
       newIsRowOpen[row] = !newIsRowOpen[row];
@@ -41,7 +40,6 @@ export class ApplicationsPage extends React.Component {
         isRowOpen: newIsRowOpen
       });
     });
-
     this.context = context;
     this.state = {
       isRowOpen: [],
@@ -49,7 +47,6 @@ export class ApplicationsPage extends React.Component {
     };
     this.fetchApplications();
   }
-
   fetchApplications() {
     this.context.doGet("/applications").then(response => {
       const applications = response.data || [];
@@ -59,11 +56,9 @@ export class ApplicationsPage extends React.Component {
       });
     });
   }
-
   elementId(item, application) {
     return `application-${item}-${application.clientId}`;
   }
-
   render() {
     return /*#__PURE__*/React.createElement(ContentPage, {
       title: Msg.localize('applicationsPageTitle'),
@@ -149,11 +144,13 @@ export class ApplicationsPage extends React.Component {
         isHidden: !this.state.isRowOpen[appIndex]
       }, /*#__PURE__*/React.createElement(DescriptionList, null, /*#__PURE__*/React.createElement(DescriptionListGroup, null, /*#__PURE__*/React.createElement(DescriptionListTerm, null, Msg.localize('client')), /*#__PURE__*/React.createElement(DescriptionListDescription, null, application.clientId)), application.description && /*#__PURE__*/React.createElement(DescriptionListGroup, null, /*#__PURE__*/React.createElement(DescriptionListTerm, null, Msg.localize('description')), /*#__PURE__*/React.createElement(DescriptionListDescription, null, application.description)), application.effectiveUrl && /*#__PURE__*/React.createElement(DescriptionListGroup, null, /*#__PURE__*/React.createElement(DescriptionListTerm, null, "URL"), /*#__PURE__*/React.createElement(DescriptionListDescription, {
         id: this.elementId("effectiveurl", application)
-      }, application.effectiveUrl.split('"'))), application.consent && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(DescriptionListGroup, null, /*#__PURE__*/React.createElement(DescriptionListTerm, null, "Has access to"), application.consent.grantedScopes.map((scope, scopeIndex) => {
+      }, application.effectiveUrl.split('"'))), application.consent && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(DescriptionListGroup, null, /*#__PURE__*/React.createElement(DescriptionListTerm, null, Msg.localize('hasAccessTo')), application.consent.grantedScopes.map((scope, scopeIndex) => {
         return /*#__PURE__*/React.createElement(React.Fragment, {
           key: 'scope-' + scopeIndex
-        }, /*#__PURE__*/React.createElement(DescriptionListDescription, null, /*#__PURE__*/React.createElement(CheckIcon, null), " ", scope.name));
-      })), /*#__PURE__*/React.createElement(DescriptionListGroup, null, /*#__PURE__*/React.createElement(DescriptionListTerm, null, Msg.localize('accessGrantedOn') + ': '), /*#__PURE__*/React.createElement(DescriptionListDescription, null, new Intl.DateTimeFormat(locale, {
+        }, /*#__PURE__*/React.createElement(DescriptionListDescription, null, /*#__PURE__*/React.createElement(CheckIcon, null), Msg.localize(scope.name)));
+      })), application.tosUri && /*#__PURE__*/React.createElement(DescriptionListGroup, null, /*#__PURE__*/React.createElement(DescriptionListTerm, null, Msg.localize('termsOfService')), /*#__PURE__*/React.createElement(DescriptionListDescription, null, application.tosUri)), application.policyUri && /*#__PURE__*/React.createElement(DescriptionListGroup, null, /*#__PURE__*/React.createElement(DescriptionListTerm, null, Msg.localize('policy')), /*#__PURE__*/React.createElement(DescriptionListDescription, null, application.policyUri)), application.logoUri && /*#__PURE__*/React.createElement(DescriptionListGroup, null, /*#__PURE__*/React.createElement(DescriptionListTerm, null, Msg.localize('logo')), /*#__PURE__*/React.createElement(DescriptionListDescription, null, /*#__PURE__*/React.createElement("img", {
+        src: application.logoUri
+      }))), /*#__PURE__*/React.createElement(DescriptionListGroup, null, /*#__PURE__*/React.createElement(DescriptionListTerm, null, Msg.localize('accessGrantedOn') + ': '), /*#__PURE__*/React.createElement(DescriptionListDescription, null, new Intl.DateTimeFormat(locale, {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -173,14 +170,10 @@ export class ApplicationsPage extends React.Component {
         modalContinueButtonLabel: Msg.localize('confirmButton') // defaults to 'Continue'
         ,
         onContinue: () => this.removeConsent(application.clientId) // required
-
       }))), /*#__PURE__*/React.createElement(GridItem, null, /*#__PURE__*/React.createElement(InfoAltIcon, null), " ", Msg.localize('infoMessage')))));
     })))));
   }
-
 }
-
 _defineProperty(ApplicationsPage, "contextType", AccountServiceContext);
-
 ;
 //# sourceMappingURL=ApplicationsPage.js.map

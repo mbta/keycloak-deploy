@@ -1,7 +1,7 @@
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
  * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
@@ -17,9 +17,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../common/keycloak/web_modules/react.js";
-import { Modal, ModalVariant, Button } from "../../../common/keycloak/web_modules/@patternfly/react-core.js";
+
+import * as React from "../../keycloak.v2/web_modules/react.js";
+import { Modal, ModalVariant, Button } from "../../keycloak.v2/web_modules/@patternfly/react-core.js";
 import { Msg } from "./Msg.js";
+
 /**
  * For any of these properties that are strings, you can
  * pass in a localization key instead of a static string.
@@ -34,7 +36,6 @@ import { Msg } from "./Msg.js";
 export class ContinueCancelModal extends React.Component {
   constructor(props) {
     super(props);
-
     _defineProperty(this, "handleModalToggle", () => {
       this.setState(({
         isModalOpen
@@ -43,17 +44,14 @@ export class ContinueCancelModal extends React.Component {
       }));
       if (this.props.onClose) this.props.onClose();
     });
-
     _defineProperty(this, "handleContinue", () => {
       this.handleModalToggle();
       this.props.onContinue();
     });
-
     this.state = {
       isModalOpen: false
     };
   }
-
   render() {
     const {
       isModalOpen
@@ -89,15 +87,12 @@ export class ContinueCancelModal extends React.Component {
       msgKey: this.props.modalMessage
     })));
   }
-
 }
-
 _defineProperty(ContinueCancelModal, "defaultProps", {
   buttonVariant: 'primary',
   modalContinueButtonLabel: 'continue',
   modalCancelButtonLabel: 'doCancel',
   isDisabled: false
 });
-
 ;
 //# sourceMappingURL=ContinueCancelModal.js.map

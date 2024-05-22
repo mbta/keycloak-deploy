@@ -1,5 +1,6 @@
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
  * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
@@ -15,24 +16,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { withRouter } from "../../../../common/keycloak/web_modules/react-router-dom.js";
-import { Button, DataList, DataListAction, DataListItemCells, DataListCell, DataListItemRow, Label, PageSection, PageSectionVariants, Split, SplitItem, Stack, StackItem, Title, DataListItem } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
-import { BitbucketIcon, CubeIcon, GitlabIcon, LinkIcon, OpenshiftIcon, PaypalIcon, UnlinkIcon, FacebookIcon, GoogleIcon, InstagramIcon, MicrosoftIcon, TwitterIcon, StackOverflowIcon, LinkedinIcon, GithubIcon } from "../../../../common/keycloak/web_modules/@patternfly/react-icons.js";
+
+import * as React from "../../../keycloak.v2/web_modules/react.js";
+import { withRouter } from "../../../keycloak.v2/web_modules/react-router-dom.js";
+import { Button, DataList, DataListAction, DataListItemCells, DataListCell, DataListItemRow, Label, PageSection, PageSectionVariants, Split, SplitItem, Stack, StackItem, Title, DataListItem } from "../../../keycloak.v2/web_modules/@patternfly/react-core.js";
+import { BitbucketIcon, CubeIcon, GitlabIcon, LinkIcon, OpenshiftIcon, PaypalIcon, UnlinkIcon, FacebookIcon, GoogleIcon, InstagramIcon, MicrosoftIcon, TwitterIcon, StackOverflowIcon, LinkedinIcon, GithubIcon } from "../../../keycloak.v2/web_modules/@patternfly/react-icons.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
 import { Msg } from "../../widgets/Msg.js";
 import { ContentPage } from "../ContentPage.js";
 import { createRedirect } from "../../util/RedirectUri.js";
-
 /**
  * @author Stan Silvert
  */
 class LinkedAccountsPage extends React.Component {
   constructor(props, context) {
     super(props);
-
     _defineProperty(this, "context", void 0);
-
     this.context = context;
     this.state = {
       linkedAccounts: [],
@@ -40,7 +39,6 @@ class LinkedAccountsPage extends React.Component {
     };
     this.getLinkedAccounts();
   }
-
   getLinkedAccounts() {
     this.context.doGet("/linked-accounts").then(response => {
       console.log({
@@ -54,7 +52,6 @@ class LinkedAccountsPage extends React.Component {
       });
     });
   }
-
   unLinkAccount(account) {
     const url = '/linked-accounts/' + account.providerName;
     this.context.doDelete(url).then(response => {
@@ -64,7 +61,6 @@ class LinkedAccountsPage extends React.Component {
       this.getLinkedAccounts();
     });
   }
-
   linkAccount(account) {
     const url = '/linked-accounts/' + account.providerName;
     const redirectUri = createRedirect(this.props.location.pathname);
@@ -80,7 +76,6 @@ class LinkedAccountsPage extends React.Component {
       window.location.href = response.data.accountLinkUri;
     });
   }
-
   render() {
     return /*#__PURE__*/React.createElement(ContentPage, {
       title: Msg.localize('linkedAccountsTitle'),
@@ -110,16 +105,13 @@ class LinkedAccountsPage extends React.Component {
       "aria-label": Msg.localize('unlinkedLoginProviders')
     }, this.makeRows(this.state.unLinkedAccounts, false))))));
   }
-
   emptyRow(isLinked) {
     let isEmptyMessage = '';
-
     if (isLinked) {
       isEmptyMessage = Msg.localize('linkedEmpty');
     } else {
       isEmptyMessage = Msg.localize('unlinkedEmpty');
     }
-
     return /*#__PURE__*/React.createElement(DataListItem, {
       key: "emptyItem",
       "aria-labelledby": Msg.localize('isEmptyMessage')
@@ -131,12 +123,10 @@ class LinkedAccountsPage extends React.Component {
       }, isEmptyMessage)]
     })));
   }
-
   makeRows(accounts, isLinked) {
     if (accounts.length === 0) {
       return this.emptyRow(isLinked);
     }
-
     return /*#__PURE__*/React.createElement(React.Fragment, null, " ", accounts.map(account => /*#__PURE__*/React.createElement(DataListItem, {
       id: `${account.providerAlias}-idp`,
       key: account.providerName,
@@ -191,7 +181,6 @@ class LinkedAccountsPage extends React.Component {
       msgKey: "link"
     })))))), " ");
   }
-
   label(account) {
     if (account.social) {
       return /*#__PURE__*/React.createElement(Label, {
@@ -200,98 +189,82 @@ class LinkedAccountsPage extends React.Component {
         msgKey: "socialLogin"
       }));
     }
-
     return /*#__PURE__*/React.createElement(Label, {
       color: "green"
     }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "systemDefined"
     }));
   }
-
   findIcon(account) {
     const socialIconId = `${account.providerAlias}-idp-icon-social`;
     console.log(account);
-
     switch (true) {
       case account.providerName.toLowerCase().includes('linkedin'):
         return /*#__PURE__*/React.createElement(LinkedinIcon, {
           id: socialIconId,
           size: "lg"
         });
-
       case account.providerName.toLowerCase().includes('facebook'):
         return /*#__PURE__*/React.createElement(FacebookIcon, {
           id: socialIconId,
           size: "lg"
         });
-
       case account.providerName.toLowerCase().includes('google'):
         return /*#__PURE__*/React.createElement(GoogleIcon, {
           id: socialIconId,
           size: "lg"
         });
-
       case account.providerName.toLowerCase().includes('instagram'):
         return /*#__PURE__*/React.createElement(InstagramIcon, {
           id: socialIconId,
           size: "lg"
         });
-
       case account.providerName.toLowerCase().includes('microsoft'):
         return /*#__PURE__*/React.createElement(MicrosoftIcon, {
           id: socialIconId,
           size: "lg"
         });
-
       case account.providerName.toLowerCase().includes('bitbucket'):
         return /*#__PURE__*/React.createElement(BitbucketIcon, {
           id: socialIconId,
           size: "lg"
         });
-
       case account.providerName.toLowerCase().includes('twitter'):
         return /*#__PURE__*/React.createElement(TwitterIcon, {
           id: socialIconId,
           size: "lg"
         });
-
       case account.providerName.toLowerCase().includes('openshift'):
         // return <div className="idp-icon-social" id="openshift-idp-icon-social" />;
         return /*#__PURE__*/React.createElement(OpenshiftIcon, {
           id: socialIconId,
           size: "lg"
         });
-
       case account.providerName.toLowerCase().includes('gitlab'):
         return /*#__PURE__*/React.createElement(GitlabIcon, {
           id: socialIconId,
           size: "lg"
         });
-
       case account.providerName.toLowerCase().includes('github'):
         return /*#__PURE__*/React.createElement(GithubIcon, {
           id: socialIconId,
           size: "lg"
         });
-
       case account.providerName.toLowerCase().includes('paypal'):
         return /*#__PURE__*/React.createElement(PaypalIcon, {
           id: socialIconId,
           size: "lg"
         });
-
       case account.providerName.toLowerCase().includes('stackoverflow'):
         return /*#__PURE__*/React.createElement(StackOverflowIcon, {
           id: socialIconId,
           size: "lg"
         });
-
       case account.providerName !== '' && account.social:
         return /*#__PURE__*/React.createElement("div", {
           className: "idp-icon-social",
           id: socialIconId
         });
-
       default:
         return /*#__PURE__*/React.createElement(CubeIcon, {
           id: `${account.providerAlias}-idp-icon-default`,
@@ -299,11 +272,8 @@ class LinkedAccountsPage extends React.Component {
         });
     }
   }
-
 }
-
 _defineProperty(LinkedAccountsPage, "contextType", AccountServiceContext);
-
 ;
 const LinkedAccountsPagewithRouter = withRouter(LinkedAccountsPage);
 export { LinkedAccountsPagewithRouter as LinkedAccountsPage };

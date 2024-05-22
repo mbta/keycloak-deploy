@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../common/keycloak/web_modules/react.js";
-import { Msg } from "./Msg.js";
-import { ArrowIcon } from "../../../common/keycloak/web_modules/@patternfly/react-icons.js";
 
+import * as React from "../../keycloak.v2/web_modules/react.js";
+import { Msg } from "./Msg.js";
+import { ArrowIcon } from "../../keycloak.v2/web_modules/@patternfly/react-icons.js";
 /**
  * @author Stan Silvert ssilvert@redhat.com (C) 2018 Red Hat Inc.
  */
@@ -24,7 +24,6 @@ export class ReferrerLink extends React.Component {
   constructor(props) {
     super(props);
   }
-
   render() {
     return (
       /*#__PURE__*/
@@ -40,7 +39,6 @@ export class ReferrerLink extends React.Component {
       }))
     );
   }
-
 }
 ;
 //# sourceMappingURL=ReferrerLink.js.map

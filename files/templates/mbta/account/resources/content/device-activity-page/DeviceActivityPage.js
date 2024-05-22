@@ -1,5 +1,6 @@
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /*
  * Copyright 2018 Red Hat, Inc. and/or its affiliates.
  *
@@ -15,46 +16,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../../common/keycloak/web_modules/react.js";
+
+import * as React from "../../../keycloak.v2/web_modules/react.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
 import TimeUtil from "../../util/TimeUtil.js";
-import { Button, DataList, DataListItem, DataListItemRow, DataListContent, DescriptionList, DescriptionListTerm, DescriptionListDescription, DescriptionListGroup, Grid, GridItem, Label, PageSection, PageSectionVariants, Title, Tooltip, SplitItem, Split } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
-import { DesktopIcon, MobileAltIcon, SyncAltIcon } from "../../../../common/keycloak/web_modules/@patternfly/react-icons.js";
+import { Button, DataList, DataListItem, DataListItemRow, DataListContent, DescriptionList, DescriptionListTerm, DescriptionListDescription, DescriptionListGroup, Grid, GridItem, Label, PageSection, PageSectionVariants, Title, Tooltip, SplitItem, Split } from "../../../keycloak.v2/web_modules/@patternfly/react-core.js";
+import { DesktopIcon, MobileAltIcon, SyncAltIcon } from "../../../keycloak.v2/web_modules/@patternfly/react-icons.js";
 import { Msg } from "../../widgets/Msg.js";
 import { ContinueCancelModal } from "../../widgets/ContinueCancelModal.js";
 import { KeycloakContext } from "../../keycloak-service/KeycloakContext.js";
 import { ContentPage } from "../ContentPage.js";
 import { ContentAlert } from "../ContentAlert.js";
-
 /**
  * @author Stan Silvert ssilvert@redhat.com (C) 2019 Red Hat Inc.
  */
 export class DeviceActivityPage extends React.Component {
   constructor(props, context) {
     super(props);
-
     _defineProperty(this, "context", void 0);
-
     _defineProperty(this, "signOutAll", keycloakService => {
       this.context.doDelete("/sessions").then(() => {
         keycloakService.logout();
       });
     });
-
     _defineProperty(this, "signOutSession", (device, session) => {
-      this.context.doDelete("/sessions/" + session.id).then(() => {
+      this.context.doDelete("/sessions/" + encodeURIComponent(session.id)).then(() => {
         this.fetchDevices();
         ContentAlert.success('signedOutSession', [session.browser, device.os]);
       });
     });
-
     this.context = context;
     this.state = {
       devices: []
     };
     this.fetchDevices();
   }
-
   fetchDevices() {
     this.context.doGet("/sessions/devices").then(response => {
       console.log({
@@ -65,9 +61,9 @@ export class DeviceActivityPage extends React.Component {
         devices: devices
       });
     });
-  } // current device and session should display at the top of their respective lists
+  }
 
-
+  // current device and session should display at the top of their respective lists
   moveCurrentToTop(devices) {
     let currentDevice = devices[0];
     devices.forEach((device, index) => {
@@ -85,15 +81,12 @@ export class DeviceActivityPage extends React.Component {
     });
     return devices;
   }
-
   time(time) {
     return TimeUtil.format(time * 1000);
   }
-
   elementId(item, session, element = 'session') {
     return `${element}-${session.id.substring(0, 7)}-${item}`;
   }
-
   findDeviceTypeIcon(session, device) {
     const deviceType = device.mobile;
     if (deviceType === true) return /*#__PURE__*/React.createElement(MobileAltIcon, {
@@ -103,41 +96,34 @@ export class DeviceActivityPage extends React.Component {
       id: this.elementId('icon-desktop', session, 'device')
     });
   }
-
   findOS(device) {
     if (device.os.toLowerCase().includes('unknown')) return Msg.localize('unknownOperatingSystem');
     return device.os;
   }
-
   findOSVersion(device) {
     if (device.osVersion.toLowerCase().includes('unknown')) return '';
     return device.osVersion;
   }
-
   makeClientsString(clients) {
     let clientsString = "";
     clients.forEach((client, index) => {
       let clientName;
-
       if (client.hasOwnProperty('clientName') && client.clientName !== undefined && client.clientName !== '') {
         clientName = Msg.localize(client.clientName);
       } else {
         clientName = client.clientId;
       }
-
       clientsString += clientName;
       if (clients.length > index + 1) clientsString += ', ';
     });
     return clientsString;
   }
-
   isShowSignOutAll(devices) {
     if (devices.length === 0) return false;
     if (devices.length > 1) return true;
     if (devices[0].sessions.length > 1) return true;
     return false;
   }
-
   render() {
     return /*#__PURE__*/React.createElement(ContentPage, {
       title: "device-activity",
@@ -168,7 +154,9 @@ export class DeviceActivityPage extends React.Component {
       variant: "link",
       onClick: this.fetchDevices.bind(this),
       icon: /*#__PURE__*/React.createElement(SyncAltIcon, null)
-    }, "Refresh"))), /*#__PURE__*/React.createElement(SplitItem, null, /*#__PURE__*/React.createElement(KeycloakContext.Consumer, null, keycloak => this.isShowSignOutAll(this.state.devices) && /*#__PURE__*/React.createElement(ContinueCancelModal, {
+    }, /*#__PURE__*/React.createElement(Msg, {
+      msgKey: "refresh"
+    })))), /*#__PURE__*/React.createElement(SplitItem, null, /*#__PURE__*/React.createElement(KeycloakContext.Consumer, null, keycloak => this.isShowSignOutAll(this.state.devices) && /*#__PURE__*/React.createElement(ContinueCancelModal, {
       buttonTitle: "signOutAllDevices",
       buttonId: "sign-out-all",
       modalTitle: "signOutAllDevices",
@@ -241,10 +229,7 @@ export class DeviceActivityPage extends React.Component {
       }));
     })))));
   }
-
 }
-
 _defineProperty(DeviceActivityPage, "contextType", AccountServiceContext);
-
 ;
 //# sourceMappingURL=DeviceActivityPage.js.map

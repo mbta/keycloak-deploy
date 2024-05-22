@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../common/keycloak/web_modules/react.js";
-import { Button, Text, Title, Tooltip, PageSection, TextContent, PageSectionVariants, SplitItem, Split } from "../../../common/keycloak/web_modules/@patternfly/react-core.js";
-import { SyncAltIcon } from "../../../common/keycloak/web_modules/@patternfly/react-icons.js";
+
+import * as React from "../../keycloak.v2/web_modules/react.js";
+import { Button, Text, Title, Tooltip, PageSection, TextContent, PageSectionVariants, SplitItem, Split } from "../../keycloak.v2/web_modules/@patternfly/react-core.js";
+import { SyncAltIcon } from "../../keycloak.v2/web_modules/@patternfly/react-icons.js";
 import { Msg } from "../widgets/Msg.js";
 import { ContentAlert } from "./ContentAlert.js";
-
 /**
  * @author Stan Silvert ssilvert@redhat.com (C) 2019 Red Hat Inc.
  */
@@ -26,7 +26,6 @@ export class ContentPage extends React.Component {
   constructor(props) {
     super(props);
   }
-
   render() {
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(ContentAlert, null), /*#__PURE__*/React.createElement(PageSection, {
       variant: PageSectionVariants.light,
@@ -57,7 +56,6 @@ export class ContentPage extends React.Component {
       msgKey: "refresh"
     })))))), this.props.children);
   }
-
 }
 ;
 //# sourceMappingURL=ContentPage.js.map

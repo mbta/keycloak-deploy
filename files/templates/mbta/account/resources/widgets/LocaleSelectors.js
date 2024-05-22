@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "../../../common/keycloak/web_modules/react.js";
-import { FormSelect, FormSelectOption } from "../../../common/keycloak/web_modules/@patternfly/react-core.js";
+import * as React from "../../keycloak.v2/web_modules/react.js";
+import { FormSelect, FormSelectOption } from "../../keycloak.v2/web_modules/@patternfly/react-core.js";
 import { Msg } from "./Msg.js";
 ;
 export class LocaleSelector extends React.Component {
   constructor(props) {
     super(props);
   }
-
   render() {
     return /*#__PURE__*/React.createElement(FormSelect, {
       id: "locale-select",
@@ -36,6 +35,5 @@ export class LocaleSelector extends React.Component {
       label: locale.label
     })));
   }
-
 }
 //# sourceMappingURL=LocaleSelectors.js.map
