@@ -1,0 +1,52 @@
+# GitLab CI configuration file
+# INTEGSOFT_DOCKER_IMAGE and DOCKER_IMAGE_VERSION_PR are defined on the Gitlab settings page.
+stages:
+  - push
+
+variables:
+  STORAGE_DRIVER: vfs
+  BUILDAH_FORMAT: docker
+ 
+push_integsoft:
+  stage: push
+  only:
+    refs:
+      - merge_requests
+    variables:
+      - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "integsoft"
+  image:
+    name: noenv/buildah
+    entrypoint: ['']
+  variables:
+    DOCKER_INTEGSOFT_IMAGE: "$INTEGSOFT_DOCKER_REGISTRY/$INTEGSOFT_DOCKER_IMAGE:$DOCKER_IMAGE_VERSION_PR"
+    DOCKER_INTEGSOFT_IMAGE_LATEST: "$INTEGSOFT_DOCKER_REGISTRY/$INTEGSOFT_DOCKER_IMAGE:latest"
+  script:
+    - echo "Preparing Integsoft MBTA Keycloak Docker image release..."
+    - buildah bud --no-cache -t $DOCKER_INTEGSOFT_IMAGE -t $DOCKER_INTEGSOFT_IMAGE_LATEST .
+    - buildah push --tls-verify=false $DOCKER_INTEGSOFT_IMAGE
+    - buildah push --tls-verify=false $DOCKER_INTEGSOFT_IMAGE_LATEST
+
+push_aws:
+  stage: push
+  only:
+    - tags
+  image:
+    name: noenv/buildah
+    entrypoint: ['']
+  variables:
+    DOCKER_INTEGSOFT_IMAGE: "$INTEGSOFT_DOCKER_REGISTRY/$INTEGSOFT_DOCKER_IMAGE:$DOCKER_IMAGE_VERSION_TAGGED"
+    DOCKER_AWS_IMAGE: "$ECR_DOCKER_REGISTRY/$ECR_DOCKER_IMAGE:$DOCKER_IMAGE_VERSION_TAGGED"
+    DOCKER_AWS_IMAGE_LATEST: "$ECR_DOCKER_REGISTRY/$ECR_DOCKER_IMAGE:latest"
+  before_script:
+    - dnf install -y awscli
+    - aws --version
+  script:
+    - echo "Preparing AWS ECR MBTA Keycloak Docker image release..."
+    - buildah pull --tls-verify=false $DOCKER_INTEGSOFT_IMAGE
+    - buildah tag $DOCKER_INTEGSOFT_IMAGE $DOCKER_AWS_IMAGE
+    - buildah tag $DOCKER_INTEGSOFT_IMAGE $DOCKER_AWS_IMAGE_LATEST
+    - aws ecr get-login-password | buildah login --username AWS --password-stdin $ECR_DOCKER_REGISTRY
+    - buildah push $DOCKER_AWS_IMAGE
+    - buildah push $DOCKER_AWS_IMAGE_LATEST
+    - aws ecs update-service --cluster $ECS_CLUSTER_NAME --service $ECS_SERVICE_NAME --force-new-deployment
+
