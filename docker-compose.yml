@@ -22,7 +22,14 @@ services:
       - JAVA_OPTS_APPEND=-Xmx1500m -Djboss.bind.address=0.0.0.0
       - AWS_REGION=us-east-1
       - KC_HEALTH_ENABLED=true
-    links:
+    command:
+      - "start-dev"
+      - "--spi-theme-static-max-age=1"
+      - "--spi-theme-cache-themes=false"
+      - "--spi-theme-cache-templates=false"
+    volumes:
+      - ./files/templates/mbta:/opt/keycloak/themes/mbta
+    depends_on:
       - mariadb
   mariadb:
     image: mariadb:latest
