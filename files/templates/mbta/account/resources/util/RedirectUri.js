@@ -32,6 +32,6 @@ export const createRedirect = currentLocation => {
     // it sees the hash in the redirect param and stops.
     redirectUri += "?referrer=" + referrer + "&referrer_uri=" + referrerUri.replace('#', '_hash_');
   }
-  return encodeURIComponent(redirectUri) + encodeURIComponent("/#" + currentLocation);
+  return encodeURIComponent(redirectUri) + encodeURIComponent("#" + currentLocation);
 };
 //# sourceMappingURL=RedirectUri.js.map
