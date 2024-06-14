@@ -23,7 +23,6 @@ import { Alert, Button, DataList, DataListAction, DataListItemCells, DataListCel
 import { AIACommand } from "../../util/AIACommand.js";
 import TimeUtil from "../../util/TimeUtil.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
-import { ContinueCancelModal } from "../../widgets/ContinueCancelModal.js";
 import { Msg } from "../../widgets/Msg.js";
 import { ContentPage } from "../ContentPage.js";
 import { ContentAlert } from "../ContentAlert.js";
@@ -179,7 +178,8 @@ class SigningInPage extends React.Component {
       credential: credentialMetadata.credential,
       removeable: removeable,
       updateAction: updateAIA,
-      credRemover: this.handleRemove
+      credRemover: this.handleRemove,
+      keycloak: keycloak
     })))))), " ");
   }
   credentialRowCells(credMetadata, type) {
@@ -302,18 +302,18 @@ class CredentialAction extends React.Component {
     }
     if (this.props.removeable) {
       const userLabel = this.props.credential.userLabel;
+      const removeAction = new AIACommand(this.props.keycloak, 'delete_credential:' + this.props.credential.id);
       return /*#__PURE__*/React.createElement(DataListAction, {
         "aria-label": Msg.localize('removeCredAriaLabel'),
         "aria-labelledby": Msg.localize('removeCredAriaLabel'),
         id: 'removeAction-' + this.props.credential.id
-      }, /*#__PURE__*/React.createElement(ContinueCancelModal, {
-        buttonTitle: "remove",
-        buttonVariant: "danger",
-        buttonId: `${SigningInPage.credElementId(this.props.credential.type, this.props.credential.id, 'remove')}`,
-        modalTitle: Msg.localize('removeCred', [userLabel]),
-        modalMessage: Msg.localize('stopUsingCred', [userLabel]),
-        onContinue: () => this.props.credRemover(this.props.credential.id, userLabel)
-      }));
+      }, /*#__PURE__*/React.createElement(Button, {
+        variant: "danger",
+        id: `${SigningInPage.credElementId(this.props.credential.type, this.props.credential.id, "remove")}`,
+        onClick: () => removeAction.execute()
+      }, /*#__PURE__*/React.createElement(Msg, {
+        msgKey: "remove"
+      })));
     }
     return /*#__PURE__*/React.createElement(React.Fragment, null);
   }
