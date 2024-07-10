@@ -41,4 +41,6 @@ WORKDIR /opt/keycloak
 # Ports
 EXPOSE 8080 8443
 
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start", "--optimized"]
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
+
+CMD ["start", "--optimized"]
