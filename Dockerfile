@@ -38,8 +38,8 @@ RUN /opt/keycloak/bin/kc.sh show-config
 
 WORKDIR /opt/keycloak
 
-# Ports
-EXPOSE 8080 8443
+# Ports (9000 is used by health check endpoint)
+EXPOSE 8080 8443 9000
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
 
