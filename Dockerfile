@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:24.0.5 as builder
+FROM quay.io/keycloak/keycloak:25.0.2 as builder
 
 LABEL maintainer="support@integrationeye.com"
 LABEL builder="Integsoft s.r.o"
@@ -38,8 +38,8 @@ RUN /opt/keycloak/bin/kc.sh show-config
 
 WORKDIR /opt/keycloak
 
-# Ports
-EXPOSE 8080 8443
+# Ports (9000 is used by health check endpoint)
+EXPOSE 8080 8443 9000
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
 
