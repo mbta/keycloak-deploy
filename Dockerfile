@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:25.0.6 as builder
+FROM quay.io/keycloak/keycloak:26.0.5 as builder
 
 LABEL maintainer="support@integrationeye.com"
 LABEL builder="Integsoft s.r.o"
@@ -15,6 +15,7 @@ ENV KC_HTTP_ENABLED=true
 ENV KC_LOG_LEVEL=INFO,cz.integsoft:debug
 ENV KC_PROXY=edge
 ENV KC_HEALTH_ENABLED=true
+ENV KC_PROXY_HEADERS=xforwarded
 
 USER keycloak
 
