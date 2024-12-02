@@ -1,0 +1,36 @@
+name: Deploy Specific Version to Dev
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing Tag to Deploy'
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment:
+      name: Keycloak Dev
+      url: https://login-dev.mbtace.com/
+    concurrency: dev
+    env:
+      ECS_CLUSTER: keycloak
+      ECS_SERVICE: keycloak-dev
+
+    steps:
+      - uses: mbta/actions/deploy-ecs@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          ecs-cluster: ${{ env.ECS_CLUSTER }}
+          ecs-service: ${{ env.ECS_SERVICE }}
+          docker-tag: ${{ secrets.DOCKER_REPO }}:${{ github.event.inputs.tag }}
+      - uses: mbta/actions/notify-slack-deploy@v1
+        if: ${{ !cancelled() }}
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          job-status: ${{ job.status }}
