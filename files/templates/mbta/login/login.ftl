@@ -89,16 +89,18 @@
 						<#if realm.password && realm.registrationAllowed && !registrationDisabled??>
 							<span class="body-text">${msg("noAccount")}</span> <a href="${url.registrationUrl}">${msg("doRegister")}</a>
 			        	</#if>
-			        	<#if realm.password && social.providers??>
-				        	<hr/>
-				            <span class="body-text">${msg("identity-provider-login-label")} </span>
-							<#list social.providers as p>
-				             	<a href="${p.loginUrl}">${p.displayName!}</a>
-				            </#list>
-				        </#if>
 			        </div>
 	            </form>
 			</#if>
 		</div>
+        <#if realm.password && social.providers??>
+            <#list social.providers>
+                <ul class="login-social-providers">
+                    <#items as p>
+                        <li><a href="${p.loginUrl}">${msg("identityProviderLoginLabel", p.displayName)}</a></li>
+                    </#items>
+                </ul>
+            </#list>
+        </#if>
     </#if>
 </@layout.registrationLayout>

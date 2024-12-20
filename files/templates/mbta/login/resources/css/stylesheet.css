@@ -469,3 +469,12 @@ a:visited {
   position: absolute;
   width: 1px;
 }
+
+.login-social-providers {
+    list-style: none;
+    padding: 1rem;
+}
+
+.login-social-providers li {
+    margin-bottom: 1rem;
+}
