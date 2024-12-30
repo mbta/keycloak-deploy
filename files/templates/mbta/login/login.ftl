@@ -92,15 +92,15 @@
 			        </div>
 	            </form>
 			</#if>
+            <#if realm.password && social.providers??>
+                <#list social.providers>
+                    <ul class="login-social-providers">
+                        <#items as p>
+                            <li><a href="${p.loginUrl}">${msg("identityProviderLoginLabel", p.displayName)}</a></li>
+                        </#items>
+                    </ul>
+                </#list>
+            </#if>
 		</div>
-        <#if realm.password && social.providers??>
-            <#list social.providers>
-                <ul class="login-social-providers">
-                    <#items as p>
-                        <li><a href="${p.loginUrl}">${msg("identityProviderLoginLabel", p.displayName)}</a></li>
-                    </#items>
-                </ul>
-            </#list>
-        </#if>
     </#if>
 </@layout.registrationLayout>
