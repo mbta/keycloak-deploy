@@ -1,5 +1,6 @@
 <#macro registrationLayout bodyClass="" displayInfo=false displayMessage=true displayRequiredFields=false showAnotherWayIfPresent=true>
-<html lang="en">
+<!doctype html>
+<html lang="${locale.currentLanguageTag}">
 
 <head>
     <meta charset="utf-8">
