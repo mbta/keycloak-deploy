@@ -21,9 +21,6 @@ USER keycloak
 # copy build scripts and related data
 COPY files/ $INSTALL_FOLDER/
 
-# copy the custom cache config file into the keycloak conf dir
-RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/conf/cache-ispn-jdbc-ping.xml $KC_FOLDER/conf/"]
-
 # copy custom modules
 RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/modules/* $KC_FOLDER/providers/"]
 
