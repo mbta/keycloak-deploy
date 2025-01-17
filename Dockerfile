@@ -9,7 +9,6 @@ ENV KC_FOLDER=/opt/keycloak
 
 ENV KC_DB=mariadb
 ENV KC_HTTP_RELATIVE_PATH=/auth
-ENV KC_CACHE_CONFIG_FILE=cache-ispn-jdbc-ping.xml
 ENV KC_HOSTNAME_STRICT=false
 ENV KC_HTTP_ENABLED=true
 ENV KC_LOG_LEVEL=INFO,cz.integsoft:debug
