@@ -156,6 +156,7 @@ h3 {
     border: 1px solid #165c96;
     border-radius: 4px;
     padding: 12px;
+	box-sizing: border-box;
 }
 
 .form-input-checkbox {
