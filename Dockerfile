@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:26.0.5 as builder
+FROM quay.io/keycloak/keycloak:26.1.0 as builder
 
 LABEL maintainer="support@integrationeye.com"
 LABEL builder="Integsoft s.r.o"
@@ -9,7 +9,6 @@ ENV KC_FOLDER=/opt/keycloak
 
 ENV KC_DB=mariadb
 ENV KC_HTTP_RELATIVE_PATH=/auth
-ENV KC_CACHE_CONFIG_FILE=cache-ispn-jdbc-ping.xml
 ENV KC_HOSTNAME_STRICT=false
 ENV KC_HTTP_ENABLED=true
 ENV KC_LOG_LEVEL=INFO,cz.integsoft:debug
@@ -21,9 +20,6 @@ USER keycloak
 
 # copy build scripts and related data
 COPY files/ $INSTALL_FOLDER/
-
-# copy the custom cache config file into the keycloak conf dir
-RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/conf/cache-ispn-jdbc-ping.xml $KC_FOLDER/conf/"]
 
 # copy custom modules
 RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/modules/* $KC_FOLDER/providers/"]
