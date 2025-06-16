@@ -1,9 +1,11 @@
 name: Deploy Keycloak Staging
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing Tag to Deploy'
+        required: true
 
 jobs:
   deploy:
@@ -33,7 +35,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           ecs-cluster: ${{ env.ECS_CLUSTER }}
           ecs-service: ${{ env.ECS_SERVICE }}
-          docker-tag: ${{ steps.build-push.outputs.docker-tag }}
+          docker-tag: ${{ secrets.DOCKER_REPO }}:${{ github.event.inputs.tag }}      
       - uses: mbta/actions/notify-slack-deploy@v1
         if: ${{ !cancelled() }}
         with:
