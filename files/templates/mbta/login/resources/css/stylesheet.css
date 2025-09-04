@@ -479,3 +479,28 @@ a:visited {
 .login-social-providers li {
     margin-bottom: 1rem;
 }
+
+.button-reverse {
+    border-radius: 3px;
+    font-size: inherit;
+    font-weight: 500; 
+   	border: 1px solid #165c96;
+    width: 6rem;
+    height: 48px;
+    background-color: #FFFFFF;
+    color: #165C96;
+}
+
+.button-reverse:hover,
+.button-reverse:focus {
+	background-color: #165C96;
+    color: #FFFFFF;
+    cursor: pointer; 
+}
+
+.button-wide-reverse {
+    display: block;
+    width: 99%;
+    margin: 3rem auto 2rem auto;
+}
+

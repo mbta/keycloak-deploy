@@ -1,6 +1,6 @@
-<#macro registrationLayout bodyClass="" displayInfo=false displayMessage=true displayRequiredFields=false showAnotherWayIfPresent=true>
+<#macro registrationLayout bodyClass="" displayInfo=false displayMessage=true displayRequiredFields=false>
 <!doctype html>
-<html lang="${locale.currentLanguageTag}">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -12,6 +12,30 @@
     <link rel="icon" href="${url.resourcesPath}/img/favicon.ico" />
 	<link href="${url.resourcesPath}/css/stylesheet.css" rel="stylesheet" />
 	<script src="${url.resourcesPath}/js/jquery-3.6.4.min.js"></script>
+	<script type="importmap">
+        {
+            "imports": {
+                "rfc4648": "${url.resourcesCommonPath}/vendor/rfc4648/rfc4648.js"
+            }
+        }
+    </script>
+    <script src="${url.resourcesPath}/js/menu-button-links.js" type="module"></script>
+    <script type="module">
+        import { startSessionPolling } from "${url.resourcesPath}/js/authChecker.js";
+
+        startSessionPolling(
+            "${url.ssoLoginInOtherTabsUrl?no_esc}"
+        );
+    </script>
+    <#if authenticationSession??>
+        <script type="module">
+            import { checkAuthSession } from "${url.resourcesPath}/js/authChecker.js";
+
+            checkAuthSession(
+                "${authenticationSession.authSessionIdHash}"
+            );
+        </script>
+    </#if>
 </head>
 
 <body>
