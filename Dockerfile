@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:26.3.1 as builder
+FROM quay.io/keycloak/keycloak:26.3.3 as builder
 
 LABEL maintainer="support@integrationeye.com"
 LABEL builder="Integsoft s.r.o"
