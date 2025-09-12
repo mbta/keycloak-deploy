@@ -30,7 +30,7 @@ RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/templates/* $KC_FOLDER/themes/"]
 # add integsoft version of keycloak jars
 RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/keycloak-modules/* $KC_FOLDER/lib/lib/main"]
 
-RUN /opt/keycloak/bin/kc.sh build --health-enabled=true --spi-email-sender-provider=aws-ses --spi-email-sender-provider-aws-ses-enabled=true --spi-email-sender-provider-aws-ses-region=$AWS_REGION --features="token-exchange"
+RUN /opt/keycloak/bin/kc.sh build --health-enabled=true --spi-email-sender--provider=aws-ses --spi-email-sender--aws-ses--enabled --spi-email-sender--aws-ses--region=$AWS_REGION --features="token-exchange"
 RUN /opt/keycloak/bin/kc.sh show-config
 
 WORKDIR /opt/keycloak
