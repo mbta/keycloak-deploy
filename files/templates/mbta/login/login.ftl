@@ -1,4 +1,5 @@
 <#import "template.ftl" as layout>
+<#import "passkeys.ftl" as passkeys>
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','password') displayInfo=realm.password && realm.registrationAllowed && !registrationDisabled??; section>
     <#if section = "header">
         ${msg("loginAccountTitle")}
@@ -84,13 +85,27 @@
 						<input type="hidden" id="id-hidden-input" name="credentialId" <#if auth.selectedCredential?has_content>value="${auth.selectedCredential}"</#if>/>
 	                    <input name="login" id="sign-in" type="submit" value="${msg("doLogIn")}" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}"/>
                     </div>
+			</form>
+                    
+			<#if auth?has_content && auth.showTryAnotherWayLink()>
+            	<form id="kc-select-try-another-way-form" action="${url.loginAction}" method="post">
+                	<div style="margin-top: 20px; padding: 0 1rem 0 1rem;">
+						<input type="hidden" name="tryAnotherWay" value="on"/>
+						<input id="try-another-way" class="${properties.kcButtonReverseClass!} ${properties.kcButtonLargeReverseClass!}" style="text-align: center;"
+							onclick="document.forms['kc-select-try-another-way-form'].requestSubmit();return false;" value="${msg("doTryAnotherWay")}" />
+                  	</div>
+              	</form>
+			</#if>
+                    
+                    <@passkeys.conditionalUIData />
+        			<script type="module" src="${url.resourcesPath}/js/passwordVisibility.js"></script>
                     
                     <div>
 						<#if realm.password && realm.registrationAllowed && !registrationDisabled??>
 							<span class="body-text">${msg("noAccount")}</span> <a href="${url.registrationUrl}">${msg("doRegister")}</a>
 			        	</#if>
 			        </div>
-	            </form>
+	            
 			</#if>
             <#if realm.password && social.providers??>
                 <#list social.providers>
