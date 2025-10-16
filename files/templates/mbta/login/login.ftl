@@ -1,5 +1,6 @@
 <#import "template.ftl" as layout>
 <#import "passkeys.ftl" as passkeys>
+<#import "show_password.ftl" as show_password>
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','password') displayInfo=realm.password && realm.registrationAllowed && !registrationDisabled??; section>
     <#if section = "header">
         ${msg("loginAccountTitle")}
@@ -77,6 +78,9 @@
                         <label for="form-input-password" class="form-input-label">${msg("password")}</label>
                     	<input id="form-input-password" class="form-input" name="password" type="password" autocomplete="off" />
                     </div>
+                    <div class="form-group-small">
+                         <@show_password.input_group onchange="togglePasswordVisibility(this, ['form-input-password'])" />
+                       </div>
                     <div class="form-group submit-group">
                     	<#if realm.resetPasswordAllowed>
 							<a href="${url.loginResetCredentialsUrl}" class="forgot-password">${msg("doForgotPassword")}</a>
@@ -86,6 +90,8 @@
 	                    <input name="login" id="sign-in" type="submit" value="${msg("doLogIn")}" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}"/>
                     </div>
 			</form>
+
+      <script src="${url.resourcesPath}/js/toggle-password-visibility.js"></script>
                     
 			<#if auth?has_content && auth.showTryAnotherWayLink()>
             	<form id="kc-select-try-another-way-form" action="${url.loginAction}" method="post">

@@ -1,4 +1,5 @@
 <#import "template.ftl" as layout>
+<#import "show_password.ftl" as show_password>
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('password','password-confirm'); section>
     <#if section = "header">
         ${msg("updatePasswordTitle")}
@@ -101,6 +102,10 @@
 						</span>
 					</#if>
 	            </div>
+
+              <div class="form-group-small">
+                <@show_password.input_group onchange="togglePasswordVisibility(this, ['password-new', 'password-confirm'])" />
+              </div>
 	
 	            <div class="form-group">
 	            	<#if isAppInitiatedAction??>
@@ -118,5 +123,6 @@
 	            </div>
 	        </form>
 		</div>
+	    <script src="${url.resourcesPath}/js/toggle-password-visibility.js"></script>
     </#if>
 </@layout.registrationLayout>
