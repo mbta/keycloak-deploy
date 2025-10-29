@@ -215,6 +215,10 @@ h3 {
     padding: 1rem;
 }
 
+.form-group-small {
+    padding: 0.5rem 1rem;
+}
+
 .form {
     margin: 1em auto;
 }
@@ -453,6 +457,11 @@ a:visited {
 	gap: 1em;
 }
 
+.checkbox-input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .form-select {
 	border: 1px solid #165c96;
 	border-radius: 4px;
@@ -503,4 +512,3 @@ a:visited {
     width: 99%;
     margin: 3rem auto 2rem auto;
 }
-
