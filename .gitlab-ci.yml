@@ -15,7 +15,7 @@ push_integsoft:
     variables:
       - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "integsoft"
   image:
-    name: noenv/buildah:1.40.1
+    name: noenv/buildah
     entrypoint: ['']
   variables:
     DOCKER_INTEGSOFT_IMAGE: "$INTEGSOFT_DOCKER_REGISTRY/$INTEGSOFT_DOCKER_IMAGE:$DOCKER_IMAGE_VERSION_PR"
@@ -39,7 +39,7 @@ push_aws:
     DOCKER_AWS_IMAGE_LATEST: "$ECR_DOCKER_REGISTRY/$ECR_DOCKER_IMAGE:latest"
   before_script:
     # trick to force Fedora version (replaces $releasever property in mirrors)
-    - echo 42 > /etc/dnf/vars/releasever
+    - echo 43 > /etc/dnf/vars/releasever
     - dnf update -y && dnf install -y awscli
     - aws --version
   script:
