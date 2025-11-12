@@ -15,7 +15,7 @@ push_integsoft:
     variables:
       - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "integsoft"
   image:
-    name: noenv/buildah
+    name: noenv/buildah:1.40.1
     entrypoint: ['']
   variables:
     DOCKER_INTEGSOFT_IMAGE: "$INTEGSOFT_DOCKER_REGISTRY/$INTEGSOFT_DOCKER_IMAGE:$DOCKER_IMAGE_VERSION_PR"
