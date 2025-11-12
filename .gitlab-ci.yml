@@ -40,7 +40,7 @@ push_aws:
   before_script:
     # trick to force Fedora version (replaces $releasever property in mirrors)
     - echo 42 > /etc/dnf/vars/releasever
-    - dnf install -y awscli
+    - dnf update -y && dnf install -y awscli
     - aws --version
   script:
     - echo "Preparing AWS ECR MBTA Keycloak Docker image release..."
