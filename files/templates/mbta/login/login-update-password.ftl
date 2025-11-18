@@ -1,5 +1,6 @@
 <#import "template.ftl" as layout>
 <#import "show_password.ftl" as show_password>
+<#import "password_strength.ftl" as password_strength>
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('password','password-confirm'); section>
     <#if section = "header">
         ${msg("updatePasswordTitle")}
@@ -78,6 +79,10 @@
 					<input type="password" id="password-new" name="password-new" class="form-input<#if messagesPerField.existsError('password')> input-error</#if>"
 						autofocus autocomplete="new-password"
 						aria-invalid="<#if messagesPerField.existsError('password','password-confirm')>true</#if>"
+            oninput="checkPasswordStrength(
+              this.value,
+              [${msg("passwordStrength.zero")}, ${msg("passwordStrength.one")}, ${msg("passwordStrength.two")}, ${msg("passwordStrength.three")}, ${msg("passwordStrength.four")}]
+            )"
 					/>
 	
                     <#if messagesPerField.existsError('password')>
@@ -106,6 +111,10 @@
               <div class="form-group-small">
                 <@show_password.input_group onchange="togglePasswordVisibility(this, ['password-new', 'password-confirm'])" />
               </div>
+
+	            <div class="form-group-small">
+                <@password_strength.password_strength_feedback/>
+	            </div>
 	
 	            <div class="form-group">
 	            	<#if isAppInitiatedAction??>
