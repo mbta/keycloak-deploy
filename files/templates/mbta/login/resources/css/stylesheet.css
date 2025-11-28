@@ -173,6 +173,37 @@ h3 {
     margin: -1px;
 }
 
+.input-error-text {
+    display: flex;
+    color: #B3000F;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.password-requirements-list {
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+    align-items: center;
+    margin: 0;
+}
+
+.error-list {
+    color: #B3000F;
+    margin: 0;
+}
+
+.input-error-text::before {
+    content: "";
+    width: 16px;
+    height: 24px;
+    background-image: url("../img/input_error.svg");
+    margin-right: 8px;
+}
+
 .form-message-container {
     border: 2px solid;
     border-radius: 4px;
@@ -266,11 +297,6 @@ a:visited {
 .button:focus {
     background-color: #0B2F4C;
     cursor: pointer; 
-}
-
-.button:disabled {
-    background-color: #626a73;
-    cursor: not-allowed;
 }
 
 .button-wide {
@@ -570,5 +596,37 @@ a:visited {
 .strength-feedback {
     text-align: start;
     white-space: pre-line;
+}
+
+.password-requirements {
+    margin: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.required-pill {
+    padding: 4px 10px;
+    background-color: #f4f5f7;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.required-pill.complete {
+    background-color: #dff0d8;
+}
+
+.required-pill::before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    background-image: url("../img/password-incomplete.svg");
+    margin-right: 8px;
+}
+
+.required-pill.complete::before {
+    background-image: url("../img/password-complete.svg");
 }
 

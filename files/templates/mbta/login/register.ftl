@@ -153,6 +153,7 @@
 	                        <input type="password" id="password" class="form-input<#if messagesPerField.existsError('password')> input-error</#if>" name="password"
 	                               autocomplete="new-password"
 	                               aria-invalid="<#if messagesPerField.existsError('password','password-confirm')>true</#if>"
+                                 aria-describedby="passwordRequirementsList"
                                  oninput="checkPasswordStrength(
                                     this.value,
                                     [${msg("passwordStrength.zero")}, ${msg("passwordStrength.one")}, ${msg("passwordStrength.two")}, ${msg("passwordStrength.three")}, ${msg("passwordStrength.four")}]
@@ -160,21 +161,29 @@
 	                        />
 	
 	                        <#if messagesPerField.existsError('password')>
-	                            <div class="instructions-container">
-		                            <span id="input-error-password" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
-		                                ${kcSanitize(messagesPerField.get('password'))?no_esc}
-		                            </span>
-		                        </div>
+                            <div class="password-requirements-list" id="passwordRequirementsList">
+                              <div class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
+                                  ${msg("resetpassword.info.title")}
+                              </div>
+                              <ul class="error-list">
+                                  <li>${msg("resetpassword.info.uppercase")}</li>
+                                  <li>${msg("resetpassword.info.lowercase")}</li>
+                                  <li>${msg("resetpassword.info.number")}</li>
+                                  <li>${msg("resetpassword.info.specialchar")}</li>
+                              </ul>
+                            </div>
                           <#else>
-	                        	<div class="instructions-container">
-		                            ${msg("password.info")}
-		                            <ul>
-		                            	<li>${msg("password.info.uppercase_letter")}</li>
-		                            	<li>${msg("password.info.lowercase_letter")}</li>
-		                            	<li>${msg("password.info.number")}</li>
-		                            	<li>${msg("password.info.special_character")}</li>
-		                            </ul>
-		                        </div>
+                            <noscript>
+                              <div class="password-requirements-list" id="passwordRequirementsList">
+                                  ${msg("resetpassword.info.title")}
+                                  <ul>
+                                    <li>${msg("resetpassword.info.uppercase")}</li>
+                                    <li>${msg("resetpassword.info.lowercase")}</li>
+                                    <li>${msg("resetpassword.info.number")}</li>
+                                    <li>${msg("resetpassword.info.specialchar")}</li>
+                                  </ul>
+                              </div>
+                            </noscript>
 	                        </#if>
 	                </div>
 	
@@ -193,15 +202,9 @@
 		                        </div>
 	                        </#if>
 	                </div>
-
-
-	                <div class="form-group-small">
-                    <@show_password.input_group onchange="togglePasswordVisibility(this, ['password', 'password-confirm'])" />
-	                </div>
-
-	                <div class="form-group-small">
-                    <@password_strength.password_strength_feedback/>
-	                </div>
+ 
+                  <@show_password.input_group onchange="togglePasswordVisibility(this, ['password', 'password-confirm'])" />
+                  <@password_strength.password_strength_feedback/>
 
 	                <div class="form-group-small">
 						<div class="checkbox-input-group">
@@ -231,7 +234,7 @@
 	            </div>
 	            
 	            <div class="form-group submit-group">
-					<input type="submit" value="${msg("doRegister")}" id="submit" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" disabled/>
+					<input type="submit" value="${msg("doRegister")}" id="submit" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}"/>
 					<a href="${url.loginUrl}" class="back-link">${kcSanitize(msg("backToLoginRegistration"))?no_esc}</a>
 				</div>
 	        </form>
