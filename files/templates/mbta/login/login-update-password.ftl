@@ -9,14 +9,14 @@
     		<h1>${msg('emailSetPasswordTitle')}</h1>
     		<div class="form-group">
 	    		<div class="form-message-container form-info" role="alert">
-	            	<strong class="form-message-summary">${msg('resetpassword.info.title')}</strong>
-	            	<ul>
-	                	<li class="form-message-text">${msg('resetpassword.info.uppercase')}</li>
-	                	<li class="form-message-text">${msg('resetpassword.info.lowercase')}</li>
-	                	<li class="form-message-text">${msg('resetpassword.info.number')}</li>
-	                	<li class="form-message-text">${msg('resetpassword.info.specialchar')}</li>
-	            	</ul>
-	            </div>
+	            <strong class="form-message-summary">${msg('resetpassword.info.title')}</strong>
+	            <ul>
+	              <li class="form-message-text">${msg('resetpassword.info.uppercase')}</li>
+	              <li class="form-message-text">${msg('resetpassword.info.lowercase')}</li>
+	              <li class="form-message-text">${msg('resetpassword.info.number')}</li>
+	              <li class="form-message-text">${msg('resetpassword.info.specialchar')}</li>
+	            </ul>
+	          </div>
 	        </div>
     		<#if message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>
 				<#if message.type = 'success'><span class="${properties.kcFeedbackSuccessIcon!}"></span>
@@ -107,15 +107,8 @@
 						</span>
 					</#if>
 	            </div>
-
-              <div class="form-group-small">
-                <@show_password.input_group onchange="togglePasswordVisibility(this, ['password-new', 'password-confirm'])" />
-              </div>
-
-	            <div class="form-group-small">
-                <@password_strength.password_strength_feedback/>
-	            </div>
-	
+              <@show_password.input_group onchange="togglePasswordVisibility(this, ['password-new', 'password-confirm'])" />
+              <@password_strength.password_strength_feedback/>
 	            <div class="form-group">
 	            	<#if isAppInitiatedAction??>
 	                	<input type="checkbox" id="logout-sessions" name="logout-sessions" value="on" checked> ${msg("logoutOtherSessions")}
