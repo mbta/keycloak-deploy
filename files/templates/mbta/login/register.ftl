@@ -156,8 +156,11 @@
                                  aria-describedby="passwordRequirementsList"
                                  oninput="checkPasswordStrength(
                                     this.value,
-                                    [${msg("passwordStrength.zero")}, ${msg("passwordStrength.one")}, ${msg("passwordStrength.two")}, ${msg("passwordStrength.three")}, ${msg("passwordStrength.four")}]
-                                 )"
+                                  )"
+                                  onblur="checkPasswordExposed(
+                                    this.value,
+                                    [${msg("passwordStrength.zero")}, ${msg("passwordStrength.one")}, ${msg("passwordStrength.two")}, ${msg("passwordStrength.three")}, ${msg("passwordStrength.four")}],
+                                  )"
 	                        />
 	
 	                        <#if messagesPerField.existsError('password')>

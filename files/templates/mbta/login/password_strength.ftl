@@ -22,9 +22,18 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@zxcvbn-ts/core@3.0.4/dist/zxcvbn-ts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@zxcvbn-ts/language-common@3.0.4/dist/zxcvbn-ts.min.js"></script>
-    <script src="${url.resourcesPath}/js/password-strength.js"></script>  
+    <script src="${url.resourcesPath}/js/update-password-strength.js"></script>
+    <script src="${url.resourcesPath}/js/check-password-strength.js"></script>
     <script type="text/javascript">
       document.getElementById('password-strength-container').style.display = "block";
+
+      setupPasswordStrengthStrings(
+        [${msg("passwordStrength.zero")?no_esc}, 
+        ${msg("passwordStrength.one")?no_esc}, 
+        ${msg("passwordStrength.two")?no_esc}, 
+        ${msg("passwordStrength.three")?no_esc}, 
+        ${msg("passwordStrength.four")?no_esc}]
+      )
 
       setupZxcvbnTranslations({
         warnings: {
@@ -79,5 +88,6 @@
         },
       });
     </script>
+    <script src="${url.resourcesPath}/js/have-i-been-pwned.js"></script>
 	</div>
 </#macro>
