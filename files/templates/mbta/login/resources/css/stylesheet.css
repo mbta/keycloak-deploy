@@ -19,7 +19,7 @@ input {
 /* Default for SM/MD screen breakpoints */
 body { 
     font-size: 1rem;
-    line-height: 1.275;
+    line-height: 1.5;
 }
 
 h1 {
@@ -183,12 +183,21 @@ h3 {
     padding: 8px 0;
 }
 
-.password-requirements-list {
+
+.password-requirements-list-error {
     font-size: 1rem;
     font-weight: 400;
     text-align: left;
     align-items: center;
     margin: 0;
+}
+
+.password-requirements-list {
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+    align-items: center;
+    margin-top: 8px;
 }
 
 .error-list {
@@ -543,12 +552,21 @@ a:visited {
     width: 99%;
     margin: 3rem auto 2rem auto;
 }
+
+.password-requirements-label {
+  text-align: start;
+}
+
+.strength-description {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
 .strength-container {
-    margin-top: 10px;
     font-size: 1rem;
     display: none;
     background-color: #F4F5F7;
-    padding: 12px 8px;
+    padding: .5rem;
     border-radius: 4px;
 }
 
@@ -579,7 +597,7 @@ a:visited {
 .strength-bar {
     display: flex;
     height: 16px;
-    margin-bottom: 12px;
+    margin-top: .5rem;
 }
 
 .strength-segment {
@@ -601,6 +619,11 @@ a:visited {
 
 .strength-feedback:last-child {
     margin-bottom: 0
+}
+
+.strength-warning {
+    text-align: start;
+    margin-top: .5rem;
 }
 
 .password-requirements {
@@ -635,10 +658,19 @@ a:visited {
     background-image: url("../img/password-complete.svg");
 }
 
+.required-pill.error {
+    background-color: #F2DEDE;
+    color: #B3000F
+}
+
+.required-pill.error::before {
+    background-image: url("../img/password-required-error.svg");
+}
+
 .terms-of-use-title {
     font-weight: 700;
     text-align: start;
-    margin-bottom: 8px;
+    margin: 16px 0 8px 0;
 }
 
 .terms-of-use-description {
