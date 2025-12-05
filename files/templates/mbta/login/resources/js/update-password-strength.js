@@ -6,6 +6,11 @@ const buttonDisabledColor = "#626a73";
 const STRENGTH_MAX = 5;
 const MIN_PASSWORD_LENGTH = 12;
 const MIN_PASSWORD_STRENGTH = 3;
+let passwordStrengthStrings = [];
+
+function setupPasswordStrengthStrings(strengthStrings) {
+  passwordStrengthStrings = strengthStrings;
+}
 
 function setupZxcvbnTranslations(translations) {
   const options = {
@@ -19,17 +24,9 @@ function setupZxcvbnTranslations(translations) {
   zxcvbnts.core.zxcvbnOptions.setOptions(options);
 }
 
-function checkPasswordStrength(password, passwordStrengthStrings) {
-  const { score, feedback } = zxcvbnts.core.zxcvbn(password);
+function updatePasswordStrength(score, warning, suggestions) {
   const container = document.getElementById("strengthContainer");
   const label = document.querySelector(".strength-label");
-
-  validatePills(password);
-  if (!password || password.trim() === "") {
-    container.style.display = "none";
-    return;
-  }
-  container.style.display = "block";
 
   for (
     let strengthSegmentIndex = 0;
@@ -51,9 +48,9 @@ function checkPasswordStrength(password, passwordStrengthStrings) {
 
   document.getElementById("strengthValue").textContent =
     passwordStrengthStrings[score];
-  document.getElementById("strengthWarning").textContent = feedback.warning;
+  document.getElementById("strengthWarning").textContent = warning;
   document.getElementById("strengthSuggestions").textContent =
-    feedback.suggestions.join(" ");
+    suggestions.join("\n");
 }
 
 function validatePills(password) {
