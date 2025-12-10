@@ -173,6 +173,37 @@ h3 {
     margin: -1px;
 }
 
+.input-error-text {
+    display: flex;
+    color: #B3000F;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.password-requirements-list {
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+    align-items: center;
+    margin: 0;
+}
+
+.error-list {
+    color: #B3000F;
+    margin: 0;
+}
+
+.input-error-text::before {
+    content: "";
+    width: 16px;
+    height: 24px;
+    background-image: url("../img/input_error.svg");
+    margin-right: 8px;
+}
+
 .form-message-container {
     border: 2px solid;
     border-radius: 4px;
@@ -512,3 +543,106 @@ a:visited {
     width: 99%;
     margin: 3rem auto 2rem auto;
 }
+.strength-container {
+    margin-top: 10px;
+    font-size: 1rem;
+    display: none;
+    background-color: #F4F5F7;
+    padding: 12px 8px;
+    border-radius: 4px;
+}
+
+.strength-label {
+    display: flex;
+    margin-bottom: 12px;
+    text-align: left;
+    font-weight: 400;
+    align-items: center;
+}
+
+.strength-label::before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    background-image: url("../img/password-incomplete.svg");
+    margin-right: 8px;
+}
+
+.strength-label.complete::before {
+    background-image: url("../img/password-complete.svg");
+}
+
+.strength-value {
+    font-weight: bold;
+}
+
+.strength-bar {
+    display: flex;
+    height: 16px;
+    margin-bottom: 12px;
+}
+
+.strength-segment {
+    flex: 1;
+    margin-right: 8px;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+}
+
+.strength-segment:last-child {
+    margin-right: 0;
+}
+
+.strength-feedback {
+    text-align: start;
+    white-space: pre-line;
+    margin-bottom: 8px;
+}
+
+.strength-feedback:last-child {
+    margin-bottom: 0
+}
+
+.password-requirements {
+    margin: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.required-pill {
+    padding: 4px 10px;
+    background-color: #f4f5f7;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.required-pill.complete {
+    background-color: #dff0d8;
+}
+
+.required-pill::before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    background-image: url("../img/password-incomplete.svg");
+    margin-right: 8px;
+}
+
+.required-pill.complete::before {
+    background-image: url("../img/password-complete.svg");
+}
+
+.terms-of-use-title {
+    font-weight: 700;
+    text-align: start;
+    margin-bottom: 8px;
+}
+
+.terms-of-use-description {
+    text-align: start;
+    margin-bottom: 16px;
+}
+

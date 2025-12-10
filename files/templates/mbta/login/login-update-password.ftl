@@ -1,5 +1,6 @@
 <#import "template.ftl" as layout>
 <#import "show_password.ftl" as show_password>
+<#import "password_strength.ftl" as password_strength>
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('password','password-confirm'); section>
     <#if section = "header">
         ${msg("updatePasswordTitle")}
@@ -8,14 +9,14 @@
     		<h1>${msg('emailSetPasswordTitle')}</h1>
     		<div class="form-group">
 	    		<div class="form-message-container form-info" role="alert">
-	            	<strong class="form-message-summary">${msg('resetpassword.info.title')}</strong>
-	            	<ul>
-	                	<li class="form-message-text">${msg('resetpassword.info.uppercase')}</li>
-	                	<li class="form-message-text">${msg('resetpassword.info.lowercase')}</li>
-	                	<li class="form-message-text">${msg('resetpassword.info.number')}</li>
-	                	<li class="form-message-text">${msg('resetpassword.info.specialchar')}</li>
-	            	</ul>
-	            </div>
+	            <strong class="form-message-summary">${msg('resetpassword.info.title')}</strong>
+	            <ul>
+	              <li class="form-message-text">${msg('resetpassword.info.uppercase')}</li>
+	              <li class="form-message-text">${msg('resetpassword.info.lowercase')}</li>
+	              <li class="form-message-text">${msg('resetpassword.info.number')}</li>
+	              <li class="form-message-text">${msg('resetpassword.info.specialchar')}</li>
+	            </ul>
+	          </div>
 	        </div>
     		<#if message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>
 				<#if message.type = 'success'><span class="${properties.kcFeedbackSuccessIcon!}"></span>
@@ -78,6 +79,10 @@
 					<input type="password" id="password-new" name="password-new" class="form-input<#if messagesPerField.existsError('password')> input-error</#if>"
 						autofocus autocomplete="new-password"
 						aria-invalid="<#if messagesPerField.existsError('password','password-confirm')>true</#if>"
+            oninput="checkPasswordStrength(
+              this.value,
+              [${msg("passwordStrength.zero")}, ${msg("passwordStrength.one")}, ${msg("passwordStrength.two")}, ${msg("passwordStrength.three")}, ${msg("passwordStrength.four")}]
+            )"
 					/>
 	
                     <#if messagesPerField.existsError('password')>
@@ -102,11 +107,8 @@
 						</span>
 					</#if>
 	            </div>
-
-              <div class="form-group-small">
-                <@show_password.input_group onchange="togglePasswordVisibility(this, ['password-new', 'password-confirm'])" />
-              </div>
-	
+              <@show_password.input_group onchange="togglePasswordVisibility(this, ['password-new', 'password-confirm'])" />
+              <@password_strength.password_strength_feedback/>
 	            <div class="form-group">
 	            	<#if isAppInitiatedAction??>
 	                	<input type="checkbox" id="logout-sessions" name="logout-sessions" value="on" checked> ${msg("logoutOtherSessions")}
