@@ -1,16 +1,8 @@
 <#macro password_strength_feedback>
-	<div class="form-group-small" id=password-strength-container style="display: none">
-    <div id="strengthContainer" class="strength-container">
-      <div class="strength-label">${msg("passwordStrength.text")}&nbsp;<span class="strength-value" id="strengthValue">-</span></div>
-      <div class="strength-bar">
-        <div class="strength-segment" id="strength-segment-0"></div>
-        <div class="strength-segment" id="strength-segment-1"></div>
-        <div class="strength-segment" id="strength-segment-2"></div>
-        <div class="strength-segment" id="strength-segment-3"></div>
-        <div class="strength-segment" id="strength-segment-4"></div>
-      </div>
-      <div id="strengthWarning" class="strength-feedback"></div>
-      <div id="strengthSuggestions" class="strength-feedback"></div>
+	<div class="form-group" id=password-strength-container style="display: none" tabindex="0">
+
+    <div id="passwordRequirementsLabel" class="password-requirements-label">
+      <span>Password must contain:</span>
     </div>
     <div id="passwordRequirements" class="password-requirements">
       <div class="required-pill" id="required-upper">${msg("passwordRequirement.uppercase")}</div>
@@ -20,11 +12,40 @@
       <div class="required-pill" id="required-length">${msg("passwordRequirement.length")}</div>
     </div>
 
+    <div id="strengthContainer" class="strength-container">
+      <div class="strength-label">${msg("passwordStrength.text")}&nbsp;<span class="strength-value" id="strengthValue">-</span></div>
+      <div class="strength-bar">
+        <div class="strength-segment" id="strength-segment-0"></div>
+        <div class="strength-segment" id="strength-segment-1"></div>
+        <div class="strength-segment" id="strength-segment-2"></div>
+        <div class="strength-segment" id="strength-segment-3"></div>
+        <div class="strength-segment" id="strength-segment-4"></div>
+      </div>
+      <ul id="strength-description" class="strength-description">
+        <li id="strength-warning" class="strength-warning"></li>
+        <li id="strength-exposed" class="strength-warning"></li>
+      </ul>
+    </div>
+
     <script src="${url.resourcesPath}/js/zxcvbn-ts.core.min.js"></script>
     <script src="${url.resourcesPath}/js/zxcvbn-ts.language-common.min.js"></script>
-    <script src="${url.resourcesPath}/js/password-strength.js"></script>  
+    <script src="${url.resourcesPath}/js/update-password-strength.js"></script>
+    <script src="${url.resourcesPath}/js/check-password-strength.js"></script>
     <script type="text/javascript">
       document.getElementById('password-strength-container').style.display = "block";
+
+
+      <#if messagesPerField.existsError('password')>
+        setPillErrors()
+      </#if>
+
+      setupPasswordStrengthStrings(
+        [${msg("passwordStrength.zero")?no_esc},
+        ${msg("passwordStrength.one")?no_esc},
+        ${msg("passwordStrength.two")?no_esc},
+        ${msg("passwordStrength.three")?no_esc},
+        ${msg("passwordStrength.four")?no_esc}]
+      )
 
       setupZxcvbnTranslations({
         warnings: {
@@ -79,5 +100,6 @@
         },
       });
     </script>
+    <script src="${url.resourcesPath}/js/have-i-been-pwned.js"></script>
 	</div>
 </#macro>
