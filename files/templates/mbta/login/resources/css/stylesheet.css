@@ -87,6 +87,14 @@ h3 {
     .header-container {
         width: 70% !important;
     }
+
+    .required-pill {
+      font-size: 0.875rem;
+    }
+
+    .strength-container {
+      font-size: 0.875rem;
+    }
 }
 
 /* reduce content width for LG/XL breakpoint */
@@ -112,6 +120,14 @@ h3 {
 
     h3 {
         font-size: 1.4763rem;
+    }
+    
+    .required-pill {
+      font-size: 1rem;
+    }
+
+    .strength-container {
+      font-size: 1rem;
     }
 }
 
@@ -499,6 +515,7 @@ a:visited {
 
 .checkbox-input-group {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -557,13 +574,26 @@ a:visited {
   text-align: start;
 }
 
+
+.screen-reader-announcer {
+  position: absolute;
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0,0,0,0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+}
+
 .strength-description {
   margin: 0;
   padding-left: 1.5rem;
 }
 
 .strength-container {
-    font-size: 1rem;
     display: none;
     background-color: #F4F5F7;
     padding: .5rem;
@@ -642,29 +672,18 @@ a:visited {
     align-items: center;
 }
 
+
+.required-pill-text {
+  margin-left: 8px;
+}
+
 .required-pill.complete {
     background-color: #dff0d8;
-}
-
-.required-pill::before {
-    content: "";
-    width: 16px;
-    height: 16px;
-    background-image: url("../img/password-incomplete.svg");
-    margin-right: 8px;
-}
-
-.required-pill.complete::before {
-    background-image: url("../img/password-complete.svg");
 }
 
 .required-pill.error {
     background-color: #F2DEDE;
     color: #B3000F
-}
-
-.required-pill.error::before {
-    background-image: url("../img/password-required-error.svg");
 }
 
 .terms-of-use-title {
