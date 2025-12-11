@@ -268,6 +268,11 @@ a:visited {
     cursor: pointer; 
 }
 
+.button:disabled {
+    background-color: #626a73;
+    cursor: not-allowed;
+}
+
 .button-wide {
     display: block;
     width: 100%;
@@ -512,3 +517,58 @@ a:visited {
     width: 99%;
     margin: 3rem auto 2rem auto;
 }
+.strength-container {
+    margin-top: 10px;
+    font-size: 1rem;
+    display: none;
+    background-color: #F4F5F7;
+    padding: 12px 8px;
+    border-radius: 4px;
+}
+
+.strength-label {
+    display: flex;
+    margin-bottom: 12px;
+    text-align: left;
+    font-weight: 400;
+    align-items: center;
+}
+
+.strength-label::before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    background-image: url("../img/password-incomplete.svg");
+    margin-right: 8px;
+}
+
+.strength-label.complete::before {
+    background-image: url("../img/password-complete.svg");
+}
+
+.strength-value {
+    font-weight: bold;
+}
+
+.strength-bar {
+    display: flex;
+    height: 16px;
+    margin-bottom: 12px;
+}
+
+.strength-segment {
+    flex: 1;
+    margin-right: 8px;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+}
+
+.strength-segment:last-child {
+    margin-right: 0;
+}
+
+.strength-feedback {
+    text-align: start;
+    white-space: pre-line;
+}
+

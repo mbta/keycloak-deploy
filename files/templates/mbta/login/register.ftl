@@ -1,5 +1,6 @@
 <#import "template.ftl" as layout>
 <#import "show_password.ftl" as show_password>
+<#import "password_strength.ftl" as password_strength>
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('firstName','lastName','email','username','password','password-confirm','user.attributes.phone_number'); section>
     <#if section = "header">
         ${msg("registerTitle")}
@@ -152,6 +153,10 @@
 	                        <input type="password" id="password" class="form-input<#if messagesPerField.existsError('password')> input-error</#if>" name="password"
 	                               autocomplete="new-password"
 	                               aria-invalid="<#if messagesPerField.existsError('password','password-confirm')>true</#if>"
+                                 oninput="checkPasswordStrength(
+                                    this.value,
+                                    [${msg("passwordStrength.zero")}, ${msg("passwordStrength.one")}, ${msg("passwordStrength.two")}, ${msg("passwordStrength.three")}, ${msg("passwordStrength.four")}]
+                                 )"
 	                        />
 	
 	                        <#if messagesPerField.existsError('password')>
@@ -160,7 +165,7 @@
 		                                ${kcSanitize(messagesPerField.get('password'))?no_esc}
 		                            </span>
 		                        </div>
-	                        <#else>
+                          <#else>
 	                        	<div class="instructions-container">
 		                            ${msg("password.info")}
 		                            <ul>
@@ -193,7 +198,11 @@
 	                <div class="form-group-small">
                     <@show_password.input_group onchange="togglePasswordVisibility(this, ['password', 'password-confirm'])" />
 	                </div>
-	                
+
+	                <div class="form-group-small">
+                    <@password_strength.password_strength_feedback/>
+	                </div>
+
 	                <div class="form-group-small">
 						<div class="checkbox-input-group">
 	                        <input type="checkbox" id="terms_of_use" class="form-input-checkbox <#if messagesPerField.existsError('terms_of_use')> input-error</#if>"
@@ -222,7 +231,7 @@
 	            </div>
 	            
 	            <div class="form-group submit-group">
-					<input type="submit" value="${msg("doRegister")}" id="submit" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}"/>
+					<input type="submit" value="${msg("doRegister")}" id="submit" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" disabled/>
 					<a href="${url.loginUrl}" class="back-link">${kcSanitize(msg("backToLoginRegistration"))?no_esc}</a>
 				</div>
 	        </form>
