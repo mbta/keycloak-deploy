@@ -207,9 +207,7 @@
                   <@password_strength.password_strength_feedback/>
 
 	                <div class="form-group-small">
-                      <div class="terms-of-use-title">${msg("termsOfUseTitle")}</div>
-                      <div class="terms-of-use-description">${msg("termsOfUseDescription")?no_esc}</div>
-						          <div class="checkbox-input-group">
+						<div class="checkbox-input-group">
 	                        <input type="checkbox" id="terms_of_use" class="form-input-checkbox <#if messagesPerField.existsError('terms_of_use')> input-error</#if>"
 	                               name="terms_of_use"
 	                               aria-invalid="<#if messagesPerField.existsError('terms_of_use')>true</#if>"

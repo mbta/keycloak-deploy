@@ -7,20 +7,9 @@ const STRENGTH_MAX = 5;
 const MIN_PASSWORD_LENGTH = 12;
 const MIN_PASSWORD_STRENGTH = 3;
 
-function setupZxcvbnTranslations(translations) {
-  const options = {
-    translations: translations,
-    graphs: zxcvbnts["language-common"].adjacencyGraphs,
-    dictionary: {
-      ...zxcvbnts["language-common"].dictionary,
-    },
-  };
-
-  zxcvbnts.core.zxcvbnOptions.setOptions(options);
-}
-
 function checkPasswordStrength(password, passwordStrengthStrings) {
-  const { score, feedback } = zxcvbnts.core.zxcvbn(password);
+  // TODO: Need to work feedback into translations still
+  const { score, feedback } = zxcvbn(password);
   const container = document.getElementById("strengthContainer");
   const label = document.querySelector(".strength-label");
 

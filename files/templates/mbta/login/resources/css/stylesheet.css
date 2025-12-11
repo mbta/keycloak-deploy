@@ -596,11 +596,6 @@ a:visited {
 .strength-feedback {
     text-align: start;
     white-space: pre-line;
-    margin-bottom: 8px;
-}
-
-.strength-feedback:last-child {
-    margin-bottom: 0
 }
 
 .password-requirements {
@@ -633,16 +628,5 @@ a:visited {
 
 .required-pill.complete::before {
     background-image: url("../img/password-complete.svg");
-}
-
-.terms-of-use-title {
-    font-weight: 700;
-    text-align: start;
-    margin-bottom: 8px;
-}
-
-.terms-of-use-description {
-    text-align: start;
-    margin-bottom: 16px;
 }
 
