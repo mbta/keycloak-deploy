@@ -87,6 +87,14 @@ h3 {
     .header-container {
         width: 70% !important;
     }
+
+    .required-pill {
+      font-size: 0.875rem;
+    }
+
+    .strength-container {
+      font-size: 0.875rem;
+    }
 }
 
 /* reduce content width for LG/XL breakpoint */
@@ -112,6 +120,14 @@ h3 {
 
     h3 {
         font-size: 1.4763rem;
+    }
+    
+    .required-pill {
+      font-size: 1rem;
+    }
+
+    .strength-container {
+      font-size: 1rem;
     }
 }
 
@@ -499,6 +515,7 @@ a:visited {
 
 .checkbox-input-group {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -563,7 +580,6 @@ a:visited {
 }
 
 .strength-container {
-    font-size: 1rem;
     display: none;
     background-color: #F4F5F7;
     padding: .5rem;
