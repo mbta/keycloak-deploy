@@ -1,5 +1,4 @@
 <#import "template.ftl" as layout>
-<#import "show_password.ftl" as show_password>
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('firstName','lastName','email','username','password','password-confirm','user.attributes.phone_number'); section>
     <#if section = "header">
         ${msg("registerTitle")}
@@ -188,14 +187,9 @@
 		                        </div>
 	                        </#if>
 	                </div>
-
-
-	                <div class="form-group-small">
-                    <@show_password.input_group onchange="togglePasswordVisibility(this, ['password', 'password-confirm'])" />
-	                </div>
 	                
-	                <div class="form-group-small">
-						<div class="checkbox-input-group">
+	                <div class="form-group">
+						<div class="input-group">	
 	                        <input type="checkbox" id="terms_of_use" class="form-input-checkbox <#if messagesPerField.existsError('terms_of_use')> input-error</#if>"
 	                               name="terms_of_use"
 	                               aria-invalid="<#if messagesPerField.existsError('terms_of_use')>true</#if>"
@@ -227,7 +221,6 @@
 				</div>
 	        </form>
 	        
-	        <script src="${url.resourcesPath}/js/toggle-password-visibility.js"></script>
 	        <script src="${url.resourcesPath}/js/form-registration.js"></script>
 		</div>
     </#if>
