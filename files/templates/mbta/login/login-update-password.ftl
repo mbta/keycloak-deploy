@@ -78,12 +78,12 @@
 	               
 					<input type="password" id="password-new" name="password-new" class="form-input<#if messagesPerField.existsError('password')> input-error</#if>"
 						autofocus autocomplete="new-password"
-						aria-invalid="<#if messagesPerField.existsError('password')>true</#if>"
-            oninput="checkPasswordStrength(this.value)",
-            onblur="checkPasswordExposed(this.value)"
+						aria-invalid="<#if messagesPerField.existsError('password','password-confirm')>true</#if>"
+            oninput="checkPasswordStrength(
+              this.value,
+              [${msg("passwordStrength.zero")}, ${msg("passwordStrength.one")}, ${msg("passwordStrength.two")}, ${msg("passwordStrength.three")}, ${msg("passwordStrength.four")}]
+            )"
 					/>
-
-              <@password_strength.password_strength_feedback/>
 	
                     <#if messagesPerField.existsError('password')>
 						<span id="input-error-password" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
@@ -108,6 +108,7 @@
 					</#if>
 	            </div>
               <@show_password.input_group onchange="togglePasswordVisibility(this, ['password-new', 'password-confirm'])" />
+              <@password_strength.password_strength_feedback/>
 	            <div class="form-group">
 	            	<#if isAppInitiatedAction??>
 	                	<input type="checkbox" id="logout-sessions" name="logout-sessions" value="on" checked> ${msg("logoutOtherSessions")}

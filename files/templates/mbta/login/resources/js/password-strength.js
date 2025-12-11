@@ -6,12 +6,6 @@ const buttonDisabledColor = "#626a73";
 const STRENGTH_MAX = 5;
 const MIN_PASSWORD_LENGTH = 12;
 const MIN_PASSWORD_STRENGTH = 3;
-const NUM_WARNINGS = 2;
-let passwordStrengthStrings = [];
-
-function setupPasswordStrengthStrings(strengthStrings) {
-  passwordStrengthStrings = strengthStrings;
-}
 
 function setupZxcvbnTranslations(translations) {
   const options = {
@@ -25,9 +19,17 @@ function setupZxcvbnTranslations(translations) {
   zxcvbnts.core.zxcvbnOptions.setOptions(options);
 }
 
-function updatePasswordStrength(score) {
+function checkPasswordStrength(password, passwordStrengthStrings) {
+  const { score, feedback } = zxcvbnts.core.zxcvbn(password);
   const container = document.getElementById("strengthContainer");
   const label = document.querySelector(".strength-label");
+
+  validatePills(password);
+  if (!password || password.trim() === "") {
+    container.style.display = "none";
+    return;
+  }
+  container.style.display = "block";
 
   for (
     let strengthSegmentIndex = 0;
@@ -49,17 +51,9 @@ function updatePasswordStrength(score) {
 
   document.getElementById("strengthValue").textContent =
     passwordStrengthStrings[score];
-}
-
-function showWarningAndSuggestion(warning, suggestion, listElementId) {
-  const normalizedWarning = warning || "";
-  const listItem = document.getElementById(listElementId);
-  if (normalizedWarning != "" || suggestion != "") {
-    listItem.style.display = "list-item";
-    listItem.innerHTML = `<strong>${normalizedWarning}</strong> ${suggestion}`;
-  } else {
-    listItem.style.display = "none";
-  }
+  document.getElementById("strengthWarning").textContent = feedback.warning;
+  document.getElementById("strengthSuggestions").textContent =
+    feedback.suggestions.join(" ");
 }
 
 function validatePills(password) {
@@ -90,24 +84,9 @@ function validatePills(password) {
 }
 
 function updatePill(pill, conditionMet) {
-  pill.classList.remove("error");
   if (conditionMet) {
     pill.classList.add("complete");
   } else {
     pill.classList.remove("complete");
   }
-}
-
-function setPillErrors() {
-  const pills = [
-    document.getElementById("required-upper"),
-    document.getElementById("required-lower"),
-    document.getElementById("required-number"),
-    document.getElementById("required-special"),
-    document.getElementById("required-length"),
-  ];
-
-  pills.forEach((pill) => {
-    pill.classList.add("error");
-  });
 }

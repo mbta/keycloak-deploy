@@ -151,41 +151,41 @@
 	                <div class="form-group">
 	                        <label for="password" class="form-input-label<#if messagesPerField.existsError('password')> label-error</#if>">${msg("password")}</label>
 	                        <input type="password" id="password" class="form-input<#if messagesPerField.existsError('password')> input-error</#if>" name="password"
-                                 aria-describedby="passwordRequirementsLabel passwordRequirements"
 	                               autocomplete="new-password"
 	                               aria-invalid="<#if messagesPerField.existsError('password','password-confirm')>true</#if>"
-                                 oninput="checkPasswordStrength(this.value)",
-                                  onblur="checkPasswordExposed(this.value)"
+                                 aria-describedby="passwordRequirementsList"
+                                 oninput="checkPasswordStrength(
+                                    this.value,
+                                    [${msg("passwordStrength.zero")}, ${msg("passwordStrength.one")}, ${msg("passwordStrength.two")}, ${msg("passwordStrength.three")}, ${msg("passwordStrength.four")}]
+                                 )"
 	                        />
 	
-                          <noscript>
-                            <#if messagesPerField.existsError('password')>
-                              <div class="password-requirements-list-error">
-                                <div class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
-                                    ${msg("resetpassword.info.title")}
-                                </div>
-                                <ul class="error-list">
+	                        <#if messagesPerField.existsError('password')>
+                            <div class="password-requirements-list" id="passwordRequirementsList">
+                              <div class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
+                                  ${msg("resetpassword.info.title")}
+                              </div>
+                              <ul class="error-list">
+                                  <li>${msg("resetpassword.info.uppercase")}</li>
+                                  <li>${msg("resetpassword.info.lowercase")}</li>
+                                  <li>${msg("resetpassword.info.number")}</li>
+                                  <li>${msg("resetpassword.info.specialchar")}</li>
+                              </ul>
+                            </div>
+                          <#else>
+                            <noscript>
+                              <div class="password-requirements-list" id="passwordRequirementsList">
+                                  ${msg("resetpassword.info.title")}
+                                  <ul>
                                     <li>${msg("resetpassword.info.uppercase")}</li>
                                     <li>${msg("resetpassword.info.lowercase")}</li>
                                     <li>${msg("resetpassword.info.number")}</li>
                                     <li>${msg("resetpassword.info.specialchar")}</li>
-                                </ul>
+                                  </ul>
                               </div>
-                            <#else>
-                                <div class="password-requirements-list">
-                                    ${msg("resetpassword.info.title")}
-                                    <ul>
-                                      <li>${msg("resetpassword.info.uppercase")}</li>
-                                      <li>${msg("resetpassword.info.lowercase")}</li>
-                                      <li>${msg("resetpassword.info.number")}</li>
-                                      <li>${msg("resetpassword.info.specialchar")}</li>
-                                    </ul>
-                                </div>
-                            </#if>
-                          </noscript>
+                            </noscript>
+	                        </#if>
 	                </div>
-
-                  <@password_strength.password_strength_feedback/>
 	
 	                <div class="form-group">
 	                        <label for="password-confirm" class="form-input-label<#if messagesPerField.existsError('password-confirm')> label-error</#if>">${msg("passwordConfirm")}</label>
@@ -204,8 +204,9 @@
 	                </div>
  
                   <@show_password.input_group onchange="togglePasswordVisibility(this, ['password', 'password-confirm'])" />
+                  <@password_strength.password_strength_feedback/>
 
-	                <div class="form-group-small" aria-describedby="terms_of_use" tabindex="0">
+	                <div class="form-group-small">
                       <div class="terms-of-use-title">${msg("termsOfUseTitle")}</div>
                       <div class="terms-of-use-description">${msg("termsOfUseDescription")?no_esc}</div>
 						          <div class="checkbox-input-group">
