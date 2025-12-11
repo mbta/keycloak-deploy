@@ -39,8 +39,8 @@ push_aws:
     DOCKER_AWS_IMAGE_LATEST: "$ECR_DOCKER_REGISTRY/$ECR_DOCKER_IMAGE:latest"
   before_script:
     # trick to force Fedora version (replaces $releasever property in mirrors)
-    - echo 41 > /etc/dnf/vars/releasever
-    - dnf install -y awscli
+    - echo 43 > /etc/dnf/vars/releasever
+    - dnf update -y && dnf install -y awscli
     - aws --version
   script:
     - echo "Preparing AWS ECR MBTA Keycloak Docker image release..."

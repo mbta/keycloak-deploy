@@ -17,7 +17,7 @@ This repo contains GitHub Actions workflows for:
 
 - Building a Docker container image whenever a git tag is created
 - Deploying to Keycloak Dev whenever changes are merged to the main branch
-- Deploying pre-existing tags to Keycloak Prod
+- Deploying pre-existing tags to Keycloak PROD
 
 These workflows are designed to support the following code deployment process:
 
