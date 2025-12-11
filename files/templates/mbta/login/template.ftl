@@ -10,7 +10,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <title>${msg("loginTitle",(realm.displayName!''))}</title>
     <link rel="icon" href="${url.resourcesPath}/img/favicon.ico" />
-	<link href="${url.resourcesPath}/css/stylesheet.css" rel="stylesheet" />
+	<link href="${url.resourcesPath}/css/stylesheet.css?v=1.1.0" rel="stylesheet" />
 	<script src="${url.resourcesPath}/js/jquery-3.6.4.min.js"></script>
 	<script type="importmap">
         {
