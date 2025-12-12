@@ -1,6 +1,4 @@
 <#import "template.ftl" as layout>
-<#import "show_password.ftl" as show_password>
-<#import "password_strength.ftl" as password_strength>
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('firstName','lastName','email','username','password','password-confirm','user.attributes.phone_number'); section>
     <#if section = "header">
         ${msg("registerTitle")}
@@ -151,41 +149,28 @@
 	                <div class="form-group">
 	                        <label for="password" class="form-input-label<#if messagesPerField.existsError('password')> label-error</#if>">${msg("password")}</label>
 	                        <input type="password" id="password" class="form-input<#if messagesPerField.existsError('password')> input-error</#if>" name="password"
-                                 aria-describedby="passwordRequirementsLabel passwordRequirements"
 	                               autocomplete="new-password"
 	                               aria-invalid="<#if messagesPerField.existsError('password','password-confirm')>true</#if>"
-                                 oninput="checkPasswordStrength(this.value)",
-                                  onblur="checkPasswordExposed(this.value)"
 	                        />
 	
-                          <noscript>
-                            <#if messagesPerField.existsError('password')>
-                              <div class="password-requirements-list-error">
-                                <div class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
-                                    ${msg("resetpassword.info.title")}
-                                </div>
-                                <ul class="error-list">
-                                    <li>${msg("resetpassword.info.uppercase")}</li>
-                                    <li>${msg("resetpassword.info.lowercase")}</li>
-                                    <li>${msg("resetpassword.info.number")}</li>
-                                    <li>${msg("resetpassword.info.specialchar")}</li>
-                                </ul>
-                              </div>
-                            <#else>
-                                <div class="password-requirements-list">
-                                    ${msg("resetpassword.info.title")}
-                                    <ul>
-                                      <li>${msg("resetpassword.info.uppercase")}</li>
-                                      <li>${msg("resetpassword.info.lowercase")}</li>
-                                      <li>${msg("resetpassword.info.number")}</li>
-                                      <li>${msg("resetpassword.info.specialchar")}</li>
-                                    </ul>
-                                </div>
-                            </#if>
-                          </noscript>
+	                        <#if messagesPerField.existsError('password')>
+	                            <div class="instructions-container">
+		                            <span id="input-error-password" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
+		                                ${kcSanitize(messagesPerField.get('password'))?no_esc}
+		                            </span>
+		                        </div>
+	                        <#else>
+	                        	<div class="instructions-container">
+		                            ${msg("password.info")}
+		                            <ul>
+		                            	<li>${msg("password.info.uppercase_letter")}</li>
+		                            	<li>${msg("password.info.lowercase_letter")}</li>
+		                            	<li>${msg("password.info.number")}</li>
+		                            	<li>${msg("password.info.special_character")}</li>
+		                            </ul>
+		                        </div>
+	                        </#if>
 	                </div>
-
-                  <@password_strength.password_strength_feedback/>
 	
 	                <div class="form-group">
 	                        <label for="password-confirm" class="form-input-label<#if messagesPerField.existsError('password-confirm')> label-error</#if>">${msg("passwordConfirm")}</label>
@@ -202,13 +187,9 @@
 		                        </div>
 	                        </#if>
 	                </div>
- 
-                  <@show_password.input_group onchange="togglePasswordVisibility(this, ['password', 'password-confirm'])" />
-
-	                <div class="form-group-small" aria-describedby="terms_of_use" tabindex="0">
-                      <div class="terms-of-use-title">${msg("termsOfUseTitle")}</div>
-                      <div class="terms-of-use-description">${msg("termsOfUseDescription")?no_esc}</div>
-						          <div class="checkbox-input-group">
+	                
+	                <div class="form-group">
+						<div class="input-group">	
 	                        <input type="checkbox" id="terms_of_use" class="form-input-checkbox <#if messagesPerField.existsError('terms_of_use')> input-error</#if>"
 	                               name="terms_of_use"
 	                               aria-invalid="<#if messagesPerField.existsError('terms_of_use')>true</#if>"
@@ -240,7 +221,6 @@
 				</div>
 	        </form>
 	        
-	        <script src="${url.resourcesPath}/js/toggle-password-visibility.js"></script>
 	        <script src="${url.resourcesPath}/js/form-registration.js"></script>
 		</div>
     </#if>
