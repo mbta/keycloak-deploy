@@ -26,7 +26,7 @@ function setupZxcvbnTranslations(translations) {
 }
 
 function updatePasswordStrength(score) {
-  const container = document.getElementById("strengthContainer");
+  const container = document.getElementById("strength-container");
   const label = document.querySelector(".strength-label");
 
   for (
@@ -80,21 +80,37 @@ function validatePills(password) {
   updatePill(requiredSpecialPill, hasSpecialCharacter);
   updatePill(requiredLengthPill, isLongEnough);
 
-  return (
-    hasUppercase &&
-    hasLowercase &&
-    hasNumber &&
-    hasSpecialCharacter &&
-    isLongEnough
-  );
+  const numberFulfilled = [
+    hasUppercase,
+    hasLowercase,
+    hasNumber,
+    hasSpecialCharacter,
+    isLongEnough,
+  ].filter(Boolean).length;
+
+  // TODO: Will need to get translations for this, and the complete/incomplete/error states underneath
+  document.getElementById("screen-reader-announcer").textContent =
+    `${numberFulfilled} of 5 requirements fulfilled`;
 }
 
 function updatePill(pill, conditionMet) {
   pill.classList.remove("error");
   if (conditionMet) {
     pill.classList.add("complete");
+    pill.querySelector(".required-pill-icon").src =
+      `${resourcesPath}/img/password-complete.svg`;
+    pill.setAttribute(
+      "aria-label",
+      `${pill.querySelector(".required-pill-text").textContent}, complete`,
+    );
   } else {
     pill.classList.remove("complete");
+    pill.querySelector(".required-pill-icon").src =
+      `${resourcesPath}/img/password-incomplete.svg`;
+    pill.setAttribute(
+      "aria-label",
+      `${pill.querySelector(".required-pill-text").textContent}, incomplete`,
+    );
   }
 }
 
@@ -109,5 +125,11 @@ function setPillErrors() {
 
   pills.forEach((pill) => {
     pill.classList.add("error");
+    pill.querySelector(".required-pill-icon").src =
+      `${resourcesPath}/img/password-required-error.svg`;
+    pill.setAttribute(
+      "aria-label",
+      `${pill.querySelector(".required-pill-text").textContent}, error`,
+    );
   });
 }

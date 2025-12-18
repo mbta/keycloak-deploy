@@ -1,6 +1,6 @@
 function checkPasswordStrength(password) {
   const { score, feedback } = zxcvbnts.core.zxcvbn(password);
-  const container = document.getElementById("strengthContainer");
+  const container = document.getElementById("strength-container");
 
   validatePills(password);
   if (!password || password.trim() === "") {
