@@ -1,5 +1,5 @@
 <#macro password_strength_feedback>
-	<div class="form-group" id=password-strength-container>
+	<div class="form-group" id="password-strength-container" style="display: none">
     <div class="password-requirements-group" id="password-requirements-group" aria-labelledby="password-requirements-label required-upper required-lower required-number required-special required-length" tabindex="0" role="status">
       <div id="password-requirements-label" class="password-requirements-label">
         <div>${msg("passwordRequirement.label")}</div>

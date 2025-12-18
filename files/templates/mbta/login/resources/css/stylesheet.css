@@ -41,11 +41,7 @@ h3 {
 }
 
 /* smaller type for XS breakpoint */
-@media (max-width: 544px) {
-    body { 
-        font-size: 0.875rem;
-    }
-    
+@media (max-width: 544px) {  
     h1 { 
         font-size: 1.75rem;
     }
@@ -165,6 +161,9 @@ h3 {
     color: #1C1E23; 
     display: block;
     text-align: left;
+}
+.required-label {
+	font-weight: 400;
 }
 
 .form-input {

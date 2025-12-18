@@ -60,7 +60,7 @@
 			
 	        <form id="register-form" action="${url.registrationAction}" method="post">
 	            <div class="form-group">
-	                    <label for="firstName" class="form-input-label<#if messagesPerField.existsError('firstName')> label-error</#if>">${msg("firstName")} <span aria-hidden="true">${msg("requiredText")}</span></label>
+	                    <label for="firstName" class="form-input-label<#if messagesPerField.existsError('firstName')> label-error</#if>">${msg("firstName")} <span class="required-label" aria-hidden="true">${msg("requiredText")}</span></label>
 	                    <input type="text" id="firstName" class="form-input<#if messagesPerField.existsError('firstName')> input-error</#if>" name="firstName"
 	                           value="${(register.formData.firstName!'')}"
 	                           aria-invalid="<#if messagesPerField.existsError('firstName')>true</#if>"
@@ -77,7 +77,7 @@
 	            </div>
 	
 	            <div class="form-group">
-	                    <label for="lastName" class="form-input-label<#if messagesPerField.existsError('lastName')> label-error</#if>">${msg("lastName")} <span aria-hidden="true">${msg("requiredText")}</span></label>
+	                    <label for="lastName" class="form-input-label<#if messagesPerField.existsError('lastName')> label-error</#if>">${msg("lastName")} <span class="required-label" aria-hidden="true">${msg("requiredText")}</span></label>
 	                    <input type="text" id="lastName" class="form-input<#if messagesPerField.existsError('lastName')> input-error</#if>" name="lastName"
 	                           value="${(register.formData.lastName!'')}"
 	                           aria-invalid="<#if messagesPerField.existsError('lastName')>true</#if>"
@@ -94,7 +94,7 @@
 	            </div>
 	
 	            <div class="form-group">
-	                    <label for="email" class="form-input-label<#if messagesPerField.existsError('email')> label-error</#if>">${msg("email")} <span aria-hidden="true">${msg("requiredText")}</label>
+	                    <label for="email" class="form-input-label<#if messagesPerField.existsError('email')> label-error</#if>">${msg("email")} <span class="required-label" aria-hidden="true">${msg("requiredText")}</label>
 	                    <input type="text" id="email" class="form-input<#if messagesPerField.existsError('email')> input-error</#if>" name="email"
 	                           value="${(register.formData.email!'')}" autocomplete="email"
 	                           aria-invalid="<#if messagesPerField.existsError('email')>true</#if>"
@@ -134,7 +134,7 @@
 	
 	            <#if !realm.registrationEmailAsUsername>
 	                <div class="form-group">
-	                        <label for="username" class="form-input-label<#if messagesPerField.existsError('username')> label-error</#if>">${msg("username")} <span aria-hidden="true">${msg("requiredText")}</span></label>
+	                        <label for="username" class="form-input-label<#if messagesPerField.existsError('username')> label-error</#if>">${msg("username")} <span class="required-label" aria-hidden="true">${msg("requiredText")}</span></label>
 	                        <input type="text" id="username" class="form-input<#if messagesPerField.existsError('username')> input-error</#if>" name="username"
 	                               value="${(register.formData.username!'')}" autocomplete="username"
 	                               aria-invalid="<#if messagesPerField.existsError('username')>true</#if>"
@@ -153,7 +153,7 @@
 	
 	            <#if passwordRequired??>
 	                <div class="form-group">
-	                        <label for="password" class="form-input-label<#if messagesPerField.existsError('password')> label-error</#if>">${msg("password")} <span aria-hidden="true">${msg("requiredText")}</span></label>
+	                        <label for="password" class="form-input-label<#if messagesPerField.existsError('password')> label-error</#if>">${msg("password")} <span class="required-label" aria-hidden="true">${msg("requiredText")}</span></label>
 	                        <input type="password" id="password" class="form-input<#if messagesPerField.existsError('password')> input-error</#if>" name="password"
                                  aria-describedby="password-requirements-label password-requirements"
 	                               autocomplete="new-password"
@@ -193,7 +193,7 @@
                   <@password_strength.password_strength_feedback />
 	
 	                <div class="form-group">
-	                        <label for="password-confirm" class="form-input-label<#if messagesPerField.existsError('password-confirm')> label-error</#if>">${msg("passwordConfirm")} <span aria-hidden="true">${msg("requiredText")}</span></label>
+	                        <label for="password-confirm" class="form-input-label<#if messagesPerField.existsError('password-confirm')> label-error</#if>">${msg("passwordConfirm")} <span class="required-label" aria-hidden="true">${msg("requiredText")}</span></label>
 	                        <input type="password" id="password-confirm" class="form-input<#if messagesPerField.existsError('password-confirm')> input-error</#if>"
 	                               name="password-confirm"
 	                               aria-invalid="<#if messagesPerField.existsError('password-confirm')>true</#if>"
@@ -220,7 +220,7 @@
 	                               aria-invalid="<#if messagesPerField.existsError('terms_of_use')>true</#if>"
                                  required
 	                        />
-	                        <label for="terms_of_use" class="form-input-label-not-bold<#if messagesPerField.existsError('terms_of_use')> label-error</#if>">${msg("termsOfUse")?no_esc} <span aria-hidden="true">${msg("requiredText")}</span></label>
+	                        <label for="terms_of_use" class="form-input-label-not-bold<#if messagesPerField.existsError('terms_of_use')> label-error</#if>">${msg("termsOfUse")?no_esc} <span class="required-label" aria-hidden="true">${msg("requiredText")}</span></label>
 	                    </div>
 	                </div>
 	            </#if>
