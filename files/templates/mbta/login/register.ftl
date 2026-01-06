@@ -1,4 +1,6 @@
 <#import "template.ftl" as layout>
+<#import "show_password.ftl" as show_password>
+<#import "password_strength.ftl" as password_strength>
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('firstName','lastName','email','username','password','password-confirm','user.attributes.phone_number'); section>
     <#if section = "header">
         ${msg("registerTitle")}
@@ -58,10 +60,11 @@
 			
 	        <form id="register-form" action="${url.registrationAction}" method="post">
 	            <div class="form-group">
-	                    <label for="firstName" class="form-input-label<#if messagesPerField.existsError('firstName')> label-error</#if>">${msg("firstName")}</label>
+	                    <label for="firstName" class="form-input-label<#if messagesPerField.existsError('firstName')> label-error</#if>">${msg("firstName")} <span class="required-label" aria-hidden="true">${msg("requiredText")}</span></label>
 	                    <input type="text" id="firstName" class="form-input<#if messagesPerField.existsError('firstName')> input-error</#if>" name="firstName"
 	                           value="${(register.formData.firstName!'')}"
 	                           aria-invalid="<#if messagesPerField.existsError('firstName')>true</#if>"
+                             required
 	                    />
 	
 	                    <#if messagesPerField.existsError('firstName')>
@@ -74,10 +77,11 @@
 	            </div>
 	
 	            <div class="form-group">
-	                    <label for="lastName" class="form-input-label<#if messagesPerField.existsError('lastName')> label-error</#if>">${msg("lastName")}</label>
+	                    <label for="lastName" class="form-input-label<#if messagesPerField.existsError('lastName')> label-error</#if>">${msg("lastName")} <span class="required-label" aria-hidden="true">${msg("requiredText")}</span></label>
 	                    <input type="text" id="lastName" class="form-input<#if messagesPerField.existsError('lastName')> input-error</#if>" name="lastName"
 	                           value="${(register.formData.lastName!'')}"
 	                           aria-invalid="<#if messagesPerField.existsError('lastName')>true</#if>"
+                             required
 	                    />
 	
 	                    <#if messagesPerField.existsError('lastName')>
@@ -90,10 +94,11 @@
 	            </div>
 	
 	            <div class="form-group">
-	                    <label for="email" class="form-input-label<#if messagesPerField.existsError('email')> label-error</#if>">${msg("email")}</label>
+	                    <label for="email" class="form-input-label<#if messagesPerField.existsError('email')> label-error</#if>">${msg("email")} <span class="required-label" aria-hidden="true">${msg("requiredText")}</label>
 	                    <input type="text" id="email" class="form-input<#if messagesPerField.existsError('email')> input-error</#if>" name="email"
 	                           value="${(register.formData.email!'')}" autocomplete="email"
 	                           aria-invalid="<#if messagesPerField.existsError('email')>true</#if>"
+                             required
 	                    />
 	                    
 	                    <#if messagesPerField.existsError('email')>
@@ -129,10 +134,11 @@
 	
 	            <#if !realm.registrationEmailAsUsername>
 	                <div class="form-group">
-	                        <label for="username" class="form-input-label<#if messagesPerField.existsError('username')> label-error</#if>">${msg("username")}</label>
+	                        <label for="username" class="form-input-label<#if messagesPerField.existsError('username')> label-error</#if>">${msg("username")} <span class="required-label" aria-hidden="true">${msg("requiredText")}</span></label>
 	                        <input type="text" id="username" class="form-input<#if messagesPerField.existsError('username')> input-error</#if>" name="username"
 	                               value="${(register.formData.username!'')}" autocomplete="username"
 	                               aria-invalid="<#if messagesPerField.existsError('username')>true</#if>"
+                                 required
 	                        />
 	
 	                        <#if messagesPerField.existsError('username')>
@@ -147,36 +153,51 @@
 	
 	            <#if passwordRequired??>
 	                <div class="form-group">
-	                        <label for="password" class="form-input-label<#if messagesPerField.existsError('password')> label-error</#if>">${msg("password")}</label>
+	                        <label for="password" class="form-input-label<#if messagesPerField.existsError('password')> label-error</#if>">${msg("password")} <span class="required-label" aria-hidden="true">${msg("requiredText")}</span></label>
 	                        <input type="password" id="password" class="form-input<#if messagesPerField.existsError('password')> input-error</#if>" name="password"
+                                 aria-describedby="password-requirements-label password-requirements"
 	                               autocomplete="new-password"
 	                               aria-invalid="<#if messagesPerField.existsError('password','password-confirm')>true</#if>"
+                                 oninput="checkPasswordStrength(this.value)",
+                                 onblur="checkPasswordExposed(this.value)",
+                                 required
 	                        />
 	
-	                        <#if messagesPerField.existsError('password')>
-	                            <div class="instructions-container">
-		                            <span id="input-error-password" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
-		                                ${kcSanitize(messagesPerField.get('password'))?no_esc}
-		                            </span>
-		                        </div>
-	                        <#else>
-	                        	<div class="instructions-container">
-		                            ${msg("password.info")}
-		                            <ul>
-		                            	<li>${msg("password.info.uppercase_letter")}</li>
-		                            	<li>${msg("password.info.lowercase_letter")}</li>
-		                            	<li>${msg("password.info.number")}</li>
-		                            	<li>${msg("password.info.special_character")}</li>
-		                            </ul>
-		                        </div>
-	                        </#if>
+                          <noscript>
+                            <#if messagesPerField.existsError('password')>
+                              <div class="password-requirements-list-error">
+                                <div class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
+                                    ${msg("resetpassword.info.title")}
+                                </div>
+                                <ul class="error-list">
+                                    <li>${msg("resetpassword.info.uppercase")}</li>
+                                    <li>${msg("resetpassword.info.lowercase")}</li>
+                                    <li>${msg("resetpassword.info.number")}</li>
+                                    <li>${msg("resetpassword.info.specialchar")}</li>
+                                </ul>
+                              </div>
+                            <#else>
+                                <div class="password-requirements-list">
+                                    ${msg("resetpassword.info.title")}
+                                    <ul>
+                                      <li>${msg("resetpassword.info.uppercase")}</li>
+                                      <li>${msg("resetpassword.info.lowercase")}</li>
+                                      <li>${msg("resetpassword.info.number")}</li>
+                                      <li>${msg("resetpassword.info.specialchar")}</li>
+                                    </ul>
+                                </div>
+                            </#if>
+                          </noscript>
 	                </div>
+
+                  <@password_strength.password_strength_feedback />
 	
 	                <div class="form-group">
-	                        <label for="password-confirm" class="form-input-label<#if messagesPerField.existsError('password-confirm')> label-error</#if>">${msg("passwordConfirm")}</label>
+	                        <label for="password-confirm" class="form-input-label<#if messagesPerField.existsError('password-confirm')> label-error</#if>">${msg("passwordConfirm")} <span class="required-label" aria-hidden="true">${msg("requiredText")}</span></label>
 	                        <input type="password" id="password-confirm" class="form-input<#if messagesPerField.existsError('password-confirm')> input-error</#if>"
 	                               name="password-confirm"
 	                               aria-invalid="<#if messagesPerField.existsError('password-confirm')>true</#if>"
+                                 required
 	                        />
 	
 	                        <#if messagesPerField.existsError('password-confirm')>
@@ -187,14 +208,19 @@
 		                        </div>
 	                        </#if>
 	                </div>
-	                
-	                <div class="form-group">
-						<div class="input-group">	
+ 
+                  <@show_password.input_group onchange="togglePasswordVisibility(this, ['password', 'password-confirm'])" />
+
+	                <div class="form-group-small" aria-describedby="terms_of_use" tabindex="0">
+                      <div class="terms-of-use-title">${msg("termsOfUseTitle")}</div>
+                      <div class="terms-of-use-description">${msg("termsOfUseDescription")?no_esc}</div>
+						          <div class="checkbox-input-group">
 	                        <input type="checkbox" id="terms_of_use" class="form-input-checkbox <#if messagesPerField.existsError('terms_of_use')> input-error</#if>"
 	                               name="terms_of_use"
 	                               aria-invalid="<#if messagesPerField.existsError('terms_of_use')>true</#if>"
+                                 required
 	                        />
-	                        <label for="terms_of_use" class="form-input-label-not-bold<#if messagesPerField.existsError('terms_of_use')> label-error</#if>">${msg("termsOfUse")?no_esc}</label>
+	                        <label for="terms_of_use" class="form-input-label-not-bold<#if messagesPerField.existsError('terms_of_use')> label-error</#if>">${msg("termsOfUse")?no_esc} <span class="required-label" aria-hidden="true">${msg("requiredText")}</span></label>
 	                    </div>
 	                </div>
 	            </#if>
@@ -221,6 +247,7 @@
 				</div>
 	        </form>
 	        
+	        <script src="${url.resourcesPath}/js/toggle-password-visibility.js"></script>
 	        <script src="${url.resourcesPath}/js/form-registration.js"></script>
 		</div>
     </#if>
