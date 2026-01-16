@@ -25,7 +25,7 @@ These workflows are designed to support the following code deployment process:
 1. When the pull request is approved, merge it into the main branch. This will automatically trigger the [Deploy Keycloak Dev](https://github.com/mbta/keycloak-deploy/actions/workflows/deploy-dev.yml) workflow.
 1. Confirm that Keycloak Dev is in a good state after the deploy.
 1. [Create a new Release](https://github.com/mbta/keycloak-deploy/releases) in GitHub. In the release creation form:
-   - Create a new tag for the release. The tag should start with the letter `v` and use [semantic versioning](https://semver.org/), e.g. `v1.0.3`.
+   - Create a new tag for the release. The tag should start with the letter `v` and use [semantic versioning](https://semver.org/), e.g.  `v1.0.3`.
    - Set the release title to match the tag
    - In the release description, note the changes that are part of this release
    When the release is created, the [Build Container Image](https://github.com/mbta/keycloak-deploy/actions/workflows/build-image.yml) workflow will run automatically to build an image with the corresponding tag and push it to ECR.
