@@ -1,5 +1,7 @@
 FROM quay.io/keycloak/keycloak:26.3.5 as builder
 
+STOPSIGNAL SIGINT
+
 LABEL maintainer="support@integrationeye.com"
 LABEL builder="Integsoft s.r.o"
 LABEL description="MBTA Keycloak"
