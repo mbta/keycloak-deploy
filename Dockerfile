@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:26.4.7 as builder
+FROM quay.io/keycloak/keycloak:26.5.7 as builder
 
 STOPSIGNAL SIGINT
 
