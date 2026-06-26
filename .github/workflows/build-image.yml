@@ -5,22 +5,31 @@ on:
     tags:
       - '*'
 
+permissions:
+  contents: read # private repo, needs permission to read
+  
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-image:
     name: Build Container Image
     runs-on: ubuntu-latest
     concurrency: build-image
-    permissions:
-      id-token: write
-      contents: read
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
       - name: Get pushed tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-      - uses: mbta/actions/build-push-ecr@v2
+      - uses: mbta/actions/build-push-ecr@d37877022d4ae12e96663d2e0a970a5214a2e232 # v2.20
         id: build-push
+        permissions:
+          id-token: write # needed to push tags
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           docker-repo: ${{ secrets.DOCKER_REPO }}
