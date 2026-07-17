@@ -7,7 +7,7 @@ on:
       - main
 
 permissions:
-  contents: read # private repo, needs permission to read
+  contents: read # default permissions
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

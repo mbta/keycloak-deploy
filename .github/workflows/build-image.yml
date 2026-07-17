@@ -6,7 +6,7 @@ on:
       - '*'
 
 permissions:
-  contents: read # private repo, needs permission to read
+  contents: read # default permissions
   
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -17,6 +17,8 @@ jobs:
     name: Build Container Image
     runs-on: ubuntu-latest
     concurrency: build-image
+    permissions:
+      id-token: write # needed to push tags
 
     steps:
       - name: Checkout repository
@@ -28,8 +30,6 @@ jobs:
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
       - uses: mbta/actions/build-push-ecr@d37877022d4ae12e96663d2e0a970a5214a2e232 # v2.20
         id: build-push
-        permissions:
-          id-token: write # needed to push tags
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           docker-repo: ${{ secrets.DOCKER_REPO }}

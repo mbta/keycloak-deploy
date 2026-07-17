@@ -8,7 +8,7 @@ on:
         required: true
 
 permissions:
-  contents: read # private repo, needs permission to read
+  contents: read # default permissions
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -25,19 +25,17 @@ jobs:
     env:
       ECS_CLUSTER: keycloak
       ECS_SERVICE: keycloak-prod
+    permissions:
+      id-token: write # needed to push tags
 
     steps:
       - uses: mbta/actions/deploy-ecs@d37877022d4ae12e96663d2e0a970a5214a2e232 # v2.20
-        permissions:
-          id-token: write # needed to push tags
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           ecs-cluster: ${{ env.ECS_CLUSTER }}
           ecs-service: ${{ env.ECS_SERVICE }}
           docker-tag: ${{ secrets.DOCKER_REPO }}:${{ github.event.inputs.tag }}
       - uses: mbta/actions/notify-slack-deploy@d37877022d4ae12e96663d2e0a970a5214a2e232 # v2.20
-        permissions:
-          id-token: write # needed for slack
         if: ${{ !cancelled() }}
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK }}
