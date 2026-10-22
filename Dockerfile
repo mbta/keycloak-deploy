@@ -23,6 +23,12 @@ USER keycloak
 # copy build scripts and related data
 COPY files/ $INSTALL_FOLDER/
 
+# copy certificate override
+# See: https://openjdk.org/groups/vulnerability/advisories/2026-10-21
+USER root
+RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/cert_override/blocked.certs /etc/java/java-21-openjdk/java-21-openjdk-21.0.11.0.10-2.el9.aarch64/lib/security/blocked.certs"]
+USER keycloak
+
 # copy custom modules
 RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/modules/* $KC_FOLDER/providers/"]
 

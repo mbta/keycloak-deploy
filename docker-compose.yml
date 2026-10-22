@@ -18,7 +18,8 @@ services:
       - KC_DB_USERNAME=keycloak
       - KC_DB_PASSWORD=keycloak
       - KC_HTTP_RELATIVE_PATH=/auth
-      - KC_CACHE_CONFIG_FILE=cache-ispn-jdbc-ping.xml
+      # TODO: Check where this variable is used. Currently it is removed since it is blocking deployment. 
+      # - KC_CACHE_CONFIG_FILE=cache-ispn-jdbc-ping.xml
       - JAVA_OPTS_APPEND=-Xmx1500m -Djboss.bind.address=0.0.0.0
       - AWS_REGION=us-east-1
       - KC_HEALTH_ENABLED=true
