@@ -5,8 +5,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - KEYCLOAK_ADMIN=kc_username
-      - KEYCLOAK_ADMIN_PASSWORD=kc_password
+      - KC_BOOTSTRAP_ADMIN_USERNAME=kc_username
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=kc_password
       - KC_HTTP_ENABLED=true
       - KC_HOSTNAME_STRICT=false
       - KC_HEALTH_ENABLED=true
