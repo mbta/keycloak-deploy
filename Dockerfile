@@ -1,9 +1,8 @@
-FROM quay.io/keycloak/keycloak:26.6.4 as builder
+FROM quay.io/keycloak/keycloak:26.8.2 as builder
 
 STOPSIGNAL SIGINT
 
-LABEL maintainer="support@integrationeye.com"
-LABEL builder="Integsoft s.r.o"
+LABEL builder="TT Platform Enginering"
 LABEL description="MBTA Keycloak"
 
 ENV INSTALL_FOLDER=/tmp/files
@@ -35,7 +34,7 @@ RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/modules/* $KC_FOLDER/providers/"
 # copy templates
 RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/templates/* $KC_FOLDER/themes/"]
 
-# add integsoft version of keycloak jars
+# add custom keycloak jars
 RUN ["/bin/bash", "-c", "cp -Rv $INSTALL_FOLDER/keycloak-modules/* $KC_FOLDER/lib/lib/main"]
 
 RUN /opt/keycloak/bin/kc.sh build --health-enabled=true --spi-email-sender--provider=aws-ses --spi-email-sender--aws-ses--enabled=true --spi-email-sender--aws-ses--region=$AWS_REGION --features="token-exchange"
