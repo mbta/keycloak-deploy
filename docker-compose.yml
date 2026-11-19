@@ -20,7 +20,7 @@ services:
       - KC_HTTP_RELATIVE_PATH=/auth
       # TODO: Check where this variable is used. Currently it is removed since it is blocking deployment. 
       # - KC_CACHE_CONFIG_FILE=cache-ispn-jdbc-ping.xml
-      - JAVA_OPTS_APPEND=-Xmx1500m -Djboss.bind.address=0.0.0.0
+      - JAVA_OPTS_APPEND=-Xmx1500m -Djboss.bind.address=0.0.0.0 -XX:-UseBASE64Intrinsics
       - AWS_REGION=us-east-1
       - KC_HEALTH_ENABLED=true
     command:
