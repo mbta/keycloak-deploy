@@ -31,7 +31,7 @@ These workflows are designed to support the following code deployment process:
    When the release is created, the [Build Container Image](https://github.com/mbta/keycloak-deploy/actions/workflows/build-image.yml) workflow will run automatically to build an image with the corresponding tag and push it to ECR.
 1. Deploy to production by running the [Deploy Keycloak Prod](https://github.com/mbta/keycloak-deploy/actions/workflows/deploy-prod.yml) workflow, passing the newly created tag.
 
-There may be some configuration updates necessary following deployment to Production. Be sure to coordinate deployment timing with Integsoft so they can update configuration as needed
+There may be some configuration updates necessary following deployment to Production. Be sure to coordinate deployment timing with Slack so they can update configuration as needed
 
 ### Required Environment Variables
 
@@ -50,5 +50,4 @@ Keycloak ECS infrastructure is managed by Terraform, using the Keycloak Terrafor
 
 ## Maintainers
 
-- [Integsoft](https://www.integsoft.com/home.html)
 - [MBTA Customer Technology](https://ctd.mbta.com/)
