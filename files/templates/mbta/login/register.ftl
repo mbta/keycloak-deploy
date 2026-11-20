@@ -212,7 +212,7 @@
                   <@show_password.input_group onchange="togglePasswordVisibility(this, ['password', 'password-confirm'])" />
 
 	                <div class="form-group-small" aria-describedby="terms_of_use" tabindex="0">
-                      <div class="terms-of-use-title">${msg("termsOfUseTitle")}</div>
+                      <div class="terms-of-use-title">${msg("termsOfUseTitle")} <span class="required-label" aria-hidden="true">${msg("requiredText")}</span></div>
                       <div class="terms-of-use-description">${msg("termsOfUseDescription")?no_esc}</div>
 						          <div class="checkbox-input-group">
 	                        <input type="checkbox" id="terms_of_use" class="form-input-checkbox <#if messagesPerField.existsError('terms_of_use')> input-error</#if>"
@@ -220,7 +220,7 @@
 	                               aria-invalid="<#if messagesPerField.existsError('terms_of_use')>true</#if>"
                                  required
 	                        />
-	                        <label for="terms_of_use" class="form-input-label-not-bold<#if messagesPerField.existsError('terms_of_use')> label-error</#if>">${msg("termsOfUse")?no_esc} <span class="required-label" aria-hidden="true">${msg("requiredText")}</span></label>
+	                        <label for="terms_of_use" class="form-input-label-not-bold<#if messagesPerField.existsError('terms_of_use')> label-error</#if>">${msg("termsOfUse")?no_esc} </label>
 	                    </div>
 	                </div>
 	            </#if>
